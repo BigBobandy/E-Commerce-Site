@@ -1,0 +1,101 @@
+/* Flexbox centers my container both horizontally and vertically */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--background-darker);
+}
+
+.sign-up-container {
+  display: flex;
+  flex-direction: column; /* This staks the form elements */
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  border: 5px solid var(--primary-color);
+  border-radius: 10px;
+  font-family: inherit;
+  padding: 5rem;
+  width: 300px;
+  text-align: center; /* Centers h2 and button text */
+}
+
+.sign-up-container h2 {
+  text-decoration: underline;
+}
+
+.sign-up-container button {
+  font-family: inherit;
+  font-weight: bold;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border-radius: 8px;
+}
+
+.sign-up-container button:hover {
+  background-color: var(--primary-darker);
+}
+
+.sign-up-container button:active {
+  transform: scale(0.98);
+}
+
+.sign-up-container form {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-container input {
+  border: 3px solid var(--primary-color);
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Space out labels, input fields, and button */
+.sign-up-container label,
+.sign-up-container input,
+.sign-up-container button {
+  margin: 0.5rem 0;
+}
+
+/* make input fields and button take up full width */
+.sign-up-container input,
+.sign-up-container button {
+  width: 100%;
+}
+
+.message,
+.error {
+  margin-top: 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 16px solid var(--background-darker);
+  border-top: 16px solid var(--primary-color);
+  border-radius: 50%;
+  margin-top: 10px;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
