@@ -44,6 +44,9 @@ function SignUp() {
         setMessage(
           "Successfully signed up! Check your email for a confirmation code."
         );
+        setName("");
+        setEmail("");
+        setPassword("");
       }
     } catch (err) {
       setError("Uh oh! Something went wrong...");

@@ -93,3 +93,31 @@ app.post("/signup", async (req, res) => {
     res.status(500).send("An error occurred.");
   }
 });
+
+app.post("/confirm", async (req, res) => {
+  try {
+    const { code, email } = req.body;
+
+    // Find the user with the given email
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    // If the user isn't found, or if the code doesn't match, send an error
+    if (!user || user.emailConfirmationCode !== code) {
+      return res.status(400).json({ error: "Invalid confirmation code." });
+    }
+
+    // If the code matches, update the user's record to show that their email is confirmed
+    await prisma.user.update({
+      where: { email },
+      data: {
+        emailConfirmationCode: null, // Clear the confirmation code since it's not needed anymore
+        isEmailConfirmed: true,
+      },
+    });
+
+    res.status(200).json({ message: "Email confirmed." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred.");
+  }
+});
