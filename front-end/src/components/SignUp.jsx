@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles/SignUp.css";
 
 function SignUp() {
@@ -12,9 +13,12 @@ function SignUp() {
   // 'message' state will be used to display a success message after the user has successfully signed up.
   // both are initialized to null because there is nothing to display at first
   const [message, setMessage] = useState(null);
-
   // State for the loading animation
   const [loading, setLoading] = useState(false);
+  // State to track if user signup was successful. if true then the confirm email button will appear
+  const [signupSuccessful, setSignUpSuccessful] = useState(false);
+
+  const navigate = useNavigate();
 
   // Function for handling submit and sending POST request
   const handleSubmit = async (e) => {
@@ -41,12 +45,15 @@ function SignUp() {
       if (!response.ok) {
         setError(data.error);
       } else {
-        setMessage(
-          "Successfully signed up! Check your email for a confirmation code."
-        );
+        // Clear form fields
         setName("");
         setEmail("");
         setPassword("");
+
+        setMessage(
+          "Successfully signed up! Check your email for a confirmation code."
+        );
+        setSignUpSuccessful(true);
       }
     } catch (err) {
       setError("Uh oh! Something went wrong...");
@@ -58,6 +65,7 @@ function SignUp() {
 
   return (
     <div className="sign-up-container">
+      <Link to="/">Go to Home</Link>
       <h2>Sign Up!</h2>
       <hr />
       <form onSubmit={handleSubmit}>
@@ -68,7 +76,7 @@ function SignUp() {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-          ></input>
+          />
         </label>
         <label>
           Email:
@@ -77,7 +85,7 @@ function SignUp() {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          ></input>
+          />
         </label>
         <label>
           Password:
@@ -86,13 +94,18 @@ function SignUp() {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          ></input>
+          />
         </label>
         <button type="submit">Sign Up</button>
         <div className="spinner-container">
           {loading && <div className="spinner"></div>}
         </div>
       </form>
+      {signupSuccessful && (
+        <button onClick={() => navigate("/confirm-email")}>
+          Confirm Email
+        </button>
+      )}
       {error && <div className="error">{error}</div>}
       {message && <div className="message">{message}</div>}
     </div>

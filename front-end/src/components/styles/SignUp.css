@@ -10,7 +10,7 @@ body {
 
 .sign-up-container {
   display: flex;
-  flex-direction: column; /* This staks the form elements */
+  flex-direction: column; /* This stacks the form elements */
   justify-content: center;
   align-items: center;
   background-color: var(--background-color);
