@@ -60,7 +60,7 @@ app.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Generate a random confirmation code
-    const emailConfirmationCode = crypto.randomBytes(20).toString("hex");
+    const emailConfirmationCode = crypto.randomBytes(8).toString("hex");
 
     // Use prisma to store new user's information
     // Saving the user's name, email, and password
@@ -75,10 +75,16 @@ app.post("/signup", async (req, res) => {
 
     // Send the confirmation email
     const info = await transporter.sendMail({
-      from: '"E-Commerce Site 👻" <no-reply@your-ecommerce-site.com>', // sender address
-      to: email, // list of receivers
-      subject: "Please confirm your email ✔", // Subject line
-      text: `Here's your confirmation code: ${emailConfirmationCode}`, // plain text body
+      from: "no-reply@example.com",
+      to: email,
+      subject: "Confirm your email",
+      text: `Thanks for signing up, ${name}! 
+      Please confirm your email address by entering the following code on the confirmation page: 
+     ${emailConfirmationCode}
+      You can confirm your email by following this link: http://localhost:3000/confirm?email=${encodeURIComponent(
+        email
+      )}
+      `,
     });
 
     console.log("Message sent: %s", info.messageId);
@@ -94,19 +100,22 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// Route for handling email confirmation on the /confirm path
 app.post("/confirm", async (req, res) => {
   try {
-    const { code, email } = req.body;
+    const { email, code } = req.body;
 
-    // Find the user with the given email
-    const user = await prisma.user.findUnique({ where: { email } });
+    // Find the user with the provided email
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
-    // If the user isn't found, or if the code doesn't match, send an error
+    // If user does not exist, or code does not match, send an error message
     if (!user || user.emailConfirmationCode !== code) {
-      return res.status(400).json({ error: "Invalid confirmation code." });
+      return res.status(400).json({ error: "Invalid code or email." });
     }
 
-    // If the code matches, update the user's record to show that their email is confirmed
+    // If user exists and code matches, confirm the user
     await prisma.user.update({
       where: { email },
       data: {
@@ -115,9 +124,26 @@ app.post("/confirm", async (req, res) => {
       },
     });
 
-    res.status(200).json({ message: "Email confirmed." });
+    res.json({ message: "User email confirmed!" });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred.");
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while confirming email." });
+  }
+});
+
+app.get("/confirm", async (req, res) => {
+  const { email } = req.query; // get the email from the query string
+
+  // Search the database for the user with the matching email
+  const user = await findUserByEmail(email);
+  if (user) {
+    user.status = "confirmed";
+    // save changes to database
+    await user.save();
+    res.status(200).send("Email confirmed!");
+  } else {
+    res.status(404).send("User not found!");
   }
 });

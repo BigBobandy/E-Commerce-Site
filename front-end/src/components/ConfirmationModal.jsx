@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./styles/EmailConfirmation.css";
+import { useNavigate } from "react-router-dom";
+import "./styles/ConfirmationModal.css";
 
-function EmailConfirmation() {
+function ConfirmationModal({ email, onClose }) {
   const [confirmationCode, setConfirmationCode] = useState("");
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -10,13 +10,12 @@ function EmailConfirmation() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefualt();
+  const handleEmailConfirmation = async (e) => {
+    e.preventDefault();
 
     // Clears any previous errors/messages
     setError(null);
     setMessage(null);
-
     setLoading(true); // Start loading
 
     try {
@@ -25,19 +24,18 @@ function EmailConfirmation() {
         headers: {
           "Content-Type": "application/json",
         },
-
-        body: JSON.stringify({ confirmationCode }),
+        body: JSON.stringify({ email, code: confirmationCode }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setConfirmationCode("");
-        setMessage(data.message);
-        // Email confirmation is successfull so user gets redirected to the home page
-        navigate("/");
+        setMessage("Congratulations! Your email is now confirmed.");
+        setTimeout(() => {
+          onClose();
+          navigate("/"); // Navigate to the home page after confirmation
+        }, 2000); // Close the modal after 2 seconds
       } else {
-        // oh no there's an error. display it
         setError(data.error);
       }
     } catch (error) {
@@ -48,10 +46,12 @@ function EmailConfirmation() {
   };
 
   return (
-    <div className="email-confirmation-container">
-      <Link to="/">Go to Home</Link>
-      <h2>Confirm Your Email!</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="confirmation-modal">
+      <button id="close-button" onClick={onClose}>
+        🞮
+      </button>
+      <form onSubmit={handleEmailConfirmation}>
+        <h2>Confirm Your Email!</h2>
         <label>
           Confirmation Code:
           <input
@@ -64,11 +64,11 @@ function EmailConfirmation() {
         <div className="spinner-container">
           {loading && <div className="spinner"></div>}
         </div>
+        {error && <div className="error">{error}</div>}
+        {message && <div className="message">{message}</div>}
       </form>
-      {error && <div className="error">{error}</div>}
-      {message && <div className="message">{message}</div>}
     </div>
   );
 }
 
-export default EmailConfirmation;
+export default ConfirmationModal;

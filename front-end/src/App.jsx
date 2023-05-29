@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import EmailConfirmation from "./components/EmailConfirmation";
+import ConfirmEmail from "./components/ConfirmEmail";
 import HomePage from "./components/HomePage";
 import SignUp from "./components/SignUp";
 
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/confirm-email" element={<EmailConfirmation />} />
+        <Route path="/confirm" element={<ConfirmEmail />} />
       </Routes>
     </Router>
   );
