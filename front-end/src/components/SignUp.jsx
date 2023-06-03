@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import ConfirmationModal from "./ConfirmationModal";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles/SignUp.css";
 
 function SignUp() {
@@ -16,10 +15,10 @@ function SignUp() {
   const [message, setMessage] = useState(null);
   // State for the loading animation
   const [loading, setLoading] = useState(false);
-  // state for a popup that will let the user confirm their email
-  const [showModal, setShowModal] = useState(false);
-  // State for storing user email so it can be passed to the confirmation component
-  const [modalEmail, setModalEmail] = useState("");
+
+  // Will be used later for navigating the user to the login page once that has been implemented
+  // if they already have an account and would like to sign in
+  const navigate = useNavigate();
 
   // Function for handling submit and sending POST request for the signup process
   const handleSignUp = async (e) => {
@@ -46,24 +45,18 @@ function SignUp() {
       if (!response.ok) {
         setError(data.error);
       } else {
-        // Store the current email in the modal's state
-        setModalEmail(email);
-
-        // Clear form fields
+        // Clear form fields after signing up
         setName("");
         setEmail("");
         setPassword("");
-
-        // Open the modal for confirming user email
-        setShowModal(true);
 
         setMessage(
           "Successfully signed up! Check your email for a confirmation code."
         );
       }
-    } catch (err) {
+    } catch (error) {
       setError("Uh oh! Something went wrong...");
-      console.error(err);
+      console.error(error);
     }
 
     setLoading(false); // Finish loading
@@ -71,7 +64,9 @@ function SignUp() {
 
   return (
     <div className="sign-up-container">
-      <Link to="/">Go to Home</Link>
+      <p>
+        <Link to="/">Go to Home</Link>
+      </p>
       <h2>Sign Up!</h2>
       <hr />
       <form onSubmit={handleSignUp}>
@@ -103,22 +98,17 @@ function SignUp() {
           />
         </label>
         <button type="submit">Sign Up</button>
+        <p>
+          <Link to="/">Already have an account? Sign in</Link>
+        </p>
         <div className="spinner-container">
           {loading && <div className="spinner"></div>}
         </div>
       </form>
       {error && <div className="error">{error}</div>}
       {message && <div className="message">{message}</div>}
-      {showModal && (
-        <ConfirmationModal
-          email={modalEmail}
-          onClose={() => {
-            setShowModal(false);
-            setModalEmail("");
-          }}
-        />
-      )}
     </div>
   );
 }
+
 export default SignUp;
