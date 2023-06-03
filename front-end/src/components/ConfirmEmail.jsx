@@ -1,3 +1,6 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import ConfirmationModal from "./ConfirmationModal";
 
 function ConfirmEmail() {
   const navigate = useNavigate();
