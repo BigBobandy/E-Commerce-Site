@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/confirm" element={<ConfirmEmail />} />
+        <Route path="/confirm/:codeParam" element={<ConfirmEmail />} />
       </Routes>
     </Router>
   );
