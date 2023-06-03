@@ -22,6 +22,25 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+// Function for formatting the email confirmation code that is called after the code is generated
+function formatCode(code) {
+  // Convert the code to a string if it's not already
+  if (typeof code !== "string") {
+    code = code.toString();
+  }
+
+  // Insert a hyphen after every third digit
+  let formattedCode = "";
+  for (let i = 0; i < code.length; i++) {
+    if (i > 0 && i % 3 === 0) {
+      formattedCode += "-";
+    }
+    formattedCode += code[i];
+  }
+
+  return formattedCode;
+}
+
 // Define route for user signup. Handles POST requests to the /signup path
 app.post("/signup", async (req, res) => {
   try {
@@ -59,8 +78,14 @@ app.post("/signup", async (req, res) => {
     // and returns a promise that resolves to the hashed password.
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate a random confirmation code
-    const emailConfirmationCode = crypto.randomBytes(8).toString("hex");
+    // Generate a random 9-digit confirmation code
+    let emailConfirmationCode = crypto
+      .randomBytes(5)
+      .toString("hex")
+      .substring(0, 9);
+
+    // Format the code
+    emailConfirmationCode = formatCode(emailConfirmationCode);
 
     // Use prisma to store new user's information
     // Saving the user's name, email, and password
@@ -78,13 +103,13 @@ app.post("/signup", async (req, res) => {
       from: "no-reply@example.com",
       to: email,
       subject: "Confirm your email",
-      text: `Thanks for signing up, ${name}! 
-      Please confirm your email address by entering the following code on the confirmation page: 
-     ${emailConfirmationCode}
-      You can confirm your email by following this link: http://localhost:3000/confirm?email=${encodeURIComponent(
-        email
-      )}
-      `,
+      html: `
+    <h1>Thanks for signing up, ${name}!</h1> 
+    <p>Please confirm your email address by entering the following code on the confirmation page:</p> 
+    <h2><b>${emailConfirmationCode}</b></h2>
+    <p>You can confirm your email by clicking the link below:</p>
+    <h4><a href="http://localhost:5173/confirm/${emailConfirmationCode}">Click to confirm your email!</a></h4>
+  `,
     });
 
     console.log("Message sent: %s", info.messageId);
@@ -100,24 +125,23 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Route for handling email confirmation on the /confirm path
+// Route for handling manual email confirmation
 app.post("/confirm", async (req, res) => {
   try {
-    const { email, code } = req.body;
+    const { confirmationCode } = req.body; // get the email confirmation code from the request body
 
-    // Find the user with the provided email
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    // Search the database for the user with the matching email confirmation code
+    const user = await findUserByCode(confirmationCode);
+    console.log("User search result:", user);
 
     // If user does not exist, or code does not match, send an error message
-    if (!user || user.emailConfirmationCode !== code) {
-      return res.status(400).json({ error: "Invalid code or email." });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid code." });
     }
 
     // If user exists and code matches, confirm the user
     await prisma.user.update({
-      where: { email },
+      where: { id: user.id }, // update using the id
       data: {
         emailConfirmationCode: null, // Clear the confirmation code since it's not needed anymore
         isEmailConfirmed: true,
@@ -133,17 +157,85 @@ app.post("/confirm", async (req, res) => {
   }
 });
 
-app.get("/confirm", async (req, res) => {
-  const { email } = req.query; // get the email from the query string
+// The function to find a user by their confirmation code.
+// It uses Prisma's findFirst method to return the first user it finds
+// with a matching email confirmation code.
+async function findUserByCode(confirmationCode) {
+  return await prisma.user.findFirst({
+    where: { emailConfirmationCode: confirmationCode },
+  });
+}
 
-  // Search the database for the user with the matching email
-  const user = await findUserByEmail(email);
-  if (user) {
-    user.status = "confirmed";
-    // save changes to database
-    await user.save();
-    res.status(200).send("Email confirmed!");
-  } else {
-    res.status(404).send("User not found!");
+// The endpoint for confirming a user's email. It's a GET request to "/confirm/:codeParam",
+// where ":codeParam" is a placeholder for the email confirmation code that will be supplied in the URL.
+app.get("/confirm/:codeParam", async (req, res) => {
+  // The confirmation code is extracted from the URL parameters.
+  const confirmationCode = req.params.codeParam;
+
+  try {
+    // Search the database for the user with the matching email confirmation code
+    const user = await findUserByCode(confirmationCode);
+
+    // If the user is not found, send a 404 response.
+    if (!user) {
+      console.error("User not found, sending 404 response.");
+      return res.status(404).send("User not found!");
+    }
+
+    // If the user's email has already been confirmed, respond with a message
+    // indicating that the email has already been confirmed.
+    if (user.isEmailConfirmed) {
+      console.log("User's email is already confirmed, sending 200 response.");
+      return res.status(200).send("This email has already been confirmed.");
+    }
+
+    // Update the user's email confirmation status in the database
+    // Where the confirmation code from the parameters matches the user's code in the data base
+    const updateUser = await prisma.user.update({
+      where: { id: user.id }, // using the user's id here
+      data: { emailConfirmationCode: null, isEmailConfirmed: true },
+    });
+
+    // If the user is updated successfully, send a 200 response.
+    if (updateUser) {
+      console.log("Update successful, sending 200 response.");
+      return res.status(200).send("Email confirmed!");
+    } else {
+      console.error("Update failed, sending 500 response.");
+      // If the user was not updated for some reason, send a 500 response.
+      console.error(`Failed to update user: ${confirmationCode}`);
+      return res.status(500).send("An error occurred.");
+    }
+  } catch (error) {
+    console.error(`Failed to confirm user email: ${error}`);
+    return res.status(500).send("An error occurred.");
+  }
+});
+
+// The endpoint for fetching a user's email based on the confirmation code.
+// It's a GET request to "/getEmail/:codeParam", where ":codeParam" is a placeholder for
+// the email confirmation code that will be supplied in the URL.
+app.get("/getEmail/:codeParam", async (req, res) => {
+  // The confirmation code is extracted from the URL parameters.
+  const confirmationCode = req.params.codeParam;
+
+  try {
+    // Search the database for the user with the matching email confirmation code
+    const user = await findUserByCode(confirmationCode);
+
+    // If the user is not found, send a 404 response.
+    if (!user) {
+      console.error("User not found, sending 404 response.");
+      return res.status(404).json({ error: "Invalid code." });
+    }
+
+    console.log("User's email fetched, sending 200 response.");
+    // If the user is found, send a 200 response with the user's email.
+    return res.status(200).json({ email: user.email });
+  } catch (error) {
+    console.error(`Failed to fetch user's email: ${error}`);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while fetching the email." });
   }
 });
