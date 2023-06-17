@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./styles/SignUp.css";
+import "../styles/signup-styles/SignUp.css";
 
 function SignUp() {
   // Form field states
@@ -65,9 +65,11 @@ function SignUp() {
   return (
     <div className="sign-up-container">
       <p>
-        <Link to="/">Go to Home</Link>
+        <Link to="/" className="signup-links">
+          Go to Home
+        </Link>
       </p>
-      <h2>Sign Up!</h2>
+      <h2>Sign up now!</h2>
       <hr />
       <form onSubmit={handleSignUp}>
         <label>
@@ -99,7 +101,9 @@ function SignUp() {
         </label>
         <button type="submit">Sign Up</button>
         <p>
-          <Link to="/">Already have an account? Sign in</Link>
+          <Link to="/" className="signup-links">
+            Already have an account? Sign in
+          </Link>
         </p>
         <div className="spinner-container">
           {loading && <div className="spinner"></div>}

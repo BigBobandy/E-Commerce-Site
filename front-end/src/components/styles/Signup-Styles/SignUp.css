@@ -5,7 +5,6 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: var(--background-darker);
 }
 
 .sign-up-container {
@@ -13,13 +12,18 @@ body {
   flex-direction: column; /* This stacks the form elements */
   justify-content: center;
   align-items: center;
-  background-color: var(--background-color);
-  border: 5px solid var(--primary-color);
+  background-color: var(--primary-color);
+  border: 5px solid var(--secondary-color);
+  color: white;
   border-radius: 10px;
   font-family: inherit;
   padding: 5rem;
   width: 300px;
   text-align: center; /* Centers h2 and button text */
+}
+
+.signup-links {
+  color: var(--secondary-color);
 }
 
 .sign-up-container h2 {
@@ -29,13 +33,14 @@ body {
 .sign-up-container button {
   font-family: inherit;
   font-weight: bold;
-  background-color: var(--primary-color);
-  color: var(--background-color);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: 3px solid var(--primary-color);
   border-radius: 8px;
 }
 
 .sign-up-container button:hover {
-  background-color: var(--primary-darker);
+  background-color: var(--secondary-darker);
 }
 
 .sign-up-container button:active {
@@ -49,7 +54,7 @@ body {
 }
 
 .sign-up-container input {
-  border: 3px solid var(--primary-color);
+  border: 3px solid var(--secondary-color);
   border-radius: 6px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -63,9 +68,13 @@ body {
 }
 
 /* make input fields and button take up full width */
-.sign-up-container input,
+.sign-up-container input {
+  width: 100%;
+}
+
 .sign-up-container button {
   width: 100%;
+  margin-left: 4px;
 }
 
 .message,

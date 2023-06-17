@@ -1,0 +1,120 @@
+.home-container {
+  width: 90%;
+  height: 50%;
+  z-index: 1;
+  margin: auto;
+  margin-bottom: 14rem;
+  padding: 2rem;
+  border: 10px solid var(--primary-color);
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.carousel-root {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  border: 5px solid var(--primary-color);
+  border-radius: 10px;
+}
+
+.section-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.carousel .slide,
+.carousel .slider {
+  max-height: 250px;
+  width: 100%;
+}
+
+.about-us p,
+.featured-products p,
+.testimonials p {
+  line-height: 1.6;
+}
+
+section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.image-container {
+  flex: 1;
+  max-width: 50%;
+  padding: 20px;
+}
+
+.text-container {
+  flex: 1;
+  max-width: 50%;
+  padding: 20px;
+}
+
+.text-container-left {
+  text-align: left;
+}
+
+.text-container-right {
+  text-align: right;
+}
+
+/* Style your images - if necessary, you can define different classes for different images */
+
+.about-us-img {
+  max-height: 300px; /* Adjust this value as per your preference */
+  width: auto;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 5px solid var(--primary-color);
+  border-radius: 10px;
+}
+
+.text-container h2 {
+  color: var(--primary-color);
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.benefits-container {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.benefit {
+  width: 30%;
+}
+
+.benefit h3 {
+  color: var(--secondary-color);
+  font-size: 1.5em;
+}
+
+.about-us-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.about-us-container p {
+  flex: 1;
+  font-size: 0.9em;
+}
+
+.disclaimer-text {
+  color: var(--secondary-darker);
+}

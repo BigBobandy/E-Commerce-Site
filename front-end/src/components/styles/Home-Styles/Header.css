@@ -1,0 +1,52 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: var(--primary-color);
+  text-align: center;
+  padding: 1em;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  height: 25px;
+  color: white;
+  border-bottom: 5px solid var(--secondary-color);
+}
+
+.title-container {
+  padding: 10px;
+  border-radius: 30%;
+  border: 5px solid var(--secondary-color);
+  background-color: var(--primary-color);
+  display: inline-block;
+}
+
+h1 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+}
+
+.left-nav a,
+.right-nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: white;
+}
+
+.left-nav a:hover,
+.right-nav a:hover {
+  color: var(--hover-color);
+}
+
+.borger-logo {
+  height: 80px;
+  width: 80px;
+}
