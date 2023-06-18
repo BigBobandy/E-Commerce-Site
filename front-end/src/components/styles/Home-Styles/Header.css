@@ -27,6 +27,7 @@ header {
 h1 {
   margin-left: 10px;
   margin-right: 10px;
+  color: var(--secondary-color);
 }
 
 nav {
@@ -43,7 +44,7 @@ nav {
 
 .left-nav a:hover,
 .right-nav a:hover {
-  color: var(--hover-color);
+  color: var(--secondary-color);
 }
 
 .borger-logo {

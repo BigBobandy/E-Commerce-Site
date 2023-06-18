@@ -1,37 +1,40 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useNavigate } from "react-router-dom";
 import borger2 from "../../assets/food-images/banner-2.jpg";
 import borger from "../../assets/food-images/burger-banner.jpg";
-import "../styles/Animations.css";
+import heroImg from "../../assets/hero-img.jpg";
 import "../styles/Home-Styles/HomePage.css";
+import Footer from "./Footer";
 
 function HomePage() {
+  let navigate = useNavigate();
+
   return (
     <div className="home-container">
       <section className="hero">
-        <div className="section-content">
-          <div className="hero-text">
-            <h1>Welcome to Dirty burger!</h1>
-            <p>
-              Have you ever wanted a burger but you were too lazy to go to your
-              local fast food joint? Have you ever wished you had ordered a
-              burger a week ago that could be delivered by mail man to your
-              doorstep in your time of need? Here at Dirty Burger your days of
-              worrying are over. Place your order today and your future self
-              will thank you!
-            </p>
-          </div>
-          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
-            <div>
-              <img src={borger} alt="borger" className="carousel-img" />
-            </div>
-            <div>
-              <img src={borger2} alt="mmm" className="carousel-img" />
-            </div>
-          </Carousel>
+        <div className="hero-text">
+          <h1>Welcome to Dirty burger!</h1>
+          <p>
+            Have you ever wanted a burger but you were too lazy to go to your
+            local fast food joint? Have you ever wished you had ordered a burger
+            a week ago that could be delivered by mail man to your doorstep in
+            your time of need? Here at Dirty Burger your days of worrying are
+            over. Place your order today and your future self will thank you!
+          </p>
+          <button onClick={() => navigate("/signup")} className="order-now-btn">
+            Order Now!
+          </button>
+        </div>
+        <div className="hero-img">
+          <img
+            src={heroImg}
+            alt="Wow that's a dirty burger bud"
+            className="hero-img"
+          />
         </div>
       </section>
-      <section className="about-us">
+      <section className="about-us-container container">
         <div className="text-container text-container-left">
           <h2>What is Dirty Burger?</h2>
           <p>
@@ -59,21 +62,27 @@ function HomePage() {
             are below 40°F.
           </small>
         </div>
-        <div>
-          <img src={borger} alt="Delicious burger" className="about-us-img" />
+        <div className="carousel-container">
+          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
+            <div>
+              <img src={borger} alt="borger" className="carousel-img" />
+            </div>
+            <div>
+              <img src={borger2} alt="mmm" className="carousel-img" />
+            </div>
+          </Carousel>
         </div>
       </section>
-      <section className="benefits">
+      <div className="benefits">
         <h2>What Dirty Burger Can Do For You</h2>
-        <div className="benefits-container">
+        <div className="benefits-container container">
           <div className="benefit">
             <h3>Free Delivery</h3>
             <p>
               We offer free delivery for all orders over $100{" "}
               <small className="disclaimer-text">
-                Disclaimer: For members only.
+                Disclaimer: For members only. Sign up today for free shipping!
               </small>
-              .
             </p>
           </div>
           <div className="benefit">
@@ -91,7 +100,8 @@ function HomePage() {
             </p>
           </div>
         </div>
-      </section>
+      </div>
+      <Footer />
     </div>
   );
 }

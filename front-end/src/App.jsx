@@ -3,7 +3,6 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import Footer from "./components/Home-Components/Footer";
 import Header from "./components/Home-Components/Header";
 import HomePage from "./components/Home-Components/HomePage";
 import ConfirmEmail from "./components/Signup-Components/ConfirmEmail";
@@ -22,7 +21,6 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/confirm/:codeParam" element={<ConfirmEmail />} />
       </Routes>
-      <Footer />
     </Router>
   );
 }

@@ -1,38 +1,65 @@
 .home-container {
-  width: 90%;
-  height: 50%;
+  height: 100% !important;
   z-index: 1;
-  margin: auto;
-  margin-bottom: 14rem;
-  padding: 2rem;
-  border: 10px solid var(--primary-color);
-  border-radius: 10px;
-  position: relative;
+  padding-left: 1rem;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 0;
   align-items: center;
   background-color: var(--background-color);
+  overflow: hidden;
+  overflow-x: hidden; /* Prevents horizontal overflow */
+  overflow-y: hidden; /* Prevents vertical overflow */
+}
+
+.hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  color: var(--secondary-color);
+}
+
+.hero-img {
+  display: flex;
+  width: 600px;
+  height: fit-content;
+  flex: 1;
+  position: relative;
+}
+
+.hero-img::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.45));
 }
 
 .carousel-root {
   display: flex;
   justify-content: center;
-  width: 50%;
-  border: 5px solid var(--primary-color);
+  width: 100%;
+  border: 5px solid var(--secondary-color);
   border-radius: 10px;
-}
-
-.section-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
 .carousel .slide,
 .carousel .slider {
-  max-height: 250px;
+  max-height: 450px;
   width: 100%;
 }
 
@@ -47,7 +74,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   padding: 20px;
 }
 
@@ -82,10 +109,22 @@ section {
   border-radius: 10px;
 }
 
-.text-container h2 {
-  color: var(--primary-color);
-  font-size: 2em;
-  margin-bottom: 10px;
+.container-title {
+  color: var(--secondary-color);
+}
+
+.benefits {
+  background: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
+  width: 100%;
+  margin: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.benefits h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .benefits-container {
@@ -95,6 +134,7 @@ section {
 }
 
 .benefit {
+  color: white;
   width: 30%;
 }
 
@@ -107,7 +147,12 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px;
+  background: linear-gradient(
+    rgba(210, 210, 210, 0.95),
+    rgba(255, 255, 255, 0.85),
+    rgba(210, 210, 210, 0.95)
+  );
 }
 
 .about-us-container p {
@@ -116,5 +161,33 @@ section {
 }
 
 .disclaimer-text {
-  color: var(--secondary-darker);
+  color: var(--primary-color);
+  font-style: italic;
+}
+
+.about-us-container,
+.carousel-container {
+  flex: 1;
+}
+
+.order-now-btn {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 1rem;
+  margin-top: 2rem;
+  margin-left: 15rem;
+  font-weight: bold;
+  position: relative;
+}
+
+.order-now-btn:hover {
+  background-color: var(--secondary-darker);
+  cursor: pointer;
+}
+
+.order-now-btn:active {
+  transform: scale(0.98);
 }
