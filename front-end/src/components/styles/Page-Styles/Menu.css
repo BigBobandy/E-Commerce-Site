@@ -45,6 +45,7 @@
   transform: translateX(-50%);
   background-color: var(--secondary-color);
   font-family: inherit;
+  font-weight: bold;
   padding: 10px;
   border: 3px solid var(--primary-color);
   border-radius: 10px;
@@ -94,6 +95,10 @@
 
 .main,
 .drinks .menu-items-wrapper {
+  color: var(--secondary-color);
+}
+
+.drinks .category-title {
   color: var(--secondary-color);
 }
 

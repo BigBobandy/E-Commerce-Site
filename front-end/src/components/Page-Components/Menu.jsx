@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/Page-Styles/Menu.css";
 
-function Menu() {
+function Menu({ addToCart }) {
   const [menuItems, setMenuItems] = useState({
     Main: [],
     Sides: [],
@@ -63,7 +63,9 @@ function Menu() {
             {item.quantity === 0 ? (
               <p>Out of Stock</p>
             ) : (
-              <button className="item-button">Add to Cart</button>
+              <button className="item-button" onClick={() => addToCart(item)}>
+                Add to Cart
+              </button>
             )}
           </div>
         ))}
