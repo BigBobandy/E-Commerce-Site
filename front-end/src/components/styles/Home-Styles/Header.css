@@ -16,6 +16,11 @@ header {
   border-bottom: 5px solid var(--secondary-color);
 }
 
+.logo-image {
+  width: 80px;
+  height: fit-content;
+}
+
 .title-container {
   padding: 10px;
   border-radius: 30%;

@@ -1,11 +1,7 @@
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
-import borger2 from "../../assets/food-images/banner-2.jpg";
-import borger from "../../assets/food-images/burger-banner.jpg";
+import logoImg from "../../assets/borger-logo.png";
 import heroImg from "../../assets/hero-img.jpg";
 import "../styles/Home-Styles/HomePage.css";
-import Footer from "./Footer";
 
 function HomePage() {
   let navigate = useNavigate();
@@ -22,7 +18,7 @@ function HomePage() {
             your time of need? Here at Dirty Burger your days of worrying are
             over. Place your order today and your future self will thank you!
           </p>
-          <button onClick={() => navigate("/signup")} className="order-now-btn">
+          <button onClick={() => navigate("/menu")} className="order-now-btn">
             Order Now!
           </button>
         </div>
@@ -34,8 +30,8 @@ function HomePage() {
           />
         </div>
       </section>
-      <section className="about-us-container container">
-        <div className="text-container text-container-left">
+      <section className="about-us-container">
+        <div className="about-left-side">
           <h2>What is Dirty Burger?</h2>
           <p>
             We've got the greasiest, dirtiest burgers you'll ever shove into
@@ -62,20 +58,13 @@ function HomePage() {
             are below 40°F.
           </small>
         </div>
-        <div className="carousel-container">
-          <Carousel autoPlay infiniteLoop interval={3000} showThumbs={false}>
-            <div>
-              <img src={borger} alt="borger" className="carousel-img" />
-            </div>
-            <div>
-              <img src={borger2} alt="mmm" className="carousel-img" />
-            </div>
-          </Carousel>
+        <div className="about-right-side">
+          <img src={logoImg} alt="Dirty Burger Logo" className="logo-img" />
         </div>
       </section>
       <div className="benefits">
         <h2>What Dirty Burger Can Do For You</h2>
-        <div className="benefits-container container">
+        <div className="benefits-text">
           <div className="benefit">
             <h3>Free Delivery</h3>
             <p>
@@ -101,7 +90,6 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
