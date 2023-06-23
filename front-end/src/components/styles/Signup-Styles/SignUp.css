@@ -1,15 +1,6 @@
-/* Flexbox centers my container both horizontally and vertically */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
 .sign-up-container {
   display: flex;
-  flex-direction: column; /* This stacks the form elements */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
@@ -19,7 +10,7 @@ body {
   font-family: inherit;
   padding: 5rem;
   width: 300px;
-  text-align: center; /* Centers h2 and button text */
+  text-align: center;
 }
 
 .signup-links {
@@ -60,14 +51,12 @@ body {
   padding-bottom: 5px;
 }
 
-/* Space out labels, input fields, and button */
 .sign-up-container label,
 .sign-up-container input,
 .sign-up-container button {
   margin: 0.5rem 0;
 }
 
-/* make input fields and button take up full width */
 .sign-up-container input {
   width: 100%;
 }
