@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
 import "../styles/Home-Styles/Header.css";
 
-function Header({ cart }) {
+function Header({ cart, removeFromCart, addToCart }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  console.log(cart);
 
   // Function that calculates how many items are in the cart
   const totalItems = cart.reduce((total, item) => {
@@ -24,6 +26,12 @@ function Header({ cart }) {
   const handleCartClick = () => {
     setIsCartOpen(!isCartOpen);
   };
+
+  // Compute the total cost of the items in the cart
+  const totalCost = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   return (
     <header>
@@ -47,17 +55,50 @@ function Header({ cart }) {
           onClick={(e) => e.target === e.currentTarget && setIsCartOpen(false)}
         >
           <div className="cart-modal-content">
-            <h2>Items In Cart:</h2>
+            <h2>
+              Your Cart <FontAwesomeIcon icon={faShoppingCart} />({totalItems})
+            </h2>
             <button className="close-button" onClick={handleCartClick}>
               X
             </button>
             {cart.map((item) => (
-              <div key={item.id}>
-                <p>
-                  {item.name} x {item.quantity}
-                </p>
+              <div key={item.id} className="cart-item">
+                <img
+                  src={item.imageUrl}
+                  alt={item.description}
+                  className="cart-image"
+                />
+                <div className="item-info">
+                  <h3>{item.name}</h3>
+                  <p>${item.price}</p>
+                </div>
+                <div className="quantity-control">
+                  <button onClick={() => addToCart(item)}>+</button>
+                  <p>{item.quantity}</p>
+                  <button onClick={() => removeFromCart(item.id)}>-</button>
+                </div>
               </div>
             ))}
+            <div className="cart-bottom">
+              <h3>Subtotal: ${totalCost.toFixed(2)}</h3>
+              {totalItems > 0 ? (
+                <Link
+                  to="/checkout"
+                  className="checkout-button"
+                  onClick={handleCartClick}
+                >
+                  CONTINUE TO CHECKOUT
+                </Link>
+              ) : (
+                <Link
+                  to="/menu"
+                  className="checkout-button"
+                  onClick={handleCartClick}
+                >
+                  GO TO MENU
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -39,7 +39,6 @@ function Menu({ addToCart }) {
   }
 
   function formatIdToClassName(id) {
-    console.log(id);
     return `image-${id}`;
   }
 

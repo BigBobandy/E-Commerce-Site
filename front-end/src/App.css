@@ -5,6 +5,7 @@
   --primary-darker: #1c191a;
   --secondary-color: #ffc629;
   --secondary-darker: #f3a305;
+  --secondary-border: #ffc62986;
   --background-color: #f5f5f5;
 }
 
@@ -23,6 +24,7 @@ body {
   align-items: unset;
   height: auto;
   word-break: keep-all;
+  user-select: none;
 }
 
 footer {

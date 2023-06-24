@@ -70,7 +70,6 @@ function SignUp() {
         </Link>
       </p>
       <h2>Sign up now!</h2>
-      <hr />
       <form onSubmit={handleSignUp}>
         <label>
           Name:

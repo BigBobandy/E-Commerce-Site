@@ -1,0 +1,8 @@
+.checkout-container {
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+  height: 100vh;
+}
