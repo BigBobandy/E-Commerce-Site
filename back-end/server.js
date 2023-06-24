@@ -13,12 +13,14 @@ app.use(cors());
 const signupRoutes = require("./routes/signupRoutes");
 const confirmRoutes = require("./routes/confirmRoutes");
 const menuRoutes = require("./routes/menuRoutes");
+const loginRoutes = require("./routes/loginRoutes");
 
 // Use routes
 app.use("/signup", signupRoutes);
 app.use("/confirm", confirmRoutes);
 app.use("/confirm/:codeParam", confirmRoutes);
 app.use("/menu-items", menuRoutes);
+app.use("/login", loginRoutes);
 
 // Set the port that the server will listen on
 const PORT = process.env.PORT || 3000;
