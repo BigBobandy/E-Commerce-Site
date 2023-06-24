@@ -9,7 +9,12 @@
 }
 
 body {
-  background-color: var(--primary-color);
+  background: linear-gradient(45deg, rgba(35, 31, 32, 0.8) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(35, 31, 32, 0.8) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(35, 31, 32, 0.8) 25%),
+    linear-gradient(-45deg, transparent 75%, rgba(35, 31, 32, 0.8) 25%);
+  background-size: 60px 60px;
+  background-color: var(--secondary-color);
   font-family: "Montserrat", sans-serif;
   color: var(--primary-color);
   padding-top: 3rem;

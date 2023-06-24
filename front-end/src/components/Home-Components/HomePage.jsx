@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
 import "../styles/Home-Styles/HomePage.css";
+import employeeImg from "/employee-otm.jpg";
 
 function HomePage() {
   let navigate = useNavigate();
@@ -30,6 +31,11 @@ function HomePage() {
             <button onClick={() => navigate("/menu")} className="hero-button">
               Sign Up!
             </button>
+          </div>
+        </div>
+        <div className="hero-right-side">
+          <div className="img-wrapper">
+            <img src={logoImg} alt="Dirty Burger Logo" className="logo-img" />
           </div>
         </div>
       </section>
@@ -64,18 +70,34 @@ function HomePage() {
           </div>
         </div>
         <div className="about-right-side">
-          <img src={logoImg} alt="Dirty Burger Logo" className="logo-img" />
+          <h2>Employee of the Month</h2>
+          <h3>
+            {new Date().toLocaleString("default", { month: "long" })}{" "}
+            {new Date().getFullYear()}
+          </h3>
+          <img
+            src={employeeImg}
+            alt="Employee of the Month"
+            className="employee-img"
+          />
+          <h4>Philadelphia Collins</h4>
+          <p>
+            Phil has been at Dirty Burger from the start and he delivers the
+            dirtiest burgers with a smile and a BAAAAAM! Just don't look at his
+            gut.
+          </p>
         </div>
       </section>
       <div className="benefits">
         <h2>What Dirty Burger Can Do For You</h2>
         <div className="benefits-text">
           <div className="benefit">
-            <h3>Free Delivery</h3>
+            <h3>Free Shipping & Handling</h3>
             <p>
-              We offer free delivery for all orders over $100{" "}
+              We offer free shipping & handling for all orders over $100{" "}
               <small className="disclaimer-text">
-                Disclaimer: For members only. Sign up today for free shipping!
+                Disclaimer: For members only. Sign up today for free shipping &
+                handling!
               </small>
             </p>
           </div>

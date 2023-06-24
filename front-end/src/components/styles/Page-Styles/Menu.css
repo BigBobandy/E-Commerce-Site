@@ -1,8 +1,10 @@
-.Menu-Parent {
+.Menu-Parent h1 {
   display: flex;
-  flex-direction: column;
-  padding: 25px;
-  padding-top: 100px;
+  justify-content: center;
+  background-color: var(--primary-color);
+  padding: 20px;
+  border: 3px solid var(--secondary-color);
+  margin: 0;
 }
 
 .menu-item {
@@ -67,8 +69,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 100vw;
-  padding-top: 3.5rem;
   padding-bottom: 10px;
   border: 3px solid var(--secondary-color);
 }
@@ -108,24 +108,6 @@
   );
 }
 
-.main h2,
-.sides h2,
-.drinks h2,
-.desserts h2 {
-  margin-bottom: 20px;
-}
-
-.Menu-Parent h1 {
-  background-color: var(--primary-color);
-  padding: 5px;
-  border: 3px solid var(--secondary-color);
-}
-
-.image-4 {
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-}
-
 .Menu-Parent small {
   background: linear-gradient(
     rgba(210, 210, 210, 0.95),
@@ -135,5 +117,4 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 20px;
 }

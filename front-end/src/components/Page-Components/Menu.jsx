@@ -77,10 +77,6 @@ function Menu({ addToCart }) {
     <div className="Menu-Parent">
       <h1>Dirty Burger Menu</h1>
       {["Main", "Sides", "Drinks", "Desserts"].map(renderCategory)}
-      <small className="disclaimer-text">
-        Disclaimer: Our slushies, shakes and sundaes may arrive in hot liquid
-        form.
-      </small>
     </div>
   );
 }

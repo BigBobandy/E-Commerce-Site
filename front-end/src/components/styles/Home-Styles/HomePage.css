@@ -1,14 +1,15 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
   color: var(--primary-color);
   font-family: "Roboto", sans-serif;
+  cursor: default;
+  border: 10px solid var(--primary-color);
 }
 
 .hero-container {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   background: linear-gradient(
       to right,
       rgba(0, 0, 0, 0.6) 0%,
@@ -17,8 +18,7 @@
     url("/hero-image.jpg") no-repeat center center/cover;
   color: white;
   padding: 40px;
-  border-radius: 10px;
-  margin-bottom: 30px;
+  border-bottom: 5px solid var(--secondary-color);
 }
 
 .hero-container h1 {
@@ -27,8 +27,13 @@
 }
 
 .hero-content {
-  max-width: 25%;
+  max-width: 40%;
   padding: 2rem;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.25)
+  );
 }
 
 .hero-text {
@@ -53,25 +58,31 @@
   background: var(--secondary-darker);
 }
 
+.hero-right-side {
+  padding: 70px 70px 0px;
+}
+
 .about-us-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 40px;
-  border-radius: 10px;
   background: linear-gradient(
-    to right,
-    var(--primary-color) 45%,
-    var(--secondary-color) 100%
+    rgba(0, 0, 0),
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.95)
   );
   color: white;
-  margin-bottom: 30px;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .about-us-content {
   max-width: 45%;
   margin-bottom: 20px;
+}
+
+.about-us-container h2 {
+  color: var(--secondary-color);
 }
 
 .about-left-side {
@@ -80,6 +91,20 @@
 
 .about-right-side {
   width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+}
+
+.employee-img {
+  width: 50%;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 3px solid var(--secondary-color);
 }
 
 .logo-img {
@@ -98,7 +123,7 @@
   flex-direction: column;
   align-items: center;
   padding: 40px;
-  border-radius: 10px;
+  border-top: 5px solid var(--secondary-color);
   background: repeating-linear-gradient(
     45deg,
     var(--primary-color),
@@ -131,6 +156,11 @@
 .benefit {
   width: 15%;
   font-size: 1.2rem;
+}
+
+img,
+button {
+  user-select: none;
 }
 
 @media (max-width: 768px) {

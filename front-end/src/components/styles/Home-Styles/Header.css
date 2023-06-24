@@ -63,8 +63,8 @@ nav {
   font-weight: bold;
   padding-left: 20px;
   padding-right: 20px;
-  border-right: 1px solid #000; /* change #000 to the color you want */
-  margin-right: 10px; /* adjust as needed */
+  border-right: 1px solid #000;
+  margin-right: 10px;
 }
 
 .nav-bar a:last-child {
@@ -118,7 +118,7 @@ nav {
   margin-right: 1rem;
   padding: 20px;
   border: 3px solid var(--secondary-color);
-  width: 20%; /* Narrower modal */
+  width: 20%;
   position: relative;
 }
 
