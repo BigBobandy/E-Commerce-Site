@@ -50,4 +50,30 @@ async function login(req, res) {
   }
 }
 
-module.exports = { login };
+async function validateToken(req, res) {
+  console.log("validateToken function was called");
+
+  try {
+    // Get the token from the Authorization header
+    const token = req.headers.authorization.split(" ")[1];
+
+    // Verify the token using the same secret that was used to sign it
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find the user in the database using the id from the decoded token
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+
+    // If the user is not found, return an error
+    if (!user) {
+      return res.status(400).json({ error: "Invalid token: user not found." });
+    }
+
+    // If the user is found, return the user's data
+    res.json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred.");
+  }
+}
+
+module.exports = { login, validateToken };
