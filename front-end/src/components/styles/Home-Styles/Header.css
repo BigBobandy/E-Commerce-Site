@@ -75,6 +75,32 @@ nav {
   color: var(--secondary-darker);
 }
 
+.login-button-header {
+  margin: 0 15px;
+  margin-top: 5px;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-style: inherit;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-stretch: condensed;
+  padding-right: 20px;
+  border-right: 1px solid #000;
+  margin-right: 10px;
+  background-color: var(--secondary-color);
+  border-right: 1px solid #000;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+}
+
+.login-button-header:hover {
+  color: var(--secondary-darker);
+}
+
 .borger-logo {
   height: 80px;
   width: 80px;
@@ -161,13 +187,20 @@ nav {
 }
 
 .close-button {
-  color: var(--secondary-color);
   position: absolute;
   right: 10px;
   top: 5px;
   border: none;
-  background-color: transparent;
   font-size: 1.2em;
+  margin-top: 5px;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: var(--secondary-darker);
 }
 
 .quantity-control {

@@ -5,10 +5,8 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
 import "../styles/Home-Styles/Header.css";
 
-function Header({ cart, removeFromCart, addToCart }) {
+function Header({ cart, removeFromCart, addToCart, setIsLoginModalOpen }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
-
-  console.log(cart);
 
   // Function that calculates how many items are in the cart
   const totalItems = cart.reduce((total, item) => {
@@ -41,7 +39,12 @@ function Header({ cart, removeFromCart, addToCart }) {
       <nav className="nav-bar">
         <Link to="/">Home</Link>
         <Link to="/menu">Menu</Link>
-        <Link to="/login">Sign In</Link>
+        <button
+          className="login-button-header"
+          onClick={() => setIsLoginModalOpen(true)}
+        >
+          Sign In
+        </button>
         <Link to="/signup">Sign Up</Link>
       </nav>
       <div className="cart-button-container">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/signup-styles/ConfirmationModal.css";
+import "../styles/user-styles/ConfirmationModal.css";
 
 function ConfirmationModal({ onClose }) {
   // State to hold the value of the input field for the confirmation code

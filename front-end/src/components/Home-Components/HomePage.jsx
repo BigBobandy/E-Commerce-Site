@@ -3,7 +3,7 @@ import logoImg from "../../assets/borger-logo.png";
 import "../styles/Home-Styles/HomePage.css";
 import employeeImg from "/employee-otm.jpg";
 
-function HomePage() {
+function HomePage({ setIsLoginModalOpen }) {
   let navigate = useNavigate();
 
   return (
@@ -28,9 +28,19 @@ function HomePage() {
               Our members enjoy discounts at checkout and free shipping on all
               orders over $100.
             </p>
-            <button onClick={() => navigate("/menu")} className="hero-button">
+            <button onClick={() => navigate("/signup")} className="hero-button">
               Sign Up!
             </button>
+            <p>
+              Already have an account?
+              <a
+                className="sign-in-link"
+                onClick={() => setIsLoginModalOpen(true)}
+              >
+                {" "}
+                Sign In
+              </a>
+            </p>
           </div>
         </div>
         <div className="hero-right-side">

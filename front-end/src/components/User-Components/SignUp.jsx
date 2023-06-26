@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/signup-styles/SignUp.css";
+import "../styles/user-styles/SignUp.css";
 
 function SignUp() {
   // Form field states
