@@ -111,12 +111,27 @@ nav {
   padding: 10px;
 }
 
+.user-profile-link {
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 15px;
+  height: auto;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.user-profile-link:hover {
+  color: var(--secondary-darker);
+}
+
 .logout-button-header {
   background-color: var(--secondary-color);
   font-family: inherit;
   font-weight: bold;
   border-radius: 5px;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .logout-button-header:hover {

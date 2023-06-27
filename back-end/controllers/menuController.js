@@ -5,10 +5,8 @@ const prisma = new PrismaClient();
 // Function to handle fetching all menu items
 async function getAll(req, res) {
   try {
-    console.log("Request Received");
     const menuItems = await prisma.menuItem.findMany();
     res.status(200).json(menuItems);
-    console.log("Response sent successfully Menu Items: ", menuItems);
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred while fetching menu items.");

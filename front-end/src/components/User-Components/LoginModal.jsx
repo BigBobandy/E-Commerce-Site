@@ -15,7 +15,7 @@ function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
 
     try {
       // Passing the email and password the user submitted in the body of the request
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

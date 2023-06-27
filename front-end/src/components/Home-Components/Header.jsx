@@ -1,10 +1,9 @@
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
 import { UserContext } from "../User-Components/UserContext";
-import UserProfile from "../User-Components/UserProfile";
 import "../styles/Home-Styles/Header.css";
 
 function Header({
@@ -64,8 +63,10 @@ function Header({
       {user && (
         /* If user is logged in */
         <div className="user-info">
-          <p>Welcome, {user.name}</p>
-          <Link to="user-profile"></Link>
+          <p>Welcome, {user.firstName}</p>
+          <Link to={`/profile/${user.userUrlString}`}>
+            <FontAwesomeIcon className="user-profile-link" icon={faUser} />
+          </Link>
           <button className="logout-button-header" onClick={logout}>
             Logout
           </button>

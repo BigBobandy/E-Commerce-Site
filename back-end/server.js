@@ -14,13 +14,15 @@ const signupRoutes = require("./routes/signupRoutes");
 const confirmRoutes = require("./routes/confirmRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const loginRoutes = require("./routes/loginRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // Use routes
-app.use("/signup", signupRoutes);
-app.use("/confirm", confirmRoutes);
-app.use("/confirm/:codeParam", confirmRoutes);
-app.use("/menu-items", menuRoutes);
-app.use("/login", loginRoutes);
+app.use("/api/signup", signupRoutes);
+app.use("/api/confirm", confirmRoutes);
+app.use("/api/confirm/:codeParam", confirmRoutes);
+app.use("/api/menu-items", menuRoutes);
+app.use("/api/login", loginRoutes);
+app.use("/api/user", userRoutes);
 
 // Set the port that the server will listen on
 const PORT = process.env.PORT || 3000;

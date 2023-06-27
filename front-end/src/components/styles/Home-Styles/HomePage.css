@@ -72,6 +72,10 @@
   cursor: pointer;
 }
 
+.sign-in-link:hover {
+  color: var(--secondary-darker);
+}
+
 .about-us-container {
   display: flex;
   justify-content: space-between;
@@ -150,6 +154,16 @@
   color: var(--secondary-color);
   border: 3px solid var(--secondary-color);
   border-radius: 10px;
+}
+
+.benefits a {
+  color: var(--secondary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.benefits a:hover {
+  color: var(--secondary-darker);
 }
 
 .benefits-text {

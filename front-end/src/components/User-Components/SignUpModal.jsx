@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
 import "../styles/user-styles/SignUpModal.css";
 
 function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   // Form field states
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // Messages states
@@ -16,10 +16,6 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   const [message, setMessage] = useState(null);
   // State for the loading animation
   const [loading, setLoading] = useState(false);
-
-  // Will be used later for navigating the user to the login page once that has been implemented
-  // if they already have an account and would like to sign in
-  const navigate = useNavigate();
 
   // Function for handling submit and sending POST request for the signup process
   const handleSignUp = async (e) => {
@@ -32,12 +28,12 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
     setLoading(true); // Start loading
 
     try {
-      const response = await fetch("http://localhost:3000/signup", {
+      const response = await fetch("http://localhost:3000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
       });
 
       const data = await response.json();
@@ -47,7 +43,8 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
         setError(data.error);
       } else {
         // Clear form fields after signing up
-        setName("");
+        setFirstName("");
+        setLastName("");
         setEmail("");
         setPassword("");
 
@@ -65,28 +62,37 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
 
   return (
     <div className="signup-modal-container">
-      <div className="signup-content">
+      <div className="signup-modal-content">
         <img src={logoImg} alt="Dirt Burger Logo" className="login-logo" />
         <button
           className="signup-modal-close"
-          onClick={() => setIsSignUpModalOpen(false)}
+          onClick={() => setIsSignupModalOpen(false)}
         >
           X
         </button>
-        <h2>Sign up now!</h2>
+        <h2>Become a member today!</h2>
         <form onSubmit={handleSignUp}>
           <label>
-            Name:
             <input
+              placeholder="First Name..."
               type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name="first name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </label>
           <label>
-            Email:
             <input
+              placeholder="Last Name..."
+              type="text"
+              name="last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </label>
+          <label>
+            <input
+              placeholder="Email address..."
               type="email"
               name="email"
               value={email}
@@ -94,8 +100,8 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
             />
           </label>
           <label>
-            Password:
             <input
+              placeholder="Enter a password..."
               type="password"
               name="password"
               value={password}

@@ -46,7 +46,7 @@ async function sendConfirmationEmail(user, emailConfirmationCode) {
     to: user.email, // email from user object
     subject: "Confirm your email",
     html: `
-      <h1>Thanks for signing up, ${user.name}!</h1> // name from user object
+      <h1>Thanks for signing up, ${user.firstName}!</h1>
       <p>Please confirm your email address by entering the following code on the confirmation page:</p> 
       <h2><b>${emailConfirmationCode}</b></h2>
       <p>You can confirm your email by clicking the link below:</p>
@@ -62,7 +62,7 @@ async function sendConfirmationEmail(user, emailConfirmationCode) {
 async function signup(req, res) {
   try {
     // Extract name, email, and password from request body
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     console.log("/signup Req body: ", req.body);
 
@@ -91,14 +91,19 @@ async function signup(req, res) {
     // Format the code
     emailConfirmationCode = formatCode(emailConfirmationCode);
 
+    // Generate a random 9-digit code for the user's profile url
+    let userUrlString = crypto.randomBytes(5).toString("hex").substring(0, 9);
+
     // Use prisma to store new user's information
     // Saving the user's name, email, and password
     const newUser = await prisma.user.create({
       data: {
-        name,
+        firstName,
+        lastName,
         email,
         password: hashedPassword,
         emailConfirmationCode, // Save code in the database (will be only temporary)
+        userUrlString,
       },
     });
 

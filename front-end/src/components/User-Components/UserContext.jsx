@@ -37,13 +37,10 @@ const UserProvider = ({ children }) => {
     const validateToken = async () => {
       const token = localStorage.getItem("token");
 
-      console.log("validateToken function was called in UserContext.jsx");
-      console.log(`Token from local storage: ${token}`);
-
       if (token) {
         try {
           const response = await fetch(
-            "http://localhost:3000/login/validate-token",
+            "http://localhost:3000/api/login/validate-token",
             {
               method: "POST",
               headers: {
@@ -59,7 +56,6 @@ const UserProvider = ({ children }) => {
 
           const data = await response.json();
           setUser(data.user);
-          console.log("Token validated");
         } catch (error) {
           console.error(error);
         }

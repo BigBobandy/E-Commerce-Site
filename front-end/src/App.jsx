@@ -10,6 +10,7 @@ import ConfirmEmail from "./components/User-Components/ConfirmEmail";
 import LoginModal from "./components/User-Components/LoginModal";
 import SignUpModal from "./components/User-Components/SignUpModal";
 import { UserProvider } from "./components/User-Components/UserContext";
+import UserProfile from "./components/User-Components/UserProfile";
 
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
@@ -115,6 +116,7 @@ function App() {
             path="/checkout"
             element={<Checkout cart={cart} clearCart={clearCart} />}
           />
+          <Route path="/profile/:userUrlString" element={<UserProfile />} />
         </Routes>
         <Footer />
       </Router>

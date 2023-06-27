@@ -51,8 +51,6 @@ async function login(req, res) {
 }
 
 async function validateToken(req, res) {
-  console.log("validateToken function was called");
-
   try {
     // Get the token from the Authorization header
     const token = req.headers.authorization.split(" ")[1];

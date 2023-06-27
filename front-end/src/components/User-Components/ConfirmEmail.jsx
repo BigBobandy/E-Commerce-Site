@@ -20,7 +20,7 @@ function ConfirmEmail() {
       // Only make the request if we haven't successfully confirmed the email during this component's rendering yet
       if (!emailConfirmedRef.current) {
         const response = await fetch(
-          `http://localhost:3000/confirm/${codeParam}`
+          `http://localhost:3000/api/confirm/${codeParam}`
         );
 
         if (response.ok) {

@@ -29,7 +29,7 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
             {user ? (
               /* If user is logged in */
               <>
-                <h2>Welcome back, {user.name}</h2>
+                <h2>Welcome back, {user.firstName}</h2>
                 <p>
                   As a member, enjoy discounts at checkout and free shipping on
                   all orders over $100.
@@ -131,7 +131,13 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
                   Disclaimer: For members only.{" "}
                 </small>
 
-                <small>Sign up today for free shipping & handling!</small>
+                <small>
+                  {" "}
+                  <a onClick={() => setIsSignupModalOpen(true)}>
+                    Become a member
+                  </a>{" "}
+                  today for free shipping & handling!
+                </small>
               </>
             )}
           </div>

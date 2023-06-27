@@ -10,7 +10,7 @@ function Menu({ addToCart }) {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3000/menu-items")
+    fetch("http://localhost:3000/api/menu-items")
       .then((response) => response.json())
       .then((data) => {
         // Initialize an object to store categorized items

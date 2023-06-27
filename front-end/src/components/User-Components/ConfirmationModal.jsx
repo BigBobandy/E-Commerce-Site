@@ -30,7 +30,7 @@ function ConfirmationModal({ onClose }) {
 
     // Try to confirm the email with the provided code
     try {
-      const response = await fetch("http://localhost:3000/confirm", {
+      const response = await fetch("http://localhost:3000/api/confirm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

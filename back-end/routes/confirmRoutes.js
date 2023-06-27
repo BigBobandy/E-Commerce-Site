@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { confirm, confirmCode } = require("../controllers/confirmController");
+const { confirm, confirmCode } = require("../controllers/confirmControllers");
 
 // Route for handling manual email confirmation
 router.post("/", confirm);
