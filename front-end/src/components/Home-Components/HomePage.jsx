@@ -5,7 +5,7 @@ import { UserContext } from "../User-Components/UserContext";
 import "../styles/Home-Styles/HomePage.css";
 import employeeImg from "/employee-otm.jpg";
 
-function HomePage({ setIsLoginModalOpen }) {
+function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
   const { user } = useContext(UserContext); // get the user from the context
   let navigate = useNavigate();
 
@@ -45,7 +45,7 @@ function HomePage({ setIsLoginModalOpen }) {
                   all orders over $100.
                 </p>
                 <button
-                  onClick={() => navigate("/signup")}
+                  onClick={() => setIsSignupModalOpen(true)}
                   className="hero-button"
                 >
                   Sign Up!

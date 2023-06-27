@@ -4,11 +4,20 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
 import { UserContext } from "../User-Components/UserContext";
+import UserProfile from "../User-Components/UserProfile";
 import "../styles/Home-Styles/Header.css";
 
-function Header({ cart, removeFromCart, addToCart, setIsLoginModalOpen }) {
+function Header({
+  cart,
+  removeFromCart,
+  addToCart,
+  setIsLoginModalOpen,
+  setIsSignupModalOpen,
+}) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { user, logout } = useContext(UserContext); // get the user and logout function from the context
+
+  console.log(user);
 
   // Function that calculates how many items are in the cart
   const totalItems = cart.reduce((total, item) => {
@@ -45,7 +54,7 @@ function Header({ cart, removeFromCart, addToCart, setIsLoginModalOpen }) {
           /* If user is not logged in */
           <>
             <a onClick={() => setIsLoginModalOpen(true)}>Sign In</a>
-            <Link to="/signup">Sign Up</Link>
+            <a onClick={() => setIsSignupModalOpen(true)}>Sign Up</a>
           </>
         )}
         <button onClick={handleCartClick} className="cart-button">
@@ -56,6 +65,7 @@ function Header({ cart, removeFromCart, addToCart, setIsLoginModalOpen }) {
         /* If user is logged in */
         <div className="user-info">
           <p>Welcome, {user.name}</p>
+          <Link to="user-profile"></Link>
           <button className="logout-button-header" onClick={logout}>
             Logout
           </button>

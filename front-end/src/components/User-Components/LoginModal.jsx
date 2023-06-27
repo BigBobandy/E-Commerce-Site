@@ -3,7 +3,7 @@ import logoImg from "../../assets/borger-logo.png";
 import "../styles/User-Styles/LoginModal.css";
 import { UserContext } from "./UserContext";
 
-function LoginModal({ setIsLoginModalOpen }) {
+function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -83,7 +83,19 @@ function LoginModal({ setIsLoginModalOpen }) {
             Log In
           </button>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <h5>Don't have an account yet? Sign Up here</h5>
+          <h5>
+            Don't have an account yet?{" "}
+            <a
+              className="signup-link"
+              onClick={() => {
+                setIsSignupModalOpen(true);
+                setIsLoginModalOpen(false);
+              }}
+            >
+              Sign Up here
+            </a>
+            Sign Up here
+          </h5>
           <p>Forgot your password? Resend confirmation email</p>
         </form>
       </div>

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/user-styles/SignUp.css";
+import logoImg from "../../assets/borger-logo.png";
+import "../styles/user-styles/SignUpModal.css";
 
-function SignUp() {
+function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   // Form field states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -63,55 +64,66 @@ function SignUp() {
   };
 
   return (
-    <div className="sign-up-container">
-      <p>
-        <Link to="/" className="signup-links">
-          Go to Home
-        </Link>
-      </p>
-      <h2>Sign up now!</h2>
-      <form onSubmit={handleSignUp}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <button type="submit">Sign Up</button>
-        <p>
-          <Link to="/" className="signup-links">
-            Already have an account? Sign in
-          </Link>
-        </p>
-        <div className="spinner-container">
-          {loading && <div className="spinner"></div>}
-        </div>
-      </form>
-      {error && <div className="error">{error}</div>}
-      {message && <div className="message">{message}</div>}
+    <div className="signup-modal-container">
+      <div className="signup-content">
+        <img src={logoImg} alt="Dirt Burger Logo" className="login-logo" />
+        <button
+          className="signup-modal-close"
+          onClick={() => setIsSignUpModalOpen(false)}
+        >
+          X
+        </button>
+        <h2>Sign up now!</h2>
+        <form onSubmit={handleSignUp}>
+          <label>
+            Name:
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <button type="submit">Sign Up</button>
+          <p>
+            Already have an account?{" "}
+            <a
+              className="signup-link"
+              onClick={() => {
+                setIsSignupModalOpen(false);
+                setIsLoginModalOpen(true);
+              }}
+            >
+              Login here
+            </a>
+          </p>
+          <div className="spinner-container">
+            {loading && <div className="spinner"></div>}
+          </div>
+        </form>
+        {error && <div className="error">{error}</div>}
+        {message && <div className="message">{message}</div>}
+      </div>
     </div>
   );
 }
 
-export default SignUp;
+export default SignUpModal;

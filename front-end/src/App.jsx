@@ -8,10 +8,11 @@ import Checkout from "./components/Page-Components/Checkout";
 import Menu from "./components/Page-Components/Menu";
 import ConfirmEmail from "./components/User-Components/ConfirmEmail";
 import LoginModal from "./components/User-Components/LoginModal";
-import SignUp from "./components/User-Components/SignUp";
+import SignUpModal from "./components/User-Components/SignUpModal";
 import { UserProvider } from "./components/User-Components/UserContext";
 
 function App() {
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   // Initialize cart state from localStorage if it's available there
   const [cart, setCart] = useState(() => {
@@ -84,16 +85,30 @@ function App() {
           removeFromCart={removeFromCart}
           addToCart={addToCart}
           setIsLoginModalOpen={setIsLoginModalOpen}
+          setIsSignupModalOpen={setIsSignupModalOpen}
         />
         {isLoginModalOpen && (
-          <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
+          <LoginModal
+            setIsLoginModalOpen={setIsLoginModalOpen}
+            setIsSignupModalOpen={setIsSignupModalOpen}
+          />
+        )}
+        {isSignupModalOpen && (
+          <SignUpModal
+            setIsSignupModalOpen={setIsSignupModalOpen}
+            setIsLoginModalOpen={setIsLoginModalOpen}
+          />
         )}
         <Routes>
           <Route
             path="/"
-            element={<HomePage setIsLoginModalOpen={setIsLoginModalOpen} />}
+            element={
+              <HomePage
+                setIsLoginModalOpen={setIsLoginModalOpen}
+                setIsSignupModalOpen={setIsSignupModalOpen}
+              />
+            }
           />
-          <Route path="/signup" element={<SignUp />} />
           <Route path="/confirm/:codeParam" element={<ConfirmEmail />} />
           <Route path="/menu" element={<Menu addToCart={addToCart} />} />
           <Route
