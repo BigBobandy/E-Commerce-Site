@@ -1,12 +1,14 @@
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
+import { UserContext } from "../User-Components/UserContext";
 import "../styles/Home-Styles/Header.css";
 
 function Header({ cart, removeFromCart, addToCart, setIsLoginModalOpen }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { user, logout } = useContext(UserContext); // get the user and logout function from the context
 
   // Function that calculates how many items are in the cart
   const totalItems = cart.reduce((total, item) => {
@@ -39,19 +41,27 @@ function Header({ cart, removeFromCart, addToCart, setIsLoginModalOpen }) {
       <nav className="nav-bar">
         <Link to="/">Home</Link>
         <Link to="/menu">Menu</Link>
-        <button
-          className="login-button-header"
-          onClick={() => setIsLoginModalOpen(true)}
-        >
-          Sign In
-        </button>
-        <Link to="/signup">Sign Up</Link>
-      </nav>
-      <div className="cart-button-container">
+        {!user && (
+          /* If user is not logged in */
+          <>
+            <a onClick={() => setIsLoginModalOpen(true)}>Sign In</a>
+            <Link to="/signup">Sign Up</Link>
+          </>
+        )}
         <button onClick={handleCartClick} className="cart-button">
           Cart <FontAwesomeIcon icon={faShoppingCart} />({totalItems})
         </button>
-      </div>
+      </nav>
+      {user && (
+        /* If user is logged in */
+        <div className="user-info">
+          <p>Welcome, {user.name}</p>
+          <button className="logout-button-header" onClick={logout}>
+            Logout
+          </button>
+        </div>
+      )}
+
       {isCartOpen && (
         <div
           className="cart-modal"

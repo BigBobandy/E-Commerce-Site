@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
+import { UserContext } from "../User-Components/UserContext";
 import "../styles/Home-Styles/HomePage.css";
 import employeeImg from "/employee-otm.jpg";
 
 function HomePage({ setIsLoginModalOpen }) {
+  const { user } = useContext(UserContext); // get the user from the context
   let navigate = useNavigate();
 
   return (
@@ -23,24 +26,42 @@ function HomePage({ setIsLoginModalOpen }) {
             <button onClick={() => navigate("/menu")} className="hero-button">
               Order Now!
             </button>
-            <h2>Become a member today</h2>
-            <p>
-              Our members enjoy discounts at checkout and free shipping on all
-              orders over $100.
-            </p>
-            <button onClick={() => navigate("/signup")} className="hero-button">
-              Sign Up!
-            </button>
-            <p>
-              Already have an account?
-              <a
-                className="sign-in-link"
-                onClick={() => setIsLoginModalOpen(true)}
-              >
-                {" "}
-                Sign In
-              </a>
-            </p>
+            {user ? (
+              /* If user is logged in */
+              <>
+                <h2>Welcome back, {user.name}</h2>
+                <p>
+                  As a member, enjoy discounts at checkout and free shipping on
+                  all orders over $100.
+                </p>
+                <h4>Thank you for being a part of our community!</h4>
+              </>
+            ) : (
+              /* If user is not logged in */
+              <>
+                <h2>Become a member today</h2>
+                <p>
+                  Our members enjoy discounts at checkout and free shipping on
+                  all orders over $100.
+                </p>
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="hero-button"
+                >
+                  Sign Up!
+                </button>
+                <p>
+                  Already have an account?
+                  <a
+                    className="sign-in-link"
+                    onClick={() => setIsLoginModalOpen(true)}
+                  >
+                    {" "}
+                    Sign In
+                  </a>
+                </p>
+              </>
+            )}
           </div>
         </div>
         <div className="hero-right-side">
@@ -103,13 +124,16 @@ function HomePage({ setIsLoginModalOpen }) {
         <div className="benefits-text">
           <div className="benefit">
             <h3>Free Shipping & Handling</h3>
-            <p>
-              We offer free shipping & handling for all orders over $100{" "}
-              <small className="disclaimer-text">
-                Disclaimer: For members only. Sign up today for free shipping &
-                handling!
-              </small>
-            </p>
+            <p>We offer free shipping & handling for all orders over $100 </p>
+            {!user && (
+              <>
+                <small className="disclaimer-text">
+                  Disclaimer: For members only.{" "}
+                </small>
+
+                <small>Sign up today for free shipping & handling!</small>
+              </>
+            )}
           </div>
           <div className="benefit">
             <h3>24/7 Service</h3>
