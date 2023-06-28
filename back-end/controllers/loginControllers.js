@@ -39,7 +39,7 @@ async function login(req, res) {
     // Now the user has been found, the password is correct, and their email is confirmed
     // Create JWT (JSON Web Token)
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "12h",
     });
 
     // Send token to the client

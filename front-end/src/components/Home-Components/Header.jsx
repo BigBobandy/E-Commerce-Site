@@ -14,7 +14,7 @@ function Header({
   setIsSignupModalOpen,
 }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { user, logout } = useContext(UserContext); // get the user and logout function from the context
+  const { user } = useContext(UserContext); // get the user from the context
 
   console.log(user);
 
@@ -67,9 +67,6 @@ function Header({
           <Link to={`/profile/${user.userUrlString}`}>
             <FontAwesomeIcon className="user-profile-link" icon={faUser} />
           </Link>
-          <button className="logout-button-header" onClick={logout}>
-            Logout
-          </button>
         </div>
       )}
 

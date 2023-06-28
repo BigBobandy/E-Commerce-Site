@@ -41,7 +41,9 @@ function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
           // Close the login modal after successful login
           setTimeout(() => {
             setIsLoginModalOpen(false);
-          }, 3000);
+            // Forcing a page reload here so that the user information is displayed correctly
+            window.location.reload();
+          }, 1000);
         } else {
           // Handle the case where no token is returned
           console.log("No token returned");
