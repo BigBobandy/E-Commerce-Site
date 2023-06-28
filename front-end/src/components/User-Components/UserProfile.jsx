@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
+import "../../styles/User-Styles/UserProfile.css";
 import { UserContext } from "../User-Components/UserContext";
-import "../styles/User-Styles/UserProfile.css";
 import EditProfileModal from "./EditProfileModal";
 
 function UserProfile() {

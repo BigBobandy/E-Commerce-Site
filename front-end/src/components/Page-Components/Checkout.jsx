@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/Page-Styles/Checkout.css";
+import "../../styles/Page-Styles/Checkout.css";
 
 function Checkout({ cart = [], clearCart }) {
   const [formData, setFormData] = useState({

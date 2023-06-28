@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import "../styles/User-Styles/EditProfileModal.css";
+import "../../styles/User-Styles/EditProfileModal.css";
 import { UserContext } from "./UserContext";
 
 function EditProfileModal({ setIsEditModalOpen }) {

@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
+import "../../styles/Home-Styles/HomePage.css";
 import { UserContext } from "../User-Components/UserContext";
-import "../styles/Home-Styles/HomePage.css";
 import employeeImg from "/employee-otm.jpg";
 
 function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {

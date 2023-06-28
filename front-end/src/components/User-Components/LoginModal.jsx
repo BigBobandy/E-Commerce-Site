@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
-import "../styles/User-Styles/LoginModal.css";
+import "../../styles/User-Styles/LoginModal.css";
 import { UserContext } from "./UserContext";
 
 function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {

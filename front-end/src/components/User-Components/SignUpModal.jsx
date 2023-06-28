@@ -1,6 +1,6 @@
 import { useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
-import "../styles/user-styles/SignUpModal.css";
+import "../../styles/user-styles/SignUpModal.css";
 
 function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   // Form field states

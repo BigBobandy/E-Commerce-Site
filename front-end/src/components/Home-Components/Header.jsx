@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
+import "../../styles/Home-Styles/Header.css";
 import { UserContext } from "../User-Components/UserContext";
-import "../styles/Home-Styles/Header.css";
 
 function Header({
   cart,
