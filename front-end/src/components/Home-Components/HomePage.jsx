@@ -9,8 +9,6 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
   const { user } = useContext(UserContext); // get the user from the context
   let navigate = useNavigate();
 
-  console.log({ user });
-
   return (
     <div className="home-container">
       <section className="hero-container">

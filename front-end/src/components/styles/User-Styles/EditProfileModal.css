@@ -20,10 +20,10 @@
   justify-content: center;
   background-color: var(--primary-color);
   color: var(--secondary-color);
-  padding: 5rem;
+  padding-top: 0;
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
-  width: 20%;
+  width: 40%;
   box-sizing: border-box;
 }
 
@@ -37,4 +37,58 @@
   color: var(--primary-color);
   background-color: var(--secondary-color);
   border-radius: 5px;
+}
+
+.edit-detail-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-user-detail {
+  display: flex;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items: center;
+  color: white;
+}
+
+.edit-user-detail h4 {
+  margin-right: 10px;
+  color: var(--secondary-color);
+}
+
+.password-reset-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.password-reset-link {
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.password-reset-link:hover {
+  color: var(--secondary-darker);
+}
+
+.submit-changes-button {
+  font-family: inherit;
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  padding: 5px 20px 5px 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.submit-changes-button:hover {
+  background-color: var(--secondary-darker);
+}
+
+.edit-profile-message {
+  color: white;
 }

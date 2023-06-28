@@ -18,7 +18,7 @@ model User {
   password              String
   emailConfirmationCode String? // '?' means that this is nullable (we don't need to store the code after user has confirmed)
   isEmailConfirmed      Boolean  @default(false) // Tracks if the user confirmed their email address
-  userUrlString         String
+  userUrlString         String   @unique
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }

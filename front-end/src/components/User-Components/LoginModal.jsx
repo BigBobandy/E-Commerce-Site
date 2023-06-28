@@ -69,6 +69,7 @@ function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
         <form onSubmit={handleSubmit}>
           <input
             type="email"
+            name="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -76,6 +77,7 @@ function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
           />
           <input
             type="password"
+            name="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

@@ -54,9 +54,10 @@
 
 input {
   background-color: var(--primary-lighter);
-  padding: 15px;
-  border: none;
+  padding: 10px;
+  border: 2px solid var(--background-color);
   margin: 10px;
+  border-radius: 10px;
   color: white;
 }
 

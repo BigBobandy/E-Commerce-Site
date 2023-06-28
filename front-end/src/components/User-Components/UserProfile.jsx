@@ -14,12 +14,45 @@ function UserProfile() {
 
   const navigate = useNavigate();
 
-  // Navigate to home page if user is not logged in
+  // Use effect hook that checks if the user's token is valid or expired
+  // If the token is expired then the server will send back a 401 response
+  // If this is the case then it will navigate the user to the home page
   useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+    const validateToken = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const response = await fetch(
+            "http://localhost:3000/api/login/validate-token",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        } catch (error) {
+          console.error(error);
+          if (error.message.includes("401")) {
+            console.log("navigating home due to 401");
+            navigate("/");
+          }
+        }
+      } else {
+        // This else statement is in case there no user is logged in and they attempt to navigate to a user profile
+        console.log("No token found, navigating home");
+        navigate("/");
+      }
+    };
+
+    validateToken();
+  }, []); // The empty array as a dependency means this effect will run once when the component mounts
 
   const handleLogoutClick = () => {
     logout();
@@ -78,26 +111,26 @@ function UserProfile() {
 
         <div className="user-detail">
           <h4> Name: </h4>
-          <p>{`${user.firstName} ${user.lastName}`}</p>
+          <p>{user ? `${user.firstName} ${user.lastName}` : "Loading..."}</p>
         </div>
         <div className="user-detail">
           <h4> Email: </h4>
-          <p>{user.email}</p>
+          <p>{user ? user.email : "Loading..."}</p>
         </div>
         <div className="user-detail">
           <h4> Password: </h4>
-          <p>
-            <p>********</p>
-          </p>
+          <p>********</p>
         </div>
         <div className="user-detail">
           <h4> Member Since: </h4>
           <p>
-            {new Date(user.createdAt).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {user
+              ? new Date(user.createdAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              : "Loading..."}
           </p>
         </div>
       </div>

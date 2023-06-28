@@ -15,6 +15,7 @@ import UserProfile from "./components/User-Components/UserProfile";
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   // Initialize cart state from localStorage if it's available there
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");

@@ -16,8 +16,6 @@ function Header({
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { user } = useContext(UserContext); // get the user from the context
 
-  console.log(user);
-
   // Function that calculates how many items are in the cart
   const totalItems = cart.reduce((total, item) => {
     // `total` is the accumulator that keeps track of the total quantity of items in the cart.
