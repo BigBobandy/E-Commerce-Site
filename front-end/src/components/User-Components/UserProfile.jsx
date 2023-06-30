@@ -14,6 +14,18 @@ function UserProfile() {
 
   const navigate = useNavigate();
 
+  // Function for masking the user's email so that it isn't displayed in it's entirety
+  const emailMask = (email) => {
+    if (!email) {
+      return "Loading...";
+    }
+
+    const maskedEmail = `${email.substring(0, 3)}*********@${email.substring(
+      email.indexOf("@") + 1
+    )}`;
+    return maskedEmail;
+  };
+
   // Use effect hook that checks if the user's token is valid or expired
   // If the token is expired then the server will send back a 401 response
   // If this is the case then it will navigate the user to the home page
@@ -115,7 +127,7 @@ function UserProfile() {
         </div>
         <div className="user-detail">
           <h4> Email: </h4>
-          <p>{user ? user.email : "Loading..."}</p>
+          <p>{user ? emailMask(user.email) : "Loading..."}</p>
         </div>
         <div className="user-detail">
           <h4> Password: </h4>

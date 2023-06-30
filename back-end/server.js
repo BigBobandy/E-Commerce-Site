@@ -24,7 +24,7 @@ app.use("/api/confirm/:codeParam", confirmRoutes);
 app.use("/api/menu-items", menuRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/user", passwordRoutes);
+app.use("/api/password", passwordRoutes);
 
 // Set the port that the server will listen on
 const PORT = process.env.PORT || 3000;

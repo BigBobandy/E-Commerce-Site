@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
 import "../../styles/User-Styles/LoginModal.css";
+import PasswordChange from "./PasswordChange";
 import { UserContext } from "./UserContext";
 
-function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
+function LoginModal({ setIsLoginModalOpen }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const { login } = useContext(UserContext);
+  const [isPasswordChangeShown, setPasswordChangeShown] = useState(false);
 
   // Function that makes a POST request to the server on submit to the /login route
   const handleSubmit = async (e) => {
@@ -58,50 +60,55 @@ function LoginModal({ setIsLoginModalOpen, setIsSignupModalOpen }) {
   return (
     <div className="login-modal-container">
       <div className="login-modal-content">
-        <img src={logoImg} alt="Dirt Burger Logo" className="login-logo" />
-        <button
-          className="login-modal-close"
-          onClick={() => setIsLoginModalOpen(false)}
-        >
-          X
-        </button>
-        <h2>Member Login</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit" className="login-button">
-            Log In
+        <div className="login-logo-wrapper">
+          <img src={logoImg} alt="Dirt Burger Logo" className="login-logo" />
+          <button
+            className="login-modal-close"
+            onClick={() => setIsLoginModalOpen(false)}
+          >
+            X
           </button>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <h5>
-            Don't have an account yet?{" "}
-            <a
-              className="signup-link"
-              onClick={() => {
-                setIsSignupModalOpen(true);
-                setIsLoginModalOpen(false);
-              }}
-            >
-              Sign Up here
-            </a>
-            Sign Up here
-          </h5>
-          <p>Forgot your password? Resend confirmation email</p>
-        </form>
+        </div>
+        {isPasswordChangeShown ? (
+          <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
+        ) : (
+          <>
+            <h2>Member Login</h2>
+            <form onSubmit={handleSubmit} className="login-form-wrapper">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <div className="login-button-wrapper">
+                <button type="submit" className="login-button">
+                  Log In
+                </button>
+              </div>
+              {errorMessage && (
+                <div className="error-message">{errorMessage}</div>
+              )}
+              <div></div>
+            </form>
+            <div className="login-content-bottom-wrapper">
+              <a onClick={() => setPasswordChangeShown(true)}>
+                Forgot your password?
+              </a>
+              <a>Resend confirmation email</a>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

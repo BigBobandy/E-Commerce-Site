@@ -90,10 +90,7 @@ function App() {
           setIsSignupModalOpen={setIsSignupModalOpen}
         />
         {isLoginModalOpen && (
-          <LoginModal
-            setIsLoginModalOpen={setIsLoginModalOpen}
-            setIsSignupModalOpen={setIsSignupModalOpen}
-          />
+          <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
         )}
         {isSignupModalOpen && (
           <SignUpModal

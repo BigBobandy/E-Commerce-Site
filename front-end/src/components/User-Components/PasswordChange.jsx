@@ -1,91 +1,198 @@
 import { useState } from "react";
+import "../../styles/User-Styles/PasswordChange.css";
 
-function PasswordChange({ setModalContent }) {
+function PasswordChange({ setPasswordChangeShown }) {
+  // State variables to hold user input and process status
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
+  // Function to handle email submission and send reset code
+  // Step 1
   async function handleEmailSubmit(e) {
+    // Prevent default form submission behavior
     e.preventDefault();
 
-    if (!email) {
-      setMessage("Please enter your email.");
-      return;
+    setLoading(true); // Start loading
+
+    try {
+      // Check if email is entered
+      if (!email) {
+        setMessage("Please enter your email.");
+        return;
+      }
+
+      // Send the email the user entered to server
+      const response = await fetch(
+        "http://localhost:3000/api/password/reset-password",
+        {
+          method: "POST", // Type of request
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      // Check if the server's response is ok (status in the range 200-299)
+      if (response.ok) {
+        setMessage("Password reset email successfully sent.");
+
+        setTimeout(() => {
+          setStep(2);
+        }, 1000);
+      } else {
+        // If not, show an error message
+        setMessage("Failed to send reset code. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("An error occurred while resetting password.");
+    } finally {
+      setLoading(false); // Finish loading
     }
-
-    // Send the email to server
-    // ... server logic ...
-
-    // If email is sent successfully, move to the next step
-    setStep(2);
   }
 
+  // Function to handle code submission and verify reset code
+  // Step 2
   async function handleCodeSubmit(e) {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    if (!code) {
-      setMessage("Please enter the reset code.");
-      return;
+    try {
+      if (!code) {
+        setMessage("Please enter the reset code.");
+        return;
+      }
+
+      const response = await fetch(
+        "http://localhost:3000/api/password/verify-reset-code",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, code }), // Send both email and code for verification
+        }
+      );
+
+      if (response.ok) {
+        setMessage("Reset code confirmed successfully.");
+
+        setTimeout(() => {
+          setStep(3);
+        }, 1000);
+      } else {
+        setMessage("Invalid reset code. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("An error occurred while verifying the reset code.");
+    } finally {
+      setLoading(false); // Finish loading
     }
-
-    // Verify the code with the server
-    // ... server logic ...
-
-    // If code verification is successful, move to the next step
-    setStep(3);
   }
 
+  // Function to handle password submission and reset password
+  // Step 3
   async function handlePasswordSubmit(e) {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    if (!password || !confirmPassword) {
-      setMessage("Please enter and confirm your new password.");
-      return;
+    try {
+      if (!password || !confirmPassword) {
+        setMessage("Please enter and confirm your new password.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setMessage("Passwords do not match.");
+        return;
+      }
+
+      const response = await fetch(
+        "http://localhost:3000/api/password/update-password",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }), // Send both email and new password to the server
+        }
+      );
+
+      if (response.ok) {
+        // Set success message
+        setMessage("Password has been changed successfully!");
+
+        // Delay the execution of the function that switches the modal content
+        // to let the success message render
+        setTimeout(() => {
+          setPasswordChangeShown(false);
+        }, 3000); // Delay of 3 seconds
+      } else {
+        setMessage("Failed to reset password. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("");
+      setMessage("An error occurred while updating the password.");
+    } finally {
+      setLoading(false); // Finish loading
     }
-
-    if (password !== confirmPassword) {
-      setMessage("Passwords do not match.");
-      return;
-    }
-
-    // Send new password to the server
-    // ... server logic ...
-
-    // If password reset is successful, revert back to default modal content
-    setModalContent("default");
   }
 
   return (
-    <div>
+    <div className="password-change-container">
+      <div className="password-change-info-wrapper">
+        <h4>Need to change your password?</h4>
+      </div>
       {step === 1 && (
-        <form onSubmit={handleEmailSubmit}>
+        <form
+          onSubmit={handleEmailSubmit}
+          className="password-change-form-wrapper"
+        >
+          <p>Don't worry we got you covered. Just enter your email below.</p>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
           />
-          <button type="submit">Send reset code</button>
+          <button type="submit" className="password-change-button">
+            Send reset code
+          </button>
         </form>
       )}
 
       {step === 2 && (
-        <form onSubmit={handleCodeSubmit}>
+        <form
+          onSubmit={handleCodeSubmit}
+          className="password-change-form-wrapper"
+        >
+          <p>Check your email for a reset code and enter it below.</p>
           <input
             type="text"
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder="Enter reset code"
           />
-          <button type="submit">Verify code</button>
+          <button type="submit" className="password-change-button">
+            Verify code
+          </button>
         </form>
       )}
 
       {step === 3 && (
-        <form onSubmit={handlePasswordSubmit}>
+        <form
+          onSubmit={handlePasswordSubmit}
+          className="password-change-form-wrapper"
+        >
+          <p>Enter your new password.</p>
           <input
             type="password"
             value={password}
@@ -98,11 +205,17 @@ function PasswordChange({ setModalContent }) {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm new password"
           />
-          <button type="submit">Reset password</button>
+          <button type="submit" className="password-change-button">
+            Reset password
+          </button>
         </form>
       )}
-
-      {message && <p>{message}</p>}
+      <div className="spinner-container">
+        {loading && <div className="spinner"></div>}
+      </div>
+      <div className="password-message-wrapper">
+        {message && <p className="password-change-message">{message}</p>}
+      </div>
     </div>
   );
 }

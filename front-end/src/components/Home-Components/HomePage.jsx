@@ -75,10 +75,10 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
           <div className="about-left-side">
             <h2>What is Dirty Burger?</h2>
             <p>
-              We've got the greasiest, dirtiest burgers you'll ever shove into
-              your gut. You'll be a cheeseburger walrus in no time! Order today
-              and we can get your order from out kitchen to your doorstep in
-              only a matter of days maybe weeks. Whether it's cold outside or
+              We got the grimiest, filthiest burgers you'll ever stuff in your
+              gut. Place your order today, and we'll do our best to get that bad
+              boy from our greasy kitchen to your doorstep, but hey, it might
+              take a few days, or hell, even weeks. Whether it's cold outside or
               scorching we will ship your favorite burgers, fries and shakes
               right to your doorstep. Just pay shipping and handling!
             </p>
@@ -113,9 +113,9 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
           />
           <h4>Philadelphia Collins</h4>
           <p>
-            Phil has been at Dirty Burger from the start and he delivers the
-            dirtiest burgers with a smile and a BAAAAAM! Just don't look at his
-            gut.
+            Phil has been at Dirty Burger from the start and he always delivers
+            the dirtiest burgers with a smile on his face and a little mustard
+            on his shirt. Just don't look at his gut.
           </p>
         </div>
       </section>
@@ -136,7 +136,6 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
                   <a onClick={() => setIsSignupModalOpen(true)}>
                     Become a member
                   </a>{" "}
-                  today for free shipping & handling!
                 </small>
               </>
             )}
