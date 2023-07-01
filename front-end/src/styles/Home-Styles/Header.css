@@ -166,6 +166,7 @@ nav {
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
   width: 20%;
+  min-width: fit-content;
   position: relative;
 }
 
@@ -175,7 +176,8 @@ nav {
   align-items: center;
   border: 2px solid var(--secondary-border);
   margin-bottom: 20px;
-  height: 80px;
+  height: 100px;
+  min-height: fit-content;
   width: 100%;
   padding-right: 10px;
 }
@@ -197,9 +199,11 @@ nav {
 }
 
 .cart-image {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
+  border-right: 2px solid var(--secondary-border);
+  margin-right: 15px;
 }
 
 .cart-button {
@@ -250,6 +254,7 @@ nav {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  font-weight: bold;
   transition-duration: 0.4s;
   cursor: pointer;
 }
