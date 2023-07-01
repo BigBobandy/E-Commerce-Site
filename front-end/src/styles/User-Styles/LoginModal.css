@@ -24,7 +24,9 @@
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
   width: 20%;
+  height: 80%;
   min-width: fit-content;
+  min-height: fit-content;
   box-sizing: border-box;
 }
 
@@ -96,8 +98,14 @@ input {
   background-color: var(--secondary-darker);
 }
 
+.error-message {
+  color: white;
+  margin-bottom: 15px;
+}
+
 .login-content-bottom-wrapper {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   padding-left: 30px;
   padding-right: 30px;

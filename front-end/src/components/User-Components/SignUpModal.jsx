@@ -46,7 +46,7 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
         return;
       }
 
-      // Check if password and confirm password fields are not empty
+      // Check if email and confirm email fields are not empty
       if (!email || !confirmEmail) {
         setMessage("Please enter and confirm your email address.");
         return;

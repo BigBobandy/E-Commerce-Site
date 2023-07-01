@@ -9,10 +9,12 @@ import { UserContext } from "./UserContext";
 function LoginModal({ setIsLoginModalOpen }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const { login } = useContext(UserContext);
   const [isPasswordChangeShown, setPasswordChangeShown] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Toggle the visibility of the password and confirm password fields
   const togglePasswordVisibility = () => {
@@ -23,7 +25,31 @@ function LoginModal({ setIsLoginModalOpen }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Clear any previous messages
+    setMessage("");
+    setErrorMessage(null);
+
     try {
+      // Check if both password and email fields are empty
+      if (!password && !email) {
+        setMessage("Please enter your email and password.");
+        return;
+      }
+
+      // Check if email field is empty
+      if (!email) {
+        setMessage("Please enter your email address.");
+        return;
+      }
+
+      // Check if password field is empty
+      if (!password) {
+        setMessage("Please enter your password.");
+        return;
+      }
+
+      setLoading(true);
+
       // Passing the email and password the user submitted in the body of the request
       const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
@@ -35,10 +61,17 @@ function LoginModal({ setIsLoginModalOpen }) {
 
       // If response isn't okay throw an error
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json(); // This will parse the body of the response to JSON
+        throw new Error(errorData.error); // Access the error property of the parsed response
       } else {
         // The response is okay so parse the body of the response into a javascript object
         const data = await response.json();
+
+        // Clear any previous error messages
+        setErrorMessage(null);
+
+        // Set success message
+        setMessage("Login successful!");
 
         // Call the login function from the context
         login(data);
@@ -53,7 +86,7 @@ function LoginModal({ setIsLoginModalOpen }) {
             setIsLoginModalOpen(false);
             // Forcing a page reload here so that the user information is displayed correctly
             window.location.reload();
-          }, 1000);
+          }, 2000);
         } else {
           // Handle the case where no token is returned
           console.log("No token returned");
@@ -62,6 +95,8 @@ function LoginModal({ setIsLoginModalOpen }) {
     } catch (error) {
       console.error(error);
       setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,7 +134,7 @@ function LoginModal({ setIsLoginModalOpen }) {
                 <div style={{ position: "relative" }}>
                   <input
                     id="password"
-                    placeholder="Enter a password..."
+                    placeholder="Enter password..."
                     type={showPassword ? "text" : "password"}
                     name="password"
                     value={password}
@@ -123,12 +158,16 @@ function LoginModal({ setIsLoginModalOpen }) {
                   Log In
                 </button>
               </div>
-              {errorMessage && (
-                <div className="error-message">{errorMessage}</div>
-              )}
+              <div className="spinner-container">
+                {loading && <div className="spinner"></div>}
+              </div>
               <div></div>
             </form>
             <div className="login-content-bottom-wrapper">
+              <div className="error-message">{message}</div>
+              {errorMessage && (
+                <div className="error-message">{errorMessage}</div>
+              )}
               <a onClick={() => setPasswordChangeShown(true)}>
                 Forgot your password?
               </a>
