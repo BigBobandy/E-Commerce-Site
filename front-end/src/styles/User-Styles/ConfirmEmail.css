@@ -1,0 +1,52 @@
+.confirmation-form {
+  text-align: center;
+}
+
+.confirmation-code-submit-button {
+  font-family: inherit;
+  font-weight: bold;
+  padding: 10px 30px 10px 30px;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 8px;
+}
+
+.confirmation-title-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-instructions-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-instructions {
+  color: white;
+  white-space: nowrap;
+  margin-bottom: 30px;
+}
+
+.confirmation-code-submit-button:hover {
+  background-color: var(--secondary-darker);
+}
+
+.label-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.message {
+  margin-top: 2rem;
+}

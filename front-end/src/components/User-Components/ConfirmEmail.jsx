@@ -1,79 +1,87 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import ConfirmationModal from "./ConfirmationModal";
+import { useState } from "react";
+import "../../styles/user-styles/ConfirmEmail.css";
 
 function ConfirmEmail() {
-  const navigate = useNavigate();
-  // Accessing the email confirmation code parameter with the useParams hook from react-router
-  const { codeParam } = useParams();
-  // state to handle the message to be displayed
-  const [message, setMessage] = useState("");
-  // state to track whether or not the confirmation was successful
-  const emailConfirmedRef = useRef(false); // using a mutable reference here to track confirmation
-  // state for a popup that will let the user confirm their email
-  const [showModal, setShowModal] = useState(false);
+  // State to hold the value of the input field for the confirmation code
+  const [confirmationCode, setConfirmationCode] = useState("");
 
-  // This hook is responsible for sending a GET request to the server when the component mounts
-  useEffect(() => {
-    // This async function will send a GET request to the server to confirm the user's email
-    const confirmEmail = async () => {
-      // Only make the request if we haven't successfully confirmed the email during this component's rendering yet
-      if (!emailConfirmedRef.current) {
-        const response = await fetch(
-          `http://localhost:3000/api/confirm/${codeParam}`
-        );
+  // State to hold success message
+  const [message, setMessage] = useState(null);
 
-        if (response.ok) {
-          // If the email was confirmed successfully, update the message and
-          // then redirect the user to the home page after 3 seconds.
-          setMessage(
-            "Thanks for confirming your email! You will be redirected to the home page shortly."
-          );
+  // State to control loading spinner display
+  const [loading, setLoading] = useState(false);
 
-          emailConfirmedRef.current = true; // set the ref's current value to true
+  // Function to handle email confirmation, triggered on form submission
+  const handleEmailConfirmation = async (e) => {
+    e.preventDefault(); // Prevent default form submission
 
-          // Send the user to the home page after 3 seconds
-          setTimeout(() => {
-            navigate("/");
-          }, 3000);
+    setMessage(null);
 
-          // If the email couldn't be confirmed with the initial GET request for some reason
-          // Allow user to manually enter the code for confirmation in the ConfirmationModal
-        } else {
-          setMessage(
-            "There was an error confirming your email. Please click below to try again."
-          );
-        }
+    // Try to confirm the email with the provided code
+    try {
+      // Check if confirmation code field is empty
+      if (!confirmationCode) {
+        setMessage("Please enter the confirmation code.");
+        return;
       }
-    };
 
-    // calling the confirmEmail function to send the GET request
-    confirmEmail();
+      setLoading(true); // Start loading
 
-    // return function to useEffect which is called when component unmounts.
-    return () => {};
-  }, [codeParam, navigate]);
+      const response = await fetch("http://localhost:3000/api/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ confirmationCode: confirmationCode }), // Send confirmation code as request body
+      });
+
+      const data = await response.json();
+
+      // If response is okay, show success message and redirect to home page after 3 seconds
+      if (response.ok) {
+        setMessage("Congratulations! Your email is now confirmed.");
+        setTimeout(() => {}, 5000);
+      } else {
+        // If response is not okay, show the error message
+        setMessage(data.error);
+      }
+    } catch (error) {
+      // If request fails for any reason, show an error message
+      setMessage("An error occurred.");
+    } finally {
+      setLoading(false); // End loading
+    }
+  };
 
   return (
-    <div>
-      <h1>Welcome!</h1>
-      <h2>{message}</h2>
-      {!emailConfirmedRef.current && (
-        <button
-          className="manual-confirm-btn"
-          onClick={() => setShowModal(true)}
-        >
-          Click to manually confirm
+    <form onSubmit={handleEmailConfirmation}>
+      <div className="confirmation-title-wrapper">
+        <h2 className="confirmation-title">Confirm Your Email!</h2>
+      </div>
+      <p className="confirmation-instructions">
+        Check your email for a confirmation code and enter below.
+      </p>
+      <div>
+        <label className="label-wrapper">
+          Confirmation Code:
+          <input
+            type="text"
+            placeholder="Confirmation code..."
+            value={confirmationCode}
+            onChange={(e) => setConfirmationCode(e.target.value)} // Update state with input field value
+          />
+        </label>
+      </div>
+      <div className="button-wrapper">
+        <button type="submit" className="confirmation-code-submit-button">
+          Confirm Email
         </button>
-      )}
-      {showModal && (
-        <ConfirmationModal
-          onClose={() => {
-            setShowModal(false);
-          }}
-        />
-      )}
-    </div>
+      </div>
+      <div className="spinner-container">
+        {loading && <div className="spinner"></div>}{" "}
+        {message && <div className="message">{message}</div>}{" "}
+      </div>
+    </form>
   );
 }
 

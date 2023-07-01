@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import "../../styles/User-Styles/EditProfileModal.css";
+import "../../styles/User-Styles/PasswordChange.css";
+import PasswordChange from "./PasswordChange";
 import { UserContext } from "./UserContext";
 
 function EditProfileModal({ setIsEditModalOpen }) {
@@ -7,6 +9,7 @@ function EditProfileModal({ setIsEditModalOpen }) {
   const [newFirstName, setNewFirstName] = useState(user.firstName);
   const [newLastName, setNewLastName] = useState(user.lastName);
   const [message, setMessage] = useState("");
+  const [isPasswordChangeShown, setPasswordChangeShown] = useState(false);
 
   useEffect(() => {
     setNewFirstName(user.firstName);
@@ -115,38 +118,49 @@ function EditProfileModal({ setIsEditModalOpen }) {
   return (
     <div className="edit-modal-container">
       <div className="edit-modal-content">
-        <h1>Edit your profile information:</h1>
+        <h1>Edit your profile:</h1>
         <button
           className="edit-modal-close"
           onClick={() => setIsEditModalOpen(false)}
         >
           X
         </button>
-        <div className="edit-detail-wrapper">
-          <div className="edit-user-detail">
-            <h4> First Name: </h4>
-            <input
-              type="text"
-              value={newFirstName}
-              onChange={(e) => setNewFirstName(e.target.value)}
-            />
-          </div>
-          <div className="edit-user-detail">
-            <h4> Last Name: </h4>
-            <input
-              type="text"
-              value={newLastName}
-              onChange={(e) => setNewLastName(e.target.value)}
-            />
-          </div>
-          <div className="password-reset-container">
-            <a className="password-reset-link">Reset password</a>
-          </div>
-        </div>
-        {message && <p className="edit-profile-message">{message}</p>}
-        <button className="submit-changes-button" onClick={handleSubmit}>
-          Submit Changes
-        </button>
+        {isPasswordChangeShown ? (
+          <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
+        ) : (
+          <>
+            <div className="edit-detail-wrapper">
+              <div className="edit-user-detail">
+                <h4> First Name: </h4>
+                <input
+                  type="text"
+                  value={newFirstName}
+                  onChange={(e) => setNewFirstName(e.target.value)}
+                />
+              </div>
+              <div className="edit-user-detail">
+                <h4> Last Name: </h4>
+                <input
+                  type="text"
+                  value={newLastName}
+                  onChange={(e) => setNewLastName(e.target.value)}
+                />
+              </div>
+              <div className="password-reset-container">
+                <a
+                  className="password-reset-link"
+                  onClick={() => setPasswordChangeShown(true)}
+                >
+                  Reset password
+                </a>
+              </div>
+            </div>
+            {message && <p className="edit-profile-message">{message}</p>}
+            <button className="submit-changes-button" onClick={handleSubmit}>
+              Submit Changes
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

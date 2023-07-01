@@ -6,7 +6,6 @@ import Header from "./components/Home-Components/Header";
 import HomePage from "./components/Home-Components/HomePage";
 import Checkout from "./components/Page-Components/Checkout";
 import Menu from "./components/Page-Components/Menu";
-import ConfirmEmail from "./components/User-Components/ConfirmEmail";
 import LoginModal from "./components/User-Components/LoginModal";
 import SignUpModal from "./components/User-Components/SignUpModal";
 import { UserProvider } from "./components/User-Components/UserContext";
@@ -108,7 +107,6 @@ function App() {
               />
             }
           />
-          <Route path="/confirm/:codeParam" element={<ConfirmEmail />} />
           <Route path="/menu" element={<Menu addToCart={addToCart} />} />
           <Route
             path="/checkout"
