@@ -12,6 +12,7 @@ function PasswordChange({ setPasswordChangeShown }) {
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showResendEmail, setShowResendEmail] = useState(false);
 
   // Function to handle email submission and send reset code
   // Step 1
@@ -19,14 +20,14 @@ function PasswordChange({ setPasswordChangeShown }) {
     // Prevent default form submission behavior
     e.preventDefault();
 
-    setLoading(true); // Start loading
-
     try {
       // Check if email is entered
       if (!email) {
         setMessage("Please enter your email.");
         return;
       }
+
+      setLoading(true); // Start loading
 
       // Send the email the user entered to server
       const response = await fetch(
@@ -47,9 +48,62 @@ function PasswordChange({ setPasswordChangeShown }) {
         setTimeout(() => {
           setStep(2);
         }, 1000);
+
+        // After 10 seconds if the user still hasn't confirmed their email
+        // Show the resend email button
+        setTimeout(() => {
+          setMessage("Still haven't received the password reset email?");
+          setShowResendEmail(true);
+        }, 10000);
       } else {
         // If not, show an error message
         setMessage("Failed to send reset code. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("An error occurred while resetting password.");
+    } finally {
+      setLoading(false); // Finish loading
+    }
+  }
+
+  // Function to handle re-sendig the reset password email if the user
+  // hasn't confirmed it after a certain time
+  async function handleResendEmail(e) {
+    // Prevent default form submission behavior
+    e.preventDefault();
+
+    try {
+      setLoading(true); // Start loading
+
+      // Send the email the user entered earlier to the server
+      const response = await fetch(
+        "http://localhost:3000/api/password/resend-reset-password-email",
+        {
+          method: "POST", // Type of request
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      // Check if the server's response is ok (status in the range 200-299)
+      if (response.ok) {
+        setMessage("Password reset email successfully re-sent.");
+
+        // Hide the resend email button
+        setShowResendEmail(false);
+
+        // After 10 seconds if the user still hasn't confirmed their email
+        // Show the resend email button again
+        setTimeout(() => {
+          setMessage("Still haven't received the password reset email?");
+          setShowResendEmail(true);
+        }, 10000);
+      } else {
+        // If not, show an error message
+        setMessage("Failed to re-send reset code. Please try again.");
       }
     } catch (error) {
       console.error(error);
@@ -63,13 +117,14 @@ function PasswordChange({ setPasswordChangeShown }) {
   // Step 2
   async function handleCodeSubmit(e) {
     e.preventDefault();
-    setLoading(true); // Start loading
 
     try {
       if (!code) {
         setMessage("Please enter the reset code.");
         return;
       }
+
+      setLoading(true); // Start loading
 
       const response = await fetch(
         "http://localhost:3000/api/password/verify-reset-code",
@@ -86,6 +141,7 @@ function PasswordChange({ setPasswordChangeShown }) {
         setMessage("Reset code confirmed successfully.");
         setStep(3);
         setMessage("");
+        setShowResendEmail(false);
       } else {
         setMessage("Invalid reset code. Please try again.");
       }
@@ -101,7 +157,6 @@ function PasswordChange({ setPasswordChangeShown }) {
   // Step 3
   async function handlePasswordSubmit(e) {
     e.preventDefault();
-    setLoading(true); // Start loading
 
     try {
       // Check if password and confirm password fields are not empty
@@ -122,6 +177,8 @@ function PasswordChange({ setPasswordChangeShown }) {
         setMessage("Your password isn't strong enough.");
         return;
       }
+
+      setLoading(true); // Start loading
 
       const response = await fetch(
         "http://localhost:3000/api/password/update-password",
@@ -187,9 +244,9 @@ function PasswordChange({ setPasswordChangeShown }) {
           className="password-change-form-wrapper"
         >
           <div className="step-message-wrapper">
-            <p className="step-message">
+            <h4 className="step-message">
               Check your email for a reset code and enter it below.
-            </p>
+            </h4>
           </div>
           <input
             type="text"
@@ -216,6 +273,13 @@ function PasswordChange({ setPasswordChangeShown }) {
         {loading && <div className="spinner"></div>}
       </div>
       {message && <p className="password-change-message">{message}</p>}
+      <div className="resend-link-wrapper">
+        {showResendEmail && (
+          <a onClick={handleResendEmail} className="resend-link">
+            Re-send password reset email
+          </a>
+        )}
+      </div>
     </div>
   );
 }

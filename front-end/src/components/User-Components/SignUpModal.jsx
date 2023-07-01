@@ -19,6 +19,7 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
+  const [showResendEmail, setShowResendEmail] = useState(false);
 
   // Toggle the visibility of the password and confirm password fields
   const togglePasswordVisibility = () => {
@@ -96,6 +97,13 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
         setMessage(
           "Successfully signed up! Check your email for a confirmation code."
         );
+        // After 10 seconds if the user still hasn't confirmed their email
+        // Show the resend email button
+        setTimeout(() => {
+          setMessage("Still haven't received the confirmation email?");
+          setShowResendEmail(true);
+        }, 10000);
+        // Show email confirmation
         setStep(2);
       }
     } catch (error) {
@@ -257,7 +265,15 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
             </div>
           </form>
         )}
-        {step === 2 && <ConfirmEmail />}
+        {step === 2 && (
+          <>
+            <ConfirmEmail
+              email={email}
+              showResendEmail={showResendEmail}
+              setShowResendEmail={setShowResendEmail}
+            />
+          </>
+        )}
       </div>
     </div>
   );

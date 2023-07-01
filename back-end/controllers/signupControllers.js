@@ -126,7 +126,6 @@ async function signup(req, res) {
 async function resendConfirmationEmail(req, res) {
   try {
     const { email } = req.body; // get email from request body
-    let emailConfirmationCode;
 
     // Verify that an account with the email exists
     const user = await prisma.user.findUnique({
@@ -166,7 +165,7 @@ async function resendConfirmationEmail(req, res) {
     }
 
     // Send new confirmation email
-    await sendConfirmationEmail(user, emailConfirmationCode);
+    await sendConfirmationEmail(user, user.emailConfirmationCode);
 
     // Return success response
     res.status(200).json({ message: "Email confirmation code resent." });

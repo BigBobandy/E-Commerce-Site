@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../styles/user-styles/ConfirmEmail.css";
 
-function ConfirmEmail() {
+function ConfirmEmail({ email, showResendEmail, setShowResendEmail }) {
   // State to hold the value of the input field for the confirmation code
   const [confirmationCode, setConfirmationCode] = useState("");
 
@@ -10,6 +10,52 @@ function ConfirmEmail() {
 
   // State to control loading spinner display
   const [loading, setLoading] = useState(false);
+
+  // Function to handle re-sendig the confirmation email if the user
+  // hasn't confirmed it after a certain time
+  async function handleResendEmail(e) {
+    // Prevent default form submission behavior
+    e.preventDefault();
+
+    try {
+      setLoading(true); // Start loading
+
+      // Send the email the user entered earlier to the server
+      const response = await fetch(
+        "http://localhost:3000/api/signup/resend-confirmation-email",
+        {
+          method: "POST", // Type of request
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      // Check if the server's response is ok (status in the range 200-299)
+      if (response.ok) {
+        setMessage("Confirmation email successfully re-sent.");
+
+        // Hide the resend email button
+        setShowResendEmail(false);
+
+        // After 10 seconds if the user still hasn't confirmed their email
+        // Show the resend email button again
+        setTimeout(() => {
+          setMessage("Still haven't received the confirmation email?");
+          setShowResendEmail(true);
+        }, 10000);
+      } else {
+        // If not, show an error message
+        setMessage("Failed to re-send confirmation email. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("An error occurred while confirming email.");
+    } finally {
+      setLoading(false); // Finish loading
+    }
+  }
 
   // Function to handle email confirmation, triggered on form submission
   const handleEmailConfirmation = async (e) => {
@@ -79,7 +125,16 @@ function ConfirmEmail() {
       </div>
       <div className="spinner-container">
         {loading && <div className="spinner"></div>}{" "}
+      </div>
+      <div className="resend-link-wrapper">
         {message && <div className="message">{message}</div>}{" "}
+      </div>
+      <div className="resend-link-wrapper">
+        {showResendEmail && (
+          <a onClick={handleResendEmail} className="resend-link">
+            Re-send confirmation email
+          </a>
+        )}
       </div>
     </form>
   );
