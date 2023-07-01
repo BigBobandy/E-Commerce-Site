@@ -4,6 +4,7 @@ const {
   resetPasswordEmail,
   verifyResetPasswordCode,
   updatePassword,
+  resendResetPasswordEmail,
 } = require("../controllers/passwordControllers");
 
 // Route for sending a password reset email
@@ -14,5 +15,8 @@ router.post("/verify-reset-code", verifyResetPasswordCode);
 
 // Route for updating the password
 router.put("/update-password", updatePassword);
+
+// Route for re-sending the password reset email
+router.post("/resend-reset-password-email", resendResetPasswordEmail);
 
 module.exports = router;

@@ -86,7 +86,10 @@ async function resetPasswordEmail(req, res) {
     // Store the reset code in the database for the user with the given email
     await prisma.user.update({
       where: { email: email },
-      data: { resetPasswordCode: resetCode },
+      data: {
+        resetPasswordCode: resetCode,
+        resetPasswordCodeCreatedAt: new Date(),
+      },
     });
 
     // Send the reset password email with the reset code
@@ -115,6 +118,14 @@ async function verifyResetPasswordCode(req, res) {
     // return a 400 error and message
     if (!user || user.resetPasswordCode !== code) {
       return res.status(400).json({ error: "Invalid reset password code." });
+    }
+
+    // If the code is more than 10 minutes old, reject it
+    const codeAge = Math.floor(
+      (new Date() - new Date(user.resetPasswordCodeCreatedAt)) / (1000 * 60)
+    );
+    if (new Date(user.resetPasswordCodeCreatedAt) < codeAge) {
+      return res.status(400).json({ error: "Reset password code expired." });
     }
 
     // If the code matches, return a 200 status and a success message
@@ -159,8 +170,60 @@ async function updatePassword(req, res) {
   }
 }
 
+// Function to re-send the reset password email if the user didn't receive the first one for some reason
+// Or if their reset code is expired
+async function resendResetPasswordEmail(req, res) {
+  try {
+    const { email } = req.body; // get email from request body
+
+    // Verify that an account with the email exists
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if a password reset code already exists for the user or if it's older than 10 minutes
+    // If either of these are true then generate a new code for the user and store it
+    const resetCodeAge = Math.floor(
+      (new Date() - new Date(user.resetPasswordCodeCreatedAt)) / (1000 * 60)
+    );
+    if (!user.resetPasswordCode || resetCodeAge > 10) {
+      // Create a password reset code
+      let resetCode = crypto.randomBytes(5).toString("hex").substring(0, 9);
+
+      // Format the reset code
+      resetCode = formatCode(resetCode);
+
+      // Store the reset code in the database for the user with the given email
+      await prisma.user.update({
+        where: { email: email },
+        data: {
+          resetPasswordCode: resetCode,
+          resetPasswordCodeCreatedAt: new Date(),
+        },
+      });
+    }
+
+    // Resend the reset password email with the existing reset code
+    await sendResetPasswordEmail(user, user.resetPasswordCode);
+
+    // Return a success response
+    res.status(200).json({ message: "Password reset email resent" });
+  } catch (error) {
+    // Handle any errors that occurred during the process
+    console.error("Error in resendResetPasswordEmail:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+}
+
 module.exports = {
   resetPasswordEmail,
+  resendResetPasswordEmail,
   verifyResetPasswordCode,
   updatePassword,
 };

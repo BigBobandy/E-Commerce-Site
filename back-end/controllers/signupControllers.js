@@ -103,6 +103,7 @@ async function signup(req, res) {
         email,
         password: hashedPassword,
         emailConfirmationCode, // Save code in the database (will be only temporary)
+        emailConfirmationCodeCreatedAt: new Date(),
         userUrlString,
       },
     });
@@ -120,4 +121,61 @@ async function signup(req, res) {
   }
 }
 
-module.exports = { signup };
+// Function to re-send the email confirmation code email if the user didn't receive the first one for some reason
+// Or if their email confirmation code is expired
+async function resendConfirmationEmail(req, res) {
+  try {
+    const { email } = req.body; // get email from request body
+    let emailConfirmationCode;
+
+    // Verify that an account with the email exists
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    // If user does not exist, return error
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Check if an email confirmation code already exists for the user or if it's older than 10 minutes
+    // If either of these are true then generate a new code for the user and store it
+    const codeAge = Math.floor(
+      (new Date() - new Date(user.emailConfirmationCodeCreatedAt)) / (1000 * 60)
+    );
+    if (!user.emailConfirmationCode || codeAge > 10) {
+      // Generate a new email confirmation code
+      let emailConfirmationCode = crypto
+        .randomBytes(5)
+        .toString("hex")
+        .substring(0, 9);
+
+      // Format the code
+      emailConfirmationCode = formatCode(emailConfirmationCode);
+
+      // Update user in the database with new confirmation code and the current time
+      await prisma.user.update({
+        where: { email },
+        data: {
+          emailConfirmationCode,
+          emailConfirmationCodeCreatedAt: new Date(),
+        },
+      });
+    }
+
+    // Send new confirmation email
+    await sendConfirmationEmail(user, emailConfirmationCode);
+
+    // Return success response
+    res.status(200).json({ message: "Email confirmation code resent." });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while resending confirmation code." });
+  }
+}
+
+module.exports = { signup, resendConfirmationEmail };
