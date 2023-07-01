@@ -1,3 +1,5 @@
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
 import "../../styles/User-Styles/LoginModal.css";
@@ -10,6 +12,12 @@ function LoginModal({ setIsLoginModalOpen }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const { login } = useContext(UserContext);
   const [isPasswordChangeShown, setPasswordChangeShown] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Toggle the visibility of the password and confirm password fields
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   // Function that makes a POST request to the server on submit to the /login route
   const handleSubmit = async (e) => {
@@ -75,22 +83,41 @@ function LoginModal({ setIsLoginModalOpen }) {
           <>
             <h2>Member Login</h2>
             <form onSubmit={handleSubmit} className="login-form-wrapper">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="field">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  id="email"
+                  placeholder="Email address..."
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="password">Password</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    id="password"
+                    placeholder="Enter a password..."
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    onClick={togglePasswordVisibility}
+                    type="button"
+                    className="visibility-toggle-button"
+                  >
+                    {showPassword ? (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEye} />
+                    )}
+                  </button>
+                </div>
+              </div>
               <div className="login-button-wrapper">
                 <button type="submit" className="login-button">
                   Log In

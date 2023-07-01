@@ -1,3 +1,5 @@
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
 import validatePassword from "../../helpers/validatePassword";
@@ -16,6 +18,12 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Toggle the visibility of the password and confirm password fields
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   // Function for handling submit and sending POST request for the signup process
   const handleSignUp = async (e) => {
@@ -171,28 +179,53 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
             <div className="input-row">
               <div className="field">
                 <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  placeholder="Enter a password..."
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div style={{ position: "relative" }}>
+                  <input
+                    id="password"
+                    placeholder="Enter a password..."
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    onClick={togglePasswordVisibility}
+                    type="button"
+                    className="visibility-toggle-button"
+                  >
+                    {showPassword ? (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEye} />
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="field">
                 <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  id="confirmPassword"
-                  placeholder="Confirm password..."
-                  type="password"
-                  name="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                <div style={{ position: "relative" }}>
+                  <input
+                    id="confirmPassword"
+                    placeholder="Confirm password..."
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <button
+                    onClick={togglePasswordVisibility}
+                    type="button"
+                    className="visibility-toggle-button"
+                  >
+                    {showPassword ? (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEye} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
-
             <div className="signup-submit-button-wrapper">
               <button type="submit" className="signup-submit-button">
                 Sign Up

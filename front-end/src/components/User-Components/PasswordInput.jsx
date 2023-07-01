@@ -1,3 +1,5 @@
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import validatePassword from "../../helpers/validatePassword";
 
@@ -14,6 +16,14 @@ function PasswordInput({
     score: 0, // The score for the password strength
     lengthRequirementMet: false, // Whether the password length requirement has been met
   });
+
+  // State for password visibility toggle
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Toggle the visibility of the password and confirm password fields
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     setPasswordValidation(validatePassword(password));
@@ -32,19 +42,46 @@ function PasswordInput({
       {renderInputs && (
         <>
           <p>Enter and confirm your new password.</p>
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="New password"
-          />
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm new password"
-          />
-
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="New password"
+              className="password-input"
+            />
+            <button
+              onClick={togglePasswordVisibility}
+              type="button"
+              className="visibility-toggle-button"
+            >
+              {showPassword ? (
+                <FontAwesomeIcon icon={faEyeSlash} />
+              ) : (
+                <FontAwesomeIcon icon={faEye} />
+              )}
+            </button>
+          </div>
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm new password"
+              className="confirm-password-input"
+            />
+            <button
+              onClick={togglePasswordVisibility}
+              type="button"
+              className="visibility-toggle-button"
+            >
+              {showPassword ? (
+                <FontAwesomeIcon icon={faEyeSlash} />
+              ) : (
+                <FontAwesomeIcon icon={faEye} />
+              )}
+            </button>
+          </div>
           <button
             type="submit"
             className="password-change-button"

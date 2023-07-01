@@ -24,7 +24,8 @@
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
   width: 20%;
-  max-height: 80%;
+  height: 85%;
+  max-height: 85%;
   min-width: fit-content;
   box-sizing: border-box;
 }
@@ -155,4 +156,20 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.visibility-wrapper {
+  padding-top: 15px;
+}
+
+.signup-visibility-toggle-button {
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--secondary-color);
+  cursor: pointer;
+  padding: 0;
+}
+
+.signup-visibility-toggle-button:hover {
+  color: var(--secondary-darker);
 }
