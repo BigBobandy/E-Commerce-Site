@@ -1,5 +1,7 @@
 import { useState } from "react";
+import validatePassword from "../../helpers/validatePassword";
 import "../../styles/User-Styles/PasswordChange.css";
+import PasswordInput from "./PasswordInput";
 
 function PasswordChange({ setPasswordChangeShown }) {
   // State variables to hold user input and process status
@@ -82,10 +84,8 @@ function PasswordChange({ setPasswordChangeShown }) {
 
       if (response.ok) {
         setMessage("Reset code confirmed successfully.");
-
-        setTimeout(() => {
-          setStep(3);
-        }, 1000);
+        setStep(3);
+        setMessage("");
       } else {
         setMessage("Invalid reset code. Please try again.");
       }
@@ -104,13 +104,22 @@ function PasswordChange({ setPasswordChangeShown }) {
     setLoading(true); // Start loading
 
     try {
+      // Check if password and confirm password fields are not empty
       if (!password || !confirmPassword) {
         setMessage("Please enter and confirm your new password.");
         return;
       }
 
+      // Check if the entered passwords match
       if (password !== confirmPassword) {
         setMessage("Passwords do not match.");
+        return;
+      }
+
+      // Validate password strength
+      const { score, lengthRequirementMet } = validatePassword(password);
+      if (score < 3 || !lengthRequirementMet) {
+        setMessage("Your password isn't strong enough.");
         return;
       }
 
@@ -133,7 +142,7 @@ function PasswordChange({ setPasswordChangeShown }) {
         // to let the success message render
         setTimeout(() => {
           setPasswordChangeShown(false);
-        }, 3000); // Delay of 3 seconds
+        }, 2000); // Delay of 2 seconds
       } else {
         setMessage("Failed to reset password. Please try again.");
       }
@@ -148,15 +157,17 @@ function PasswordChange({ setPasswordChangeShown }) {
 
   return (
     <div className="password-change-container">
-      <div className="password-change-info-wrapper">
-        <h4>Need to change your password?</h4>
-      </div>
       {step === 1 && (
         <form
           onSubmit={handleEmailSubmit}
           className="password-change-form-wrapper"
         >
-          <p>Don't worry we got you covered. Just enter your email below.</p>
+          <div className="step-message-wrapper">
+            <h4 className="step-message-h4 ">Need to change your password?</h4>
+            <p className="step-message">
+              Don't worry we got you covered. Just enter your email below.
+            </p>
+          </div>
           <input
             type="email"
             value={email}
@@ -174,7 +185,11 @@ function PasswordChange({ setPasswordChangeShown }) {
           onSubmit={handleCodeSubmit}
           className="password-change-form-wrapper"
         >
-          <p>Check your email for a reset code and enter it below.</p>
+          <div className="step-message-wrapper">
+            <p className="step-message">
+              Check your email for a reset code and enter it below.
+            </p>
+          </div>
           <input
             type="text"
             value={code}
@@ -188,34 +203,18 @@ function PasswordChange({ setPasswordChangeShown }) {
       )}
 
       {step === 3 && (
-        <form
-          onSubmit={handlePasswordSubmit}
-          className="password-change-form-wrapper"
-        >
-          <p>Enter your new password.</p>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="New password"
-          />
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm new password"
-          />
-          <button type="submit" className="password-change-button">
-            Reset password
-          </button>
-        </form>
+        <PasswordInput
+          password={password}
+          confirmPassword={confirmPassword}
+          setPassword={setPassword}
+          setConfirmPassword={setConfirmPassword}
+          handlePasswordSubmit={handlePasswordSubmit}
+        />
       )}
       <div className="spinner-container">
         {loading && <div className="spinner"></div>}
       </div>
-      <div className="password-message-wrapper">
-        {message && <p className="password-change-message">{message}</p>}
-      </div>
+      {message && <p className="password-change-message">{message}</p>}
     </div>
   );
 }
