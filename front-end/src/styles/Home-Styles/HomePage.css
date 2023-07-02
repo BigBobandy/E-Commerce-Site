@@ -18,7 +18,7 @@
     url("/hero-image.jpg") no-repeat center center/cover;
   color: white;
   padding: 40px;
-  height: 60vh;
+  min-height: fit-content;
   border-bottom: 5px solid var(--secondary-color);
 }
 

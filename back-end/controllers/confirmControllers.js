@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const jwt = require("jsonwebtoken");
 
 const prisma = new PrismaClient();
 
@@ -44,7 +45,13 @@ async function confirm(req, res) {
       },
     });
 
-    res.json({ message: "User email confirmed!" });
+    // The user's email is now confirmed, so create a JWT so they can be logged in automatically
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "6h",
+    });
+
+    // Send back a success message, JWT and user's data to the client
+    res.json({ message: "User email confirmed!", user, token });
   } catch (error) {
     console.log(error);
     res

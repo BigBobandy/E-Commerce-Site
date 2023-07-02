@@ -7,7 +7,11 @@ import "../../styles/user-styles/SignUpModal.css";
 import ConfirmEmail from "./ConfirmEmail";
 import PasswordInput from "./PasswordInput";
 
-function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
+function SignUpModal({
+  setIsSignupModalOpen,
+  setIsLoginModalOpen,
+  handleResendEmail,
+}) {
   // Form field states
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -19,7 +23,7 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
-  const [showResendEmail, setShowResendEmail] = useState(false);
+  const [showResendEmailLink, setShowResendEmailLink] = useState(false);
 
   // Toggle the visibility of the password and confirm password fields
   const togglePasswordVisibility = () => {
@@ -101,7 +105,7 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
         // Show the resend email button
         setTimeout(() => {
           setMessage("Still haven't received the confirmation email?");
-          setShowResendEmail(true);
+          setShowResendEmailLink(true);
         }, 10000);
         // Show email confirmation
         setStep(2);
@@ -269,8 +273,9 @@ function SignUpModal({ setIsSignupModalOpen, setIsLoginModalOpen }) {
           <>
             <ConfirmEmail
               email={email}
-              showResendEmail={showResendEmail}
-              setShowResendEmail={setShowResendEmail}
+              showResendEmailLink={showResendEmailLink}
+              setShowResendEmailLink={setShowResendEmailLink}
+              handleResendEmail={handleResendEmail}
             />
           </>
         )}

@@ -27,19 +27,22 @@ async function login(req, res) {
       return res.status(400).json({ error: "Password is incorrect" });
     }
 
-    // Now the user has been found and the password they entered matches the password in the database
-    // Check if the user email is confirmed before letting them login
-    // If the email hasn't been confirmed yet send an error back informing the user they need to confirm their email
+    // Check if the user's email is confirmed yet or not
+    // If it isn't throw an error and force the user to confirm their email before they can log in
     if (!user.isEmailConfirmed) {
-      return res
-        .status(400)
-        .json({ error: "Please confirm your email before logging in." });
+      return (
+        res
+          // Sending back a specific error code that when received
+          // by the client will cause the re-send confirmation email link to appear
+          .status(403)
+          .json({ error: "Please confirm your email before logging in." })
+      );
     }
 
     // Now the user has been found, the password is correct, and their email is confirmed
     // Create JWT (JSON Web Token)
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "12h",
+      expiresIn: "6h",
     });
 
     // Send token to the client

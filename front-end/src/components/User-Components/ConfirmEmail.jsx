@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/user-styles/ConfirmEmail.css";
+import { UserContext } from "./UserContext";
 
-function ConfirmEmail({ email, showResendEmail, setShowResendEmail }) {
+function ConfirmEmail({
+  email,
+  showResendEmailLink,
+  setShowResendEmailLink,
+  handleResendEmail,
+}) {
   // State to hold the value of the input field for the confirmation code
   const [confirmationCode, setConfirmationCode] = useState("");
 
@@ -10,52 +17,34 @@ function ConfirmEmail({ email, showResendEmail, setShowResendEmail }) {
 
   // State to control loading spinner display
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(UserContext);
 
-  // Function to handle re-sendig the confirmation email if the user
-  // hasn't confirmed it after a certain time
-  async function handleResendEmail(e) {
-    // Prevent default form submission behavior
-    e.preventDefault();
+  const navigate = useNavigate();
 
-    try {
-      setLoading(true); // Start loading
+  // Function to handle clicking the resend confirmation email link
+  const handleResend = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
 
-      // Send the email the user entered earlier to the server
-      const response = await fetch(
-        "http://localhost:3000/api/signup/resend-confirmation-email",
-        {
-          method: "POST", // Type of request
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
+    setLoading(true); // Start loading
+    const success = await handleResendEmail(email); // Send the request to re-send the confirmation email
 
-      // Check if the server's response is ok (status in the range 200-299)
-      if (response.ok) {
-        setMessage("Confirmation email successfully re-sent.");
+    // Check if the request was successful
+    if (success) {
+      setMessage("Confirmation email successfully re-sent.");
+      setShowResendEmailLink(false); // Hide the resend email button
 
-        // Hide the resend email button
-        setShowResendEmail(false);
-
-        // After 10 seconds if the user still hasn't confirmed their email
-        // Show the resend email button again
-        setTimeout(() => {
-          setMessage("Still haven't received the confirmation email?");
-          setShowResendEmail(true);
-        }, 10000);
-      } else {
-        // If not, show an error message
-        setMessage("Failed to re-send confirmation email. Please try again.");
-      }
-    } catch (error) {
-      console.error(error);
-      setMessage("An error occurred while confirming email.");
-    } finally {
-      setLoading(false); // Finish loading
+      // After 10 seconds if the user still hasn't confirmed their email, show the resend email button again
+      setTimeout(() => {
+        setMessage("Still haven't received the confirmation email?");
+        setShowResendEmailLink(true);
+      }, 10000);
+    } else {
+      // If not, show an error message
+      setMessage("Failed to re-send confirmation email. Please try again.");
     }
-  }
+
+    setLoading(false); // Finish loading
+  };
 
   // Function to handle email confirmation, triggered on form submission
   const handleEmailConfirmation = async (e) => {
@@ -85,8 +74,16 @@ function ConfirmEmail({ email, showResendEmail, setShowResendEmail }) {
 
       // If response is okay, show success message and redirect to home page after 3 seconds
       if (response.ok) {
+        const { user, token } = data; // Deconstruct data object to get user data and JWT
+        login({ user, token }); // Log the user in
+
         setMessage("Congratulations! Your email is now confirmed.");
-        setTimeout(() => {}, 5000);
+        // Navigate the user to the home page if they aren't on it already
+        setTimeout(() => {
+          navigate("/");
+          // Forcing a page reload here so that the user information is displayed correctly
+          window.location.reload();
+        }, 2000);
       } else {
         // If response is not okay, show the error message
         setMessage(data.error);
@@ -130,8 +127,8 @@ function ConfirmEmail({ email, showResendEmail, setShowResendEmail }) {
         {message && <div className="message">{message}</div>}{" "}
       </div>
       <div className="resend-link-wrapper">
-        {showResendEmail && (
-          <a onClick={handleResendEmail} className="resend-link">
+        {showResendEmailLink && (
+          <a onClick={handleResend} className="resend-link">
             Re-send confirmation email
           </a>
         )}

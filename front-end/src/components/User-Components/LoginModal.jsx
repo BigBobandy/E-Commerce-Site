@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
 import "../../styles/User-Styles/LoginModal.css";
+import ConfirmEmail from "./ConfirmEmail";
 import PasswordChange from "./PasswordChange";
 import { UserContext } from "./UserContext";
 
-function LoginModal({ setIsLoginModalOpen }) {
+function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -15,6 +16,8 @@ function LoginModal({ setIsLoginModalOpen }) {
   const [isPasswordChangeShown, setPasswordChangeShown] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showResendEmail, setShowResendEmail] = useState(false);
+  const [showResendEmailLink, setShowResendEmailLink] = useState(false);
 
   // Toggle the visibility of the password and confirm password fields
   const togglePasswordVisibility = () => {
@@ -62,6 +65,12 @@ function LoginModal({ setIsLoginModalOpen }) {
       // If response isn't okay throw an error
       if (!response.ok) {
         const errorData = await response.json(); // This will parse the body of the response to JSON
+
+        // If the status is 403, set a state variable to show the re-send confirmation link
+        if (response.status === 403) {
+          setShowResendEmailLink(true);
+        }
+
         throw new Error(errorData.error); // Access the error property of the parsed response
       } else {
         // The response is okay so parse the body of the response into a javascript object
@@ -100,6 +109,13 @@ function LoginModal({ setIsLoginModalOpen }) {
     }
   };
 
+  // On click this function will re-send confirmation email
+  // and show the confirmation modal
+  const handleClick = () => {
+    setShowResendEmail(true);
+    handleResendEmail(email);
+  };
+
   return (
     <div className="login-modal-container">
       <div className="login-modal-content">
@@ -112,68 +128,91 @@ function LoginModal({ setIsLoginModalOpen }) {
             X
           </button>
         </div>
-        {isPasswordChangeShown ? (
-          <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
-        ) : (
+        {showResendEmail === false && (
           <>
-            <h2>Member Login</h2>
-            <form onSubmit={handleSubmit} className="login-form-wrapper">
-              <div className="field">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  id="email"
-                  placeholder="Email address..."
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="field">
-                <label htmlFor="password">Password</label>
-                <div style={{ position: "relative" }}>
-                  <input
-                    id="password"
-                    placeholder="Enter password..."
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button
-                    onClick={togglePasswordVisibility}
-                    type="button"
-                    className="visibility-toggle-button"
-                  >
-                    {showPassword ? (
-                      <FontAwesomeIcon icon={faEyeSlash} />
-                    ) : (
-                      <FontAwesomeIcon icon={faEye} />
-                    )}
-                  </button>
+            {isPasswordChangeShown ? (
+              <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
+            ) : (
+              <>
+                <h2>Member Login</h2>
+                <form onSubmit={handleSubmit} className="login-form-wrapper">
+                  <div className="field">
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                      id="email"
+                      placeholder="Email address..."
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="password">Password</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        id="password"
+                        placeholder="Enter password..."
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <button
+                        onClick={togglePasswordVisibility}
+                        type="button"
+                        className="visibility-toggle-button"
+                      >
+                        {showPassword ? (
+                          <FontAwesomeIcon icon={faEyeSlash} />
+                        ) : (
+                          <FontAwesomeIcon icon={faEye} />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="login-button-wrapper">
+                    <button type="submit" className="login-button">
+                      Log In
+                    </button>
+                  </div>
+                  <div className="spinner-container">
+                    {loading && <div className="spinner"></div>}
+                  </div>
+                  <div></div>
+                </form>
+                <div className="login-content-bottom-wrapper">
+                  <div className="error-message">{message}</div>
+                  {errorMessage && (
+                    <div className="error-message">{errorMessage}</div>
+                  )}
+                  {showResendEmailLink ? (
+                    <div className="resend-link-wrapper">
+                      <a className="resend-link" onClick={handleClick}>
+                        Re-send confirmation email
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="login-button-wrapper">
+                      <a onClick={() => setPasswordChangeShown(true)}>
+                        Forgot your password?
+                      </a>
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div className="login-button-wrapper">
-                <button type="submit" className="login-button">
-                  Log In
-                </button>
-              </div>
-              <div className="spinner-container">
-                {loading && <div className="spinner"></div>}
-              </div>
-              <div></div>
-            </form>
-            <div className="login-content-bottom-wrapper">
-              <div className="error-message">{message}</div>
-              {errorMessage && (
-                <div className="error-message">{errorMessage}</div>
-              )}
-              <a onClick={() => setPasswordChangeShown(true)}>
-                Forgot your password?
-              </a>
-              <a>Resend confirmation email</a>
-            </div>
+              </>
+            )}
           </>
+        )}
+        {showResendEmail === true && (
+          <ConfirmEmail
+            email={email}
+            showResendEmail={showResendEmail}
+            setShowResendEmail={setShowResendEmail}
+            handleResendEmail={handleResendEmail}
+            showResendEmailLink={showResendEmailLink}
+            setShowResendEmailLink={setShowResendEmailLink}
+          />
         )}
       </div>
     </div>
