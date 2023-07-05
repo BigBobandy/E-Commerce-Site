@@ -6,6 +6,7 @@ import Header from "./components/Home-Components/Header";
 import HomePage from "./components/Home-Components/HomePage";
 import Checkout from "./components/Page-Components/Checkout";
 import Menu from "./components/Page-Components/Menu";
+import PageMetadata from "./components/Page-Components/PageMetaData";
 import LoginModal from "./components/User-Components/LoginModal";
 import SignUpModal from "./components/User-Components/SignUpModal";
 import { UserProvider } from "./components/User-Components/UserContext";
@@ -31,6 +32,7 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Function to add an item to the cart array
   const addToCart = (itemToAdd) => {
     // Check if the item is already in the cart
     const existingCartItem = cart.find((item) => item.id === itemToAdd.id);
@@ -51,10 +53,18 @@ function App() {
     }
   };
 
+  // Function for removing an item from the cart's state
   const removeFromCart = (idToRemove) => {
+    // Find the item in the cart that matches the ID of the item to remove.
     const itemToRemove = cart.find((item) => item.id === idToRemove);
 
+    // If the quantity of the item to remove is greater than 1...
     if (itemToRemove.quantity > 1) {
+      // Use the setCart function to update the cart. Do this by mapping through
+      // every item in the cart. If the item's ID matches the ID of the item to
+      // remove, create a new object that is a copy of the item, but with its
+      // quantity reduced by 1. If the item's ID does not match, we return the item
+      // as is.
       setCart(
         cart.map((item) =>
           item.id === idToRemove
@@ -63,9 +73,18 @@ function App() {
         )
       );
     } else {
+      // If the quantity of the item to remove is 1 (or less), then the item needs
+      // to be completely removed from the cart. Start by finding the index
+      // of the item to remove.
       const indexToRemove = cart.findIndex((item) => item.id === idToRemove);
 
+      // If the item was found in the cart...
       if (indexToRemove !== -1) {
+        // Use the setCart function to update the cart. Create a new
+        // array that includes all items in the cart except the one to remove.
+        // Use the spread operator (...) to create copies of slices of the
+        // original cart array: one slice before the item to remove, and one slice
+        // after the item to remove.
         setCart([
           ...cart.slice(0, indexToRemove),
           ...cart.slice(indexToRemove + 1),
@@ -74,7 +93,11 @@ function App() {
     }
   };
 
+  // Function to remove all items from the cart and set it back to default
   const clearCart = () => {
+    // The clearCart function is much simpler: it uses the setCart function to
+    // replace the current cart with an empty array, effectively removing all
+    // items from the cart.
     setCart([]);
   };
 
@@ -105,6 +128,7 @@ function App() {
   return (
     <UserProvider>
       <Router>
+        <PageMetadata />
         <Header
           cart={cart}
           removeFromCart={removeFromCart}
