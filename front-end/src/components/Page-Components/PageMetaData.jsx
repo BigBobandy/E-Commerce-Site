@@ -8,7 +8,8 @@ function PageMetadata() {
   const { user } = useContext(UserContext);
   const location = useLocation();
   let title = "Dirty Burger";
-  const userUrlString = user.userUrlString;
+  // Check if user is not null before trying to access user.userUrlString
+  const userUrlString = user ? user.userUrlString : null;
 
   // Set title based on current path
   if (location.pathname === "/") {
