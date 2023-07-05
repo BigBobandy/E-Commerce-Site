@@ -50,11 +50,15 @@ function EditProfileModal({ setIsEditModalOpen }) {
       lastName: capitalizeFirstLetter(newLastName),
     };
 
+    // get the JWT from local storage
+    const token = localStorage.getItem("token");
+
     const response = await fetch(
-      `http://localhost:3000/api/user/${user.userUrlString}`,
+      `http://localhost:3000/api/user/${user.userUrlString}/change-name`,
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedUser),
