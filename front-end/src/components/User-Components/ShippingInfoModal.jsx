@@ -18,7 +18,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
           />
         )}
         <div className="shipping-modal-header">
-          <h2>Your Shipping Information</h2>
+          <h2>Your Addresses</h2>
           <button
             className="billing-info-modal-close"
             onClick={() => setIsShippingInfoModalOpen(false)}
@@ -37,12 +37,15 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
           {addresses &&
             addresses.map((address, index) => (
               <div className="address-tile" key={index}>
-                <p>{address.line1}</p>
+                <p>{address.address}</p>
                 <p>
-                  {address.city}, {address.state} {address.zip}
+                  {address.city}, {address.stateAbbrev} {address.zip}
                 </p>
-                <button>Edit</button>
-                <button>Set as Default</button>
+                <p>{address.country}</p>
+                <div className="address-button-wrapper">
+                  <button className="address-button">Remove</button>
+                  <button className="address-button">Set Default</button>
+                </div>
               </div>
             ))}
         </div>

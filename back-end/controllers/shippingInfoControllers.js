@@ -109,7 +109,8 @@ async function setDefaultAddress(req, res) {
 // Handles adding a new address for the user
 async function addAddress(req, res) {
   // Extract the address details from the request body
-  const { address, city, state, zip, country } = req.body;
+  const { address, city, state, stateAbbrev, zip, country, countryAbbrev } =
+    req.body;
 
   try {
     // Get the JWT from the Authorization header
@@ -131,13 +132,6 @@ async function addAddress(req, res) {
     // Get the user ID from the decoded token
     const userId = decoded.id;
 
-    // Validate the received address data
-    if (!address || !city || !state || !zip || !country) {
-      return res
-        .status(400)
-        .json({ error: "Please provide complete address details" });
-    }
-
     // Check if the user already has a default address
     // If a default address already exists this will be a truthy value
     // Which means below when creating the new table for the address !defaultAddressExists will be false
@@ -154,8 +148,10 @@ async function addAddress(req, res) {
         address,
         city,
         state,
+        stateAbbrev,
         zip,
         country,
+        countryAbbrev,
         userId,
         isDefault: !defaultAddressExists,
       },

@@ -36,20 +36,25 @@
 
 .addresses-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   width: 100%;
 }
 
 .address-tile {
-  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--secondary-color);
   padding: 20px;
-  width: 50%;
+  width: 60%;
   border-radius: 5px;
+  color: white;
 }
 
 .add-address-tile {
   display: flex;
+  color: var(--secondary-color);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -66,8 +71,21 @@
   margin-bottom: 10px;
 }
 
-.add-address-form {
+.address-button-wrapper {
   display: flex;
-  flex-direction: column;
-  width: 50%;
+  justify-content: center;
+  white-space: nowrap;
+  align-self: flex-end; /* Stick to bottom of the flex container */
+}
+
+.address-button {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.address-button:hover {
+  color: var(--secondary-darker);
 }

@@ -46,9 +46,3 @@
   display: flex;
   justify-content: center;
 }
-
-.message {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  color: white;
-}

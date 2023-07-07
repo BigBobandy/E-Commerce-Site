@@ -127,19 +127,6 @@
   align-items: center;
 }
 
-.signup-message-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.signup-message {
-  word-wrap: break-word;
-
-  color: white;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
 .spinner {
   border: 16px solid var(--secondary-color);
   border-top: 16px solid var(--secondary-darker);

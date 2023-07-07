@@ -168,7 +168,7 @@ function UserProfile() {
               className="info-modal-button"
               onClick={() => setIsShippingInfoModalOpen(true)}
             >
-              Shipping Info
+              Your Addresses
             </button>
           </label>
         </div>

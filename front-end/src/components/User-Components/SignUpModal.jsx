@@ -137,8 +137,8 @@ function SignUpModal({
         {step === 1 && (
           <form onSubmit={handleSignUp} className="signup-form">
             <h2 className="signup-title">Become a member today!</h2>
-            <div className="signup-message-wrapper">
-              {message && <div className="signup-message">{message}</div>}
+            <div className="message-wrapper">
+              {message && <div className="message">{message}</div>}
             </div>
             <div className="input-row">
               <div className="field">

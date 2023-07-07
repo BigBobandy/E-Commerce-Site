@@ -63,15 +63,17 @@ model OrderItem {
 }
 
 model ShippingInfo {
-  id        Int     @id @default(autoincrement())
-  address   String
-  city      String
-  state     String
-  zip       String
-  country   String
-  userId    Int
-  isDefault Boolean @default(false)
-  user      User    @relation(fields: [userId], references: [id])
+  id            Int     @id @default(autoincrement())
+  address       String
+  city          String
+  state         String
+  stateAbbrev   String?
+  zip           String
+  country       String
+  countryAbbrev String
+  userId        Int
+  isDefault     Boolean @default(false)
+  user          User    @relation(fields: [userId], references: [id])
 }
 
 model BillingInfo {

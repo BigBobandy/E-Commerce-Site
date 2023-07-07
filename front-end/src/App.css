@@ -27,6 +27,18 @@ body {
   word-break: keep-all;
 }
 
+.message-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.message {
+  word-wrap: break-word;
+  color: white;
+  margin: 0 0 2rem 0;
+  font-weight: bold;
+}
+
 footer {
   color: var(--secondary-color);
   background-color: var(--primary-color);

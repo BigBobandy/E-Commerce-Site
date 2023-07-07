@@ -146,6 +146,9 @@ async function resendConfirmationEmail(req, res) {
       (new Date() - new Date(user.emailConfirmationCodeCreatedAt)) / (1000 * 60)
     );
     if (!user.emailConfirmationCode || codeAge > 10) {
+      console.log(
+        "Old confirmation code found: Generating a new one for the user"
+      );
       // Generate a new email confirmation code
       let emailConfirmationCode = crypto
         .randomBytes(5)
