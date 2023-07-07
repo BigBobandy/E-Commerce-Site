@@ -11,29 +11,76 @@ datasource db {
 }
 
 model User {
-  id                             Int       @id @default(autoincrement())
+  id                             Int            @id @default(autoincrement())
   firstName                      String
   lastName                       String
-  email                          String    @unique
-  password                       String
+  email                          String         @unique
+  password                       String?
   emailConfirmationCode          String? // '?' means that this is nullable (we don't need to store the code after user has confirmed)
   emailConfirmationCodeCreatedAt DateTime?
-  isEmailConfirmed               Boolean   @default(false) // Tracks if the user confirmed their email address
-  userUrlString                  String    @unique
+  isEmailConfirmed               Boolean        @default(false) // Tracks if the user confirmed their email address
+  isGuest                        Boolean        @default(true)
+  userUrlString                  String         @unique
   resetPasswordCode              String?
   resetPasswordCodeCreatedAt     DateTime?
-  createdAt                      DateTime  @default(now())
-  updatedAt                      DateTime  @updatedAt
+  shippingInfo                   ShippingInfo[] // One-to-many relations
+  billingInfo                    BillingInfo[]
+  orders                         Order[]
+  createdAt                      DateTime       @default(now())
+  updatedAt                      DateTime       @updatedAt
 }
 
 model MenuItem {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String
   price       Float
-  quantity    Int
+  stock       Int
   category    String
   imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  userId     Int? // Make this nullable
+  user       User?       @relation(fields: [userId], references: [id]) // One-to-one relation between Order and User models
+  orderItems OrderItem[]
+  status     String
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  menuItemId Int
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  orderId    Int
+  order      Order    @relation(fields: [orderId], references: [id])
+  quantity   Int
+}
+
+model ShippingInfo {
+  id        Int     @id @default(autoincrement())
+  address   String
+  city      String
+  state     String
+  zip       String
+  country   String
+  userId    Int
+  isDefault Boolean @default(false)
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model BillingInfo {
+  id      Int    @id @default(autoincrement())
+  address String
+  city    String
+  state   String
+  zip     String
+  country String
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id])
 }

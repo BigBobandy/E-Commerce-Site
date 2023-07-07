@@ -10,28 +10,28 @@ async function main() {
       name: "Dirty Burger",
       description:
         "Our dirtiest and greasiest burger that will make you say BAAAAAM!",
-      price: 8.99,
-      quantity: 50,
+      price: 18.99,
+      stock: 500,
       category: "Main",
-      imageUrl: "./front-end/src/assets/food-images/DirtyBurger.jpg",
+      imageUrl: "/DirtyBurger.jpg",
     },
     {
       name: "Double Dirty Deluxe",
       description:
         "Our dirtiest and greasiest burger this time with double the meat and grease.",
-      price: 12.99,
-      quantity: 75,
+      price: 21.99,
+      stock: 750,
       category: "Main",
-      imageUrl: "./front-end/src/assets/food-images/DirtyDouble.jpg",
+      imageUrl: "/DirtyDouble.jpg",
     },
     {
       name: "The Mustard Tiger",
       description:
         "Extra long glizzy loaded up with mustard. For all you glizzy goblins out there.",
-      price: 6.99,
-      quantity: 125,
+      price: 16.99,
+      stock: 1250,
       category: "Main",
-      imageUrl: "./front-end/src/assets/food-images/MustardTiger.jpg",
+      imageUrl: "/MustardTiger.jpg",
     },
   ];
 
@@ -40,18 +40,19 @@ async function main() {
     {
       name: "Filthy Fries",
       description: "Our signature fries served with extra filth.",
-      price: 3.99,
-      quantity: 100,
+      price: 13.99,
+      stock: 1000,
       category: "Sides",
-      imageUrl: "./front-end/src/assets/food-images/FilthyFries.jpg",
+      imageUrl: "/FilthyFries.jpg",
     },
     {
       name: "Onion Rings",
-      description: "I mean they're onion rings.",
-      price: 5.99,
-      quantity: 80,
+      description:
+        "Greasy rings of deep fried onions. Fried in our oldest and dirtiest fryers for that extra level of filth.",
+      price: 15.99,
+      stock: 800,
       category: "Sides",
-      imageUrl: "./front-end/src/assets/food-images/OnionRings.jpg",
+      imageUrl: "/OnionRings.jpg",
     },
   ];
 
@@ -59,18 +60,18 @@ async function main() {
     {
       name: "Soft Drink",
       description: "Your choice of soft drink. Pepsi Products only.",
-      price: 4.99,
-      quantity: 80,
+      price: 14.99,
+      stock: 800,
       category: "Drinks",
-      imageUrl: "./front-end/src/assets/food-images/SodaMachine.jpg",
+      imageUrl: "/SodaMachine.jpg",
     },
     {
       name: "Slushy",
       description: "We got slushies all diferent flavors.",
-      price: 6.49,
-      quantity: 499,
+      price: 16.49,
+      stock: 4990,
       category: "Drinks",
-      imageUrl: "./front-end/src/assets/food-images/Slushies.jpg",
+      imageUrl: "/Slushies.jpg",
     },
   ];
 
@@ -79,19 +80,19 @@ async function main() {
       name: "Milk Shake",
       description:
         "Delicious milk shake. Get in vanilla, chocolate or strawberry. The choice is yours.",
-      price: 5.99,
-      quantity: 70,
+      price: 15.99,
+      stock: 700,
       category: "Desserts",
-      imageUrl: "./front-end/src/assets/food-images/milkshake.jpg",
+      imageUrl: "/milkshake.jpg",
     },
     {
       name: "Ice Cream Sundae",
       description:
         "We love sundaes don't we folks. Your choice of peach, strawberry or classic chocolate sundae.",
-      price: 8.99,
-      quantity: 75,
+      price: 18.99,
+      stock: 750,
       category: "Desserts",
-      imageUrl: "./front-end/src/assets/food-images/sundae.jpg",
+      imageUrl: "/sundae.jpg",
     },
   ];
 
