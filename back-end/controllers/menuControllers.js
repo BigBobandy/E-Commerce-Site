@@ -14,11 +14,11 @@ async function getAll(req, res) {
 }
 
 async function addMenuItem(req, res) {
-  const { name, description, price, quantity, category, imageUrl } = req.body;
+  const { name, description, price, stock, category, imageUrl } = req.body;
 
   try {
     const newItem = await prisma.menuItem.create({
-      data: { name, description, price, quantity, category, imageUrl },
+      data: { name, description, price, stock, category, imageUrl },
     });
     res.status(201).json(newItem);
   } catch (error) {

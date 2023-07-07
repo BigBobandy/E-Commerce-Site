@@ -104,6 +104,7 @@ async function signup(req, res) {
         password: hashedPassword,
         emailConfirmationCode, // Save code in the database (will be only temporary)
         emailConfirmationCodeCreatedAt: new Date(),
+        isGuest: false,
         userUrlString,
       },
     });

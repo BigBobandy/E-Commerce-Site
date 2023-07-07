@@ -64,7 +64,7 @@ async function sendResetPasswordEmail(user, resetPasswordCode) {
 // with a reset code that the user must enter to change their password.
 async function resetPasswordEmail(req, res) {
   try {
-    const email = req.body.email;
+    const { email } = req.body; // Extract email from request body
 
     // Verify that an account with the email exists
     const user = await prisma.user.findUnique({
@@ -73,6 +73,7 @@ async function resetPasswordEmail(req, res) {
       },
     });
 
+    // Check if a user with this email address exists
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }

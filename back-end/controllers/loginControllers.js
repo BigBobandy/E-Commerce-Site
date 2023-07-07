@@ -4,6 +4,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+// Handles user logins
 async function login(req, res) {
   try {
     // Deconstruct request body to get the email and password the user submitted when attempting to login
@@ -19,12 +20,20 @@ async function login(req, res) {
         .json({ error: "User not found: Invalid email address." });
     }
 
+    // Check if the user is a guest
+    if (user.isGuest) {
+      return res.status(401).json({
+        error:
+          "Guest account: Please sign up and create an account before logging in.",
+      });
+    }
+
     // The user is found so now compare the password the user entered with the password stored
     // for that user in the database
     const passwordValid = await bcrypt.compare(password, user.password);
     // If the passwords don't match send an error back
     if (!passwordValid) {
-      return res.status(400).json({ error: "Password is incorrect" });
+      return res.status(401).json({ error: "Password is incorrect" });
     }
 
     // Check if the user's email is confirmed yet or not
@@ -53,6 +62,7 @@ async function login(req, res) {
   }
 }
 
+// Handles validating JWT
 async function validateToken(req, res) {
   try {
     // Get the token from the Authorization header

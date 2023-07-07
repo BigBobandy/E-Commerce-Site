@@ -21,6 +21,6 @@ const limit = rateLimit({
 });
 
 router.get("/:userUrlString", getUserByUrlString);
-router.put("/:userUrlString", limit, updateUser);
+router.put("/:userUrlString/change-name", limit, updateUser);
 
 module.exports = router;
