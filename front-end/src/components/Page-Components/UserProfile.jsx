@@ -3,14 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
-import "../../styles/User-Styles/UserProfile.css";
+import "../../styles/Page-Styles/UserProfile.css";
+import BillingInfoModal from "../User-Components/BillingInfoModal";
+import EditProfileModal from "../User-Components/EditProfileModal";
+import ShippingInfoModal from "../User-Components/ShippingInfoModal";
 import { UserContext } from "../User-Components/UserContext";
-import EditProfileModal from "./EditProfileModal";
 
 function UserProfile() {
   const { user, logout } = useContext(UserContext); // get the user and logout function from the context
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
+  const [isBillingInfoModalOpen, setIsBillingInfoModalOpen] = useState(false);
+  const [isShippingInfoModalOpen, setIsShippingInfoModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -76,6 +80,16 @@ function UserProfile() {
       {isEditModalOpen && (
         <EditProfileModal setIsEditModalOpen={setIsEditModalOpen} />
       )}
+      {isBillingInfoModalOpen && (
+        <BillingInfoModal
+          setIsBillingInfoModalOpen={setIsBillingInfoModalOpen}
+        />
+      )}
+      {isShippingInfoModalOpen && (
+        <ShippingInfoModal
+          setIsShippingInfoModalOpen={setIsShippingInfoModalOpen}
+        />
+      )}
       {showConfirmLogout && (
         <div className="confirm-logout-modal-container">
           <div className="confirm-logout-modal-content">
@@ -114,11 +128,6 @@ function UserProfile() {
 
         <div className="user-profile-top-wrapper">
           <h2>User Information:</h2>
-          <FontAwesomeIcon
-            className="edit-profile-button"
-            onClick={() => setIsEditModalOpen(true)}
-            icon={faPenToSquare}
-          />
         </div>
 
         <div className="user-detail">
@@ -134,6 +143,10 @@ function UserProfile() {
           <p>********</p>
         </div>
         <div className="user-detail">
+          <h4> Orders Placed </h4>
+          <p>0</p>
+        </div>
+        <div className="user-detail">
           <h4> Member Since: </h4>
           <p>
             {user
@@ -146,28 +159,46 @@ function UserProfile() {
           </p>
         </div>
       </div>
-      <div className="shipping-billing-info-container">
-        <div className="shipping-info">
-          <h2>Shipping Information:</h2>
-          <div className="user-detail">
-            <h4> Address:</h4>
-            <p>user's address</p>
-          </div>
-          <div className="user-detail">
-            <h4> City:</h4>
-            <p>user's city</p>
-          </div>
-          <div className="user-detail">
-            <h4> State:</h4>
-            <p>user's state</p>
-          </div>
-          <div className="user-detail">
-            <h4> Zip Code:</h4>
-            <p>user's zip code</p>
-          </div>
+      <div className="info-container">
+        <div className="info-button-container">
+          <label htmlFor="shipping-info" className="info-label">
+            Manage your addresses
+            <button
+              id="shipping-info"
+              className="info-modal-button"
+              onClick={() => setIsShippingInfoModalOpen(true)}
+            >
+              Shipping Info
+            </button>
+          </label>
         </div>
-        <div className="billing-info">
-          <h2>Billing Information:</h2>
+        <div className="info-button-container">
+          <label htmlFor="billing-info" className="info-label">
+            Manage payment methods
+            <button
+              id="billing-info"
+              className="info-modal-button"
+              onClick={() => setIsBillingInfoModalOpen(true)}
+            >
+              Billing Info
+            </button>
+          </label>
+        </div>
+        <div className="info-button-container">
+          <label htmlFor="edit-info" className="info-label">
+            Edit profile information
+            <button
+              id="edit-info"
+              className="info-modal-button"
+              onClick={() => setIsEditModalOpen(true)}
+            >
+              Profile Info
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                className="edit-profile-icon"
+              />
+            </button>
+          </label>
         </div>
       </div>
     </div>

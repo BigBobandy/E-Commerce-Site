@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import "../../styles/Page-Styles/Menu.css";
 
 function Menu({ addToCart }) {

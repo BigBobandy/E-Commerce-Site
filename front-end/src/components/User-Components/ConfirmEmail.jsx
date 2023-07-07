@@ -22,7 +22,7 @@ function ConfirmEmail({
   const navigate = useNavigate();
 
   // Function to handle clicking the resend confirmation email link
-  const handleResend = async (e) => {
+  async function handleResend(e) {
     e.preventDefault(); // Prevent default form submission behavior
 
     setLoading(true); // Start loading
@@ -44,10 +44,10 @@ function ConfirmEmail({
     }
 
     setLoading(false); // Finish loading
-  };
+  }
 
   // Function to handle email confirmation, triggered on form submission
-  const handleEmailConfirmation = async (e) => {
+  async function handleEmailConfirmation(e) {
     e.preventDefault(); // Prevent default form submission
 
     setMessage(null);
@@ -94,7 +94,7 @@ function ConfirmEmail({
     } finally {
       setLoading(false); // End loading
     }
-  };
+  }
 
   return (
     <form onSubmit={handleEmailConfirmation}>

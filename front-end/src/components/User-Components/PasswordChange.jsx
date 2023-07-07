@@ -57,7 +57,9 @@ function PasswordChange({ setPasswordChangeShown }) {
         }, 10000);
       } else {
         // If not, show an error message
-        setMessage("Failed to send reset code. Please try again.");
+        const errorData = await response.json(); // This will parse the body of the response to JSON
+
+        setMessage(errorData.error); // Access the error property of the parsed response
       }
     } catch (error) {
       console.error(error);

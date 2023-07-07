@@ -1,0 +1,96 @@
+.create-address-modal-container {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.25));
+}
+
+.create-address-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: 3px solid var(--secondary-color);
+  border-radius: 20px;
+  width: 20%;
+  height: 75%;
+  min-width: fit-content;
+  min-height: fit-content;
+  box-sizing: border-box;
+}
+
+.create-address-modal-header {
+  margin-bottom: 20px;
+}
+
+.submit-button {
+  background-color: var(--secondary-color);
+  padding: 10px 30px 10px 30px;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: var(--secondary-darker);
+}
+
+.disclaimer-container {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Vertically center the checkbox and the text */
+  justify-content: flex-start; /* Align the checkbox and the text to the left */
+  gap: 10px; /* Add some space between the checkbox and the text */
+  border: 2px solid var(--secondary-color);
+  padding: 5px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.hidden-checkbox {
+  display: none;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 20px;
+}
+
+.custom-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
+  background-color: var(--secondary-color);
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.custom-checkbox:hover {
+  background-color: var(--secondary-darker);
+}
+
+.custom-checkbox svg {
+  font-size: 20px;
+  color: var(--primary-darker);
+}
+
+.hidden-checkbox:checked + .custom-checkbox {
+  background-color: var(--secondary-darker);
+}

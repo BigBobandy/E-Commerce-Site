@@ -7,10 +7,10 @@ import HomePage from "./components/Home-Components/HomePage";
 import Checkout from "./components/Page-Components/Checkout";
 import Menu from "./components/Page-Components/Menu";
 import PageMetadata from "./components/Page-Components/PageMetaData";
+import UserProfile from "./components/Page-Components/UserProfile";
 import LoginModal from "./components/User-Components/LoginModal";
 import SignUpModal from "./components/User-Components/SignUpModal";
 import { UserProvider } from "./components/User-Components/UserContext";
-import UserProfile from "./components/User-Components/UserProfile";
 
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);

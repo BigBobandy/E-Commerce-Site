@@ -28,7 +28,7 @@ function Checkout({ cart = [], clearCart }) {
       cvv: "",
     });
 
-    // Clear the cart (you need a function from the parent component to do this)
+    // Clear the cart
     clearCart();
 
     // Show success message

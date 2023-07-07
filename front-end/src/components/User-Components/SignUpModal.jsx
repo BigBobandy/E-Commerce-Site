@@ -31,7 +31,7 @@ function SignUpModal({
   };
 
   // Function for handling submit and sending POST request for the signup process
-  const handleSignUp = async (e) => {
+  async function handleSignUp(e) {
     e.preventDefault();
 
     // Clears any previous messages
@@ -116,7 +116,7 @@ function SignUpModal({
     } finally {
       setLoading(false); // Finish loading
     }
-  };
+  }
 
   return (
     <div className="signup-modal-container">

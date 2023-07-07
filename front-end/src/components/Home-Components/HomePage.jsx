@@ -80,7 +80,7 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
               boy from our greasy kitchen to your doorstep, but hey, it might
               take a few days, or hell, even weeks. Whether it's cold outside or
               scorching we will ship your favorite burgers, fries and shakes
-              right to your doorstep. Just pay shipping and handling!
+              right to your doorstep.
             </p>
             <small className="disclaimer-text">
               Disclaimer: The delivery trucks are not refrigerated. If

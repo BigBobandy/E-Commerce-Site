@@ -25,7 +25,7 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
   };
 
   // Function that makes a POST request to the server on submit to the /login route
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     // Clear any previous messages
@@ -95,7 +95,7 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
             setIsLoginModalOpen(false);
             // Forcing a page reload here so that the user information is displayed correctly
             window.location.reload();
-          }, 2000);
+          }, 1000);
         } else {
           // Handle the case where no token is returned
           console.log("No token returned");
@@ -107,7 +107,7 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   // On click this function will re-send confirmation email
   // and show the confirmation modal

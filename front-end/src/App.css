@@ -25,7 +25,6 @@ body {
   align-items: unset;
   height: auto;
   word-break: keep-all;
-  user-select: none;
 }
 
 footer {
