@@ -1,4 +1,5 @@
 const express = require("express");
+const limit = require("../utils/rateLimit");
 const router = express.Router();
 const {
   getUserShippingInfo,
@@ -11,10 +12,10 @@ const {
 
 router.get("/get-shipping-info", getUserShippingInfo);
 
-router.put("/default-address", setDefaultAddress);
+router.patch("/default-address", limit, setDefaultAddress);
 
 router.post("/add-address", addAddress);
 
-router.delete("/delete-address", deleteAddress);
+router.delete("/delete-address/:addressId", deleteAddress);
 
 module.exports = router;

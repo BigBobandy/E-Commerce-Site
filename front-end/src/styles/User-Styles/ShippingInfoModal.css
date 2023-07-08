@@ -48,6 +48,7 @@
   border: 1px solid var(--secondary-color);
   padding: 20px;
   width: 60%;
+  min-width: fit-content;
   border-radius: 5px;
   color: white;
 }
@@ -75,7 +76,6 @@
   display: flex;
   justify-content: center;
   white-space: nowrap;
-  align-self: flex-end; /* Stick to bottom of the flex container */
 }
 
 .address-button {
@@ -84,6 +84,15 @@
   color: var(--secondary-color);
   text-decoration: underline;
   cursor: pointer;
+}
+
+.default-address-tag {
+  font-weight: bold;
+}
+
+.default-check {
+  color: var(--secondary-color);
+  font-size: 0.8rem;
 }
 
 .address-button:hover {

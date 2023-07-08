@@ -93,13 +93,14 @@ async function setDefaultAddress(req, res) {
     await prisma.shippingInfo.update({
       where: {
         id: addressId,
-        userId: userId, // Make sure this address belongs to the user
       },
       data: { isDefault: true },
     });
-
-    res.status(200).send("Default shipping address updated successfully");
+    res
+      .status(200)
+      .json({ message: "Default shipping address updated successfully" });
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .send("Error occurred while updating default shipping address.");
@@ -166,8 +167,8 @@ async function addAddress(req, res) {
 
 // Handles deleting an address for a user
 async function deleteAddress(req, res) {
-  // Get the ID of the address to delete from the request body
-  const { addressId } = req.body;
+  // Get the ID of the address to delete request params and convert it from string to an integer
+  const addressId = parseInt(req.params.addressId);
 
   try {
     // Get the JWT from the Authorization header
