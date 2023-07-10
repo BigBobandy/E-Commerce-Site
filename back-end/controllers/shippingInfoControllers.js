@@ -204,9 +204,12 @@ async function deleteAddress(req, res) {
     }
 
     // Handle the case where we're deleting the default address
+    let newDefaultAddress;
+
+    // Check if the address that is being deleted is currently set as the user's default address
     if (address.isDefault) {
       // Find another address of the user to make it the new default
-      const newDefaultAddress = await prisma.shippingInfo.findFirst({
+      newDefaultAddress = await prisma.shippingInfo.findFirst({
         where: { userId, id: { not: addressId } },
       });
 
@@ -224,7 +227,22 @@ async function deleteAddress(req, res) {
       where: { id: addressId },
     });
 
-    res.status(200).send("Address deleted successfully");
+    // If there is a new default address, send it in the response
+    // otherwise send an empty object
+    let responseMessage;
+    if (newDefaultAddress) {
+      responseMessage = {
+        message: "Address deleted successfully",
+        defaultAddress: newDefaultAddress,
+      };
+    } else {
+      responseMessage = {
+        message: "Address deleted successfully",
+        defaultAddress: {},
+      };
+    }
+
+    res.status(200).json(responseMessage);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error occurred while deleting address.");

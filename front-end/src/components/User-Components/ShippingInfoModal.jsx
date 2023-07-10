@@ -136,14 +136,35 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
       if (!response.ok) {
         // Handle different error status codes
         const responseData = await response.json();
+        // Set the message state to the error returned by the API
         setMessage(responseData.error);
 
+        // Throw an error to stop the execution and trigger the catch block
         throw new Error("Error deleting the address");
-      }
+      } else {
+        // If response is OK, then parse the JSON data from the response
+        const responseData = await response.json();
 
-      // If the request is successful, remove the deleted address from the context
-      setAddresses(addresses.filter((address) => address.id !== addressId));
-      setMessage("Address deleted successfully.");
+        // If the request is successful, remove the deleted address from the context
+        let updatedAddresses = addresses.filter(
+          (address) => address.id !== addressId
+        );
+
+        // If the response includes a new default address, update the default address in the state
+        if (responseData.defaultAddress) {
+          // Find the new default address in the updatedAddresses array and set isDefault to true
+          updatedAddresses = updatedAddresses.map((address) =>
+            address.id === responseData.defaultAddress.id
+              ? { ...address, isDefault: true }
+              : address
+          );
+        }
+
+        // Update the addresses in the context
+        setAddresses(updatedAddresses);
+        // Set the message state to a successful message
+        setMessage("Address deleted successfully.");
+      }
     } catch (error) {
       setMessage(error.message);
     }
@@ -179,8 +200,8 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
             <p>Add Address</p>
           </div>
           {addresses &&
-            addresses.map((address, index) => (
-              <div className="address-tile" key={index}>
+            addresses.map((address) => (
+              <div className="address-tile" key={address.id}>
                 <p>{address.address}</p>
                 <p>
                   {address.city}, {address.stateAbbrev} {address.zip}
