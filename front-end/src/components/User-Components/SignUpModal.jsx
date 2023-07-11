@@ -1,7 +1,6 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import logoImg from "../../assets/borger-logo.png";
 import validatePassword from "../../helpers/validatePassword";
 import "../../styles/user-styles/SignUpModal.css";
 import ConfirmEmail from "./ConfirmEmail";
@@ -121,13 +120,6 @@ function SignUpModal({
   return (
     <div className="signup-modal-container">
       <div className="signup-modal-content">
-        <div className="logo-wrapper">
-          <img
-            src={logoImg}
-            alt="Dirt Burger Logo"
-            className="login-logo signup-logo"
-          />
-        </div>
         <button
           className="signup-modal-close"
           onClick={() => setIsSignupModalOpen(false)}

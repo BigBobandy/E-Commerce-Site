@@ -18,14 +18,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-image: linear-gradient(
+      rgba(35, 31, 32, 0.95),
+      rgba(35, 31, 32, 0.95)
+    ),
+    url("../../assets/borger-logo.png");
   background-color: var(--primary-color);
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 80%;
   color: var(--secondary-color);
   padding: 5rem;
   margin-top: 2rem;
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
   width: 20%;
-  height: 85%;
+  height: 60%;
   max-height: 85%;
   min-width: fit-content;
   box-sizing: border-box;
