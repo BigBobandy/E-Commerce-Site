@@ -10,26 +10,39 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// The User model stores information related to individual users
+// It has one-to-many relations with ShippingInfo, BillingInfo, CardInfo, and Order models
+// Meaning that one user can have many of each model associated with them
+// Multiple addresses, payment cards, orders etc
 model User {
   id                             Int            @id @default(autoincrement())
   firstName                      String
   lastName                       String
   email                          String         @unique
   password                       String?
-  emailConfirmationCode          String? // '?' means that this is nullable (we don't need to store the code after user has confirmed)
+  emailConfirmationCode          String?
   emailConfirmationCodeCreatedAt DateTime?
-  isEmailConfirmed               Boolean        @default(false) // Tracks if the user confirmed their email address
+  isEmailConfirmed               Boolean        @default(false)
   isGuest                        Boolean        @default(true)
   userUrlString                  String         @unique
   resetPasswordCode              String?
   resetPasswordCodeCreatedAt     DateTime?
-  shippingInfo                   ShippingInfo[] // One-to-many relations
+  // ShippingInfo stores all the different shipping addresses a user might use
+  shippingInfo                   ShippingInfo[]
+  // BillingInfo stores all the different billing addresses a user might use
   billingInfo                    BillingInfo[]
+  // CardInfo stores all the different payment cards a user might use
+  cardInfo                       CardInfo[]
+  // Orders store the orders placed by the user
   orders                         Order[]
   createdAt                      DateTime       @default(now())
   updatedAt                      DateTime       @updatedAt
 }
 
+// The MenuItem model stores information related to individual menu items
+// It has one-to-many relation with the OrderItem model
+// Meaning one MenuItem can be part of multiple OrderItems
+// So, the same item can be ordered multiple times in different orders. 
 model MenuItem {
   id          Int         @id @default(autoincrement())
   name        String
@@ -40,28 +53,44 @@ model MenuItem {
   imageUrl    String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  // OrderItem links a menu item to an order
   orderItems  OrderItem[]
 }
 
+// The Order model stores information related to individual orders
+// It has one-to-one relation with the User model 
+// Meaning each order is associated with one user who placed the order
+// and one-to-many relation with the OrderItem model
+// Meaning one order can contain multiple items
 model Order {
   id         Int         @id @default(autoincrement())
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  userId     Int? // Make this nullable
-  user       User?       @relation(fields: [userId], references: [id]) // One-to-one relation between Order and User models
+  // Each order is linked to a user who placed the order
+  userId     Int?
+  user       User?       @relation(fields: [userId], references: [id])
+  // Each order can contain multiple order items
   orderItems OrderItem[]
   status     String
 }
 
+// The OrderItem model represents individual items in an order
+// It has one-to-one relations with the MenuItem and Order models
+// Meaning each order item is associated with a specific order and a specific menu item
 model OrderItem {
   id         Int      @id @default(autoincrement())
+  // Link to the menu item being ordered
   menuItemId Int
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  // Link to the order this item belongs to
   orderId    Int
   order      Order    @relation(fields: [orderId], references: [id])
   quantity   Int
 }
 
+// The ShippingInfo model stores shipping address information
+// It has a one-to-one relation with the User model
+// Meaning each address is associated with a specific user
 model ShippingInfo {
   id            Int     @id @default(autoincrement())
   address       String
@@ -71,18 +100,44 @@ model ShippingInfo {
   zip           String
   country       String
   countryAbbrev String
+  // Each shipping address is linked to a user
   userId        Int
   isDefault     Boolean @default(false)
   user          User    @relation(fields: [userId], references: [id])
 }
 
+// The BillingInfo model stores billing address information
+// It has one-to-one relations with the User and CardInfo models
+// Meaning each billing address is associated with a specific user 
+// and CAN be associated with a specific payment card but not necessarily 
 model BillingInfo {
-  id      Int    @id @default(autoincrement())
-  address String
-  city    String
-  state   String
-  zip     String
-  country String
-  userId  Int
-  user    User   @relation(fields: [userId], references: [id])
+  id         Int       @id @default(autoincrement())
+  address    String
+  city       String
+  state      String
+  zip        String
+  country    String
+  // Each billing address is linked to a card info
+  cardInfo   CardInfo? @relation(fields: [cardInfoId], references: [id])
+  cardInfoId Int?      @unique
+  // Each billing address is also linked to a user
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+}
+
+// The CardInfo model stores payment card information
+// It has one-to-one relations with the User and BillingInfo models
+// Meaning each payment card is associated with a specific user
+// and CAN be associated with a specific billing address but not necessarily
+model CardInfo {
+  id          Int          @id @default(autoincrement())
+  cardNumber  String
+  expiryDate  DateTime
+  cvv         String
+  cardType    String
+  // Each card is linked to a user
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id])
+  // Each card is also linked to a billing address
+  billingInfo BillingInfo?
 }

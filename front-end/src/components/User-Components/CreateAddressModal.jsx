@@ -11,7 +11,7 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
     country: "United States of America",
     countryAbbrev: "US",
   });
-  const [acknowledgeDisclaimer, setAcknowledgeDisclaimer] = useState(false); // New state
+  const [acknowledgeDisclaimer, setAcknowledgeDisclaimer] = useState(false);
 
   // handler for form input changes
   function handleInputChange(e) {
@@ -231,6 +231,11 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
             {message && <p className="submit-message message">{message}</p>}
           </div>
           <div className="disclaimer-container">
+            <h4 className="disclaimer">
+              Disclaimer: This site is a portfolio demonstration and does not
+              process real transactions. Please do not enter any real payment or
+              address information.
+            </h4>
             <label className="checkbox-container">
               <input
                 type="checkbox"
@@ -242,11 +247,6 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
                 {acknowledgeDisclaimer && <FontAwesomeIcon icon={faCheck} />}
               </span>
             </label>
-            <h4 className="disclaimer-text address-form-small">
-              Disclaimer: This site is a portfolio demonstration and does not
-              process real transactions. Please do not enter any real payment or
-              address information.
-            </h4>
           </div>
           <div className="button-wrapper">
             <button className="submit-button" type="submit">
