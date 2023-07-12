@@ -133,15 +133,14 @@
   width: 100%;
 }
 
-.input-icon-wrapper .fa-credit-card {
+.input-icon-wrapper .fa-credit-card,
+.fa-calendar-days,
+.fa-cc-discover,
+.fa-cc-visa,
+.fa-cc-mastercard {
   position: absolute;
-  right: 0.1px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.input-icon-wrapper .fa-calendar-days {
-  position: absolute;
+  height: 1.3rem;
+  color: var(--secondary-color);
   right: 0.1px;
   top: 50%;
   transform: translateY(-50%);
