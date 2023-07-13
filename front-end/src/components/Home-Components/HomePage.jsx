@@ -29,7 +29,9 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
             {user ? (
               /* If user is logged in */
               <>
-                <h2>Welcome back, {user.firstName}</h2>
+                <h2 className="member-welcome-message">
+                  Welcome back, {user.firstName}
+                </h2>
                 <p>
                   As a member, enjoy discounts at checkout and free shipping on
                   all orders over $100.

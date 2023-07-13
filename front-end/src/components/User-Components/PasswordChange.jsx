@@ -227,13 +227,17 @@ function PasswordChange({ setPasswordChangeShown }) {
               Don't worry we got you covered. Just enter your email below.
             </p>
           </div>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-          />
+          <div className="field">
+            <label htmlFor="email">Email Address</label>
+            <input
+              id="email"
+              placeholder="Email address..."
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
           <button type="submit" className="password-change-button">
             Send reset code
           </button>

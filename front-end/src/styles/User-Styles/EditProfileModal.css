@@ -19,8 +19,8 @@
   align-items: center;
   justify-content: center;
   background-image: linear-gradient(
-      rgba(35, 31, 32, 0.9),
-      rgba(35, 31, 32, 0.9)
+      rgba(35, 31, 32, 0.95),
+      rgba(35, 31, 32, 0.95)
     ),
     url("../../assets/borger-logo.png");
   background-color: var(--primary-color);
@@ -29,10 +29,10 @@
   background-size: 70%;
   color: var(--secondary-color);
   padding-top: 0;
+  padding-bottom: 30px;
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
-  width: 30%;
-  min-width: fit-content;
+  width: 50%;
   max-height: 90%;
   box-sizing: border-box;
 }

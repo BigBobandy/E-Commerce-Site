@@ -131,7 +131,11 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
         {showResendEmail === false && (
           <>
             {isPasswordChangeShown ? (
-              <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
+              <div className="animation">
+                <PasswordChange
+                  setPasswordChangeShown={setPasswordChangeShown}
+                />
+              </div>
             ) : (
               <>
                 <h2>Member Login</h2>
@@ -205,14 +209,16 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
           </>
         )}
         {showResendEmail === true && (
-          <ConfirmEmail
-            email={email}
-            showResendEmail={showResendEmail}
-            setShowResendEmail={setShowResendEmail}
-            handleResendEmail={handleResendEmail}
-            showResendEmailLink={showResendEmailLink}
-            setShowResendEmailLink={setShowResendEmailLink}
-          />
+          <div className="animation">
+            <ConfirmEmail
+              email={email}
+              showResendEmail={showResendEmail}
+              setShowResendEmail={setShowResendEmail}
+              handleResendEmail={handleResendEmail}
+              showResendEmailLink={showResendEmailLink}
+              setShowResendEmailLink={setShowResendEmailLink}
+            />
+          </div>
         )}
       </div>
     </div>

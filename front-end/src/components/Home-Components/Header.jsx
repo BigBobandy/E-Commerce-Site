@@ -70,7 +70,7 @@ function Header({
 
       {isCartOpen && (
         <div
-          className="cart-modal"
+          className="cart-modal animation"
           onClick={(e) => e.target === e.currentTarget && setIsCartOpen(false)}
         >
           <div className="cart-modal-content">

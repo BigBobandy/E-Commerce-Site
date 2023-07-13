@@ -118,7 +118,9 @@ function EditProfileModal({ setIsEditModalOpen }) {
           X
         </button>
         {isPasswordChangeShown ? (
-          <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
+          <div className="animation">
+            <PasswordChange setPasswordChangeShown={setPasswordChangeShown} />
+          </div>
         ) : (
           <>
             <div className="edit-detail-wrapper">

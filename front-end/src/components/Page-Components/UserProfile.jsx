@@ -78,20 +78,26 @@ function UserProfile() {
   return (
     <div className="user-profile-container">
       {isEditModalOpen && (
-        <EditProfileModal setIsEditModalOpen={setIsEditModalOpen} />
+        <div className="animation">
+          <EditProfileModal setIsEditModalOpen={setIsEditModalOpen} />
+        </div>
       )}
       {isBillingInfoModalOpen && (
-        <BillingInfoModal
-          setIsBillingInfoModalOpen={setIsBillingInfoModalOpen}
-        />
+        <div className="animation">
+          <BillingInfoModal
+            setIsBillingInfoModalOpen={setIsBillingInfoModalOpen}
+          />
+        </div>
       )}
       {isShippingInfoModalOpen && (
-        <ShippingInfoModal
-          setIsShippingInfoModalOpen={setIsShippingInfoModalOpen}
-        />
+        <div className="animation">
+          <ShippingInfoModal
+            setIsShippingInfoModalOpen={setIsShippingInfoModalOpen}
+          />
+        </div>
       )}
       {showConfirmLogout && (
-        <div className="confirm-logout-modal-container">
+        <div className="confirm-logout-modal-container animation">
           <div className="confirm-logout-modal-content">
             <h2>Are you sure you want to logout?</h2>
             <div>

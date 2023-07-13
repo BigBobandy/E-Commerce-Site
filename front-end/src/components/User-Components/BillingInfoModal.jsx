@@ -13,12 +13,14 @@ function BillingInfoModal({ setIsBillingInfoModalOpen }) {
     <div className="billing-info-modal-container">
       <div className="billing-info-modal-content">
         {isCreateCardModalOpen && (
-          <CreateCardModal
-            setIsCreateCardModalOpen={setIsCreateCardModalOpen}
-            setCards={setCards}
-            userFirstName={user.firstName}
-            userLastName={user.lastName}
-          />
+          <div className="animation">
+            <CreateCardModal
+              setIsCreateCardModalOpen={setIsCreateCardModalOpen}
+              setCards={setCards}
+              userFirstName={user.firstName}
+              userLastName={user.lastName}
+            />
+          </div>
         )}
         <div className="billing-modal-header">
           <h2>Your Payment Methods</h2>

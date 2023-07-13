@@ -57,3 +57,16 @@ footer {
 footer p {
   margin-right: 10px;
 }
+
+.animation {
+  animation: fadeIn ease 0.25s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

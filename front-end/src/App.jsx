@@ -137,17 +137,21 @@ function App() {
           setIsSignupModalOpen={setIsSignupModalOpen}
         />
         {isLoginModalOpen && (
-          <LoginModal
-            setIsLoginModalOpen={setIsLoginModalOpen}
-            handleResendEmail={handleResendEmail}
-          />
+          <div className="animation">
+            <LoginModal
+              setIsLoginModalOpen={setIsLoginModalOpen}
+              handleResendEmail={handleResendEmail}
+            />
+          </div>
         )}
         {isSignupModalOpen && (
-          <SignUpModal
-            setIsSignupModalOpen={setIsSignupModalOpen}
-            setIsLoginModalOpen={setIsLoginModalOpen}
-            handleResendEmail={handleResendEmail}
-          />
+          <div className="animation">
+            <SignUpModal
+              setIsSignupModalOpen={setIsSignupModalOpen}
+              setIsLoginModalOpen={setIsLoginModalOpen}
+              handleResendEmail={handleResendEmail}
+            />
+          </div>
         )}
         <Routes>
           <Route

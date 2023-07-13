@@ -174,10 +174,12 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
     <div className="shipping-info-modal-container">
       <div className="shipping-info-modal-content">
         {isCreateAddressModalOpen && (
-          <CreateAddressModal
-            setIsCreateAddressModalOpen={setIsCreateAddressModalOpen}
-            setAddresses={setAddresses}
-          />
+          <div className="animation">
+            <CreateAddressModal
+              setIsCreateAddressModalOpen={setIsCreateAddressModalOpen}
+              setAddresses={setAddresses}
+            />
+          </div>
         )}
         <div className="shipping-modal-header">
           <h2>Your Addresses</h2>
