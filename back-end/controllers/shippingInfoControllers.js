@@ -203,7 +203,7 @@ async function deleteAddress(req, res) {
       });
     }
 
-    // Handle the case where we're deleting the default address
+    // Handle the case where the address being deleted is set as default
     let newDefaultAddress;
 
     // Check if the address that is being deleted is currently set as the user's default address

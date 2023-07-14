@@ -11,7 +11,7 @@ datasource db {
 }
 
 // The User model stores information related to individual users
-// It has one-to-many relations with ShippingInfo, BillingInfo, CardInfo, and Order models
+// It has one-to-many relations with ShippingInfo, CardInfo, and Order models
 // Meaning that one user can have many of each model associated with them
 // Multiple addresses, payment cards, orders etc
 model User {
@@ -29,8 +29,6 @@ model User {
   resetPasswordCodeCreatedAt     DateTime?
   // ShippingInfo stores all the different shipping addresses a user might use
   shippingInfo                   ShippingInfo[]
-  // BillingInfo stores all the different billing addresses a user might use
-  billingInfo                    BillingInfo[]
   // CardInfo stores all the different payment cards a user might use
   cardInfo                       CardInfo[]
   // Orders store the orders placed by the user
@@ -106,38 +104,18 @@ model ShippingInfo {
   user          User    @relation(fields: [userId], references: [id])
 }
 
-// The BillingInfo model stores billing address information
-// It has one-to-one relations with the User and CardInfo models
-// Meaning each billing address is associated with a specific user 
-// and CAN be associated with a specific payment card but not necessarily 
-model BillingInfo {
-  id         Int       @id @default(autoincrement())
-  address    String
-  city       String
-  state      String
-  zip        String
-  country    String
-  // Each billing address is linked to a card info
-  cardInfo   CardInfo? @relation(fields: [cardInfoId], references: [id])
-  cardInfoId Int?      @unique
-  // Each billing address is also linked to a user
-  userId     Int
-  user       User      @relation(fields: [userId], references: [id])
-}
-
 // The CardInfo model stores payment card information
-// It has one-to-one relations with the User and BillingInfo models
+// It has one-to-one relation with the User model
 // Meaning each payment card is associated with a specific user
-// and CAN be associated with a specific billing address but not necessarily
 model CardInfo {
-  id          Int          @id @default(autoincrement())
-  cardNumber  String
-  expiryDate  DateTime
-  cvv         String
-  cardType    String
+  id         Int      @id @default(autoincrement())
+  cardNumber String
+  expiryDate DateTime
+  cvv        String
+  cardType   String
+  cardHolder String
   // Each card is linked to a user
-  userId      Int
-  user        User         @relation(fields: [userId], references: [id])
-  // Each card is also linked to a billing address
-  billingInfo BillingInfo?
+  userId     Int
+  isDefault  Boolean  @default(false)
+  user       User     @relation(fields: [userId], references: [id])
 }
