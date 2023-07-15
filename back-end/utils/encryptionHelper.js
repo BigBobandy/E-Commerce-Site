@@ -12,6 +12,10 @@ const IV_LENGTH = 16;
 
 // Function to encrypt a given text
 function encrypt(text) {
+  if (typeof text === "function") {
+    throw new Error("Invalid argument: function received, string expected");
+  }
+
   // Generate a cryptographically strong random Initialization Vector
   let iv = crypto.randomBytes(IV_LENGTH);
 

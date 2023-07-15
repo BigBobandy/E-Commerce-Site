@@ -14,7 +14,7 @@ router.get("/get-card-info", getCardInfo);
 
 router.patch("/default-card", limit, setDefaultCard);
 
-router.post("/create-card-info", createCardInfo);
+router.post("/create-card", createCardInfo);
 
 router.delete("/delete-card/:cardId", deleteCard);
 

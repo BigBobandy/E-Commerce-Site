@@ -4,9 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
 import "../../styles/Page-Styles/UserProfile.css";
-import BillingInfoModal from "../User-Components/BillingInfoModal";
-import EditProfileModal from "../User-Components/EditProfileModal";
-import ShippingInfoModal from "../User-Components/ShippingInfoModal";
+import BillingInfoModal from "../Modal-Components/BillingInfoModal";
+import EditProfileModal from "../Modal-Components/EditProfileModal";
+import ShippingInfoModal from "../Modal-Components/ShippingInfoModal";
 import { UserContext } from "../User-Components/UserContext";
 
 function UserProfile() {

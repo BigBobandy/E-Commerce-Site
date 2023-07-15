@@ -1,12 +1,13 @@
 const { encrypt, decrypt } = require("../utils/encryptionHelper");
 const { PrismaClient } = require("@prisma/client");
+const jwt = require("jsonwebtoken");
 
 const prisma = new PrismaClient();
 
 // Handles adding a new card for the user
 async function createCardInfo(req, res) {
-  // First, we validate the incoming data
-  const { cardType, cardNumber, expiryDate, cvv, cardHolderName } = req.body;
+  // First get the card data from the request body
+  const { cardType, cardNumber, expiryDate, cvv, cardHolder } = req.body;
 
   // Get the JWT from the Authorization header
   const token = req.header("Authorization").replace("Bearer ", "");
@@ -29,7 +30,7 @@ async function createCardInfo(req, res) {
 
     // Check that all the required fields for creating cardInfo are present
     // I can't think of a situation where all of them wouldn't be present but it doesn't hurt to check?
-    if (!cardType || !cardNumber || !expiryDate || !cvv || !cardHolderName) {
+    if (!cardType || !cardNumber || !expiryDate || !cvv || !cardHolder) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -43,7 +44,7 @@ async function createCardInfo(req, res) {
     const encryptedCardNumber = encrypt(cardNumber);
     const encryptedExpiryDate = encrypt(expiryDate);
     const encryptedCvv = encrypt(cvv);
-    const encryptedCardHolderName = encrypt(cardHolderName);
+    const encryptedCardHolder = encrypt(cardHolder);
 
     // Create a new cardInfo in the database
     const newCard = await prisma.cardInfo.create({
@@ -53,7 +54,7 @@ async function createCardInfo(req, res) {
         cardNumber: encryptedCardNumber,
         expiryDate: encryptedExpiryDate,
         cvv: encryptedCvv,
-        cardHolder: encryptedCardHolderName,
+        cardHolder: encryptedCardHolder,
         isDefault: !defaultCardExists, // If a default card doesn't already exist, make this card the default
       },
     });

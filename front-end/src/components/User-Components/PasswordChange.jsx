@@ -1,7 +1,7 @@
 import { useState } from "react";
 import validatePassword from "../../helpers/validatePassword";
 import "../../styles/User-Styles/PasswordChange.css";
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "../Modal-Components/PasswordInput";
 
 function PasswordChange({ setPasswordChangeShown }) {
   // State variables to hold user input and process status

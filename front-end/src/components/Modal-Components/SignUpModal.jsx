@@ -2,8 +2,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import validatePassword from "../../helpers/validatePassword";
-import "../../styles/user-styles/SignUpModal.css";
-import ConfirmEmail from "./ConfirmEmail";
+import "../../styles/Modal-Styles/SignUpModal.css";
+import ConfirmEmail from "../User-Components/ConfirmEmail";
 import PasswordInput from "./PasswordInput";
 
 function SignUpModal({
@@ -118,10 +118,10 @@ function SignUpModal({
   }
 
   return (
-    <div className="signup-modal-container">
+    <div className="modal-container">
       <div className="signup-modal-content">
         <button
-          className="signup-modal-close"
+          className="modal-close"
           onClick={() => setIsSignupModalOpen(false)}
         >
           X
@@ -194,6 +194,7 @@ function SignUpModal({
                   />
                   <button
                     onClick={togglePasswordVisibility}
+                    tabIndex={-1}
                     type="button"
                     className="visibility-toggle-button"
                   >
@@ -218,6 +219,7 @@ function SignUpModal({
                   />
                   <button
                     onClick={togglePasswordVisibility}
+                    tabIndex={-1}
                     type="button"
                     className="visibility-toggle-button"
                   >

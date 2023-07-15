@@ -108,14 +108,14 @@ model ShippingInfo {
 // It has one-to-one relation with the User model
 // Meaning each payment card is associated with a specific user
 model CardInfo {
-  id         Int      @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   cardNumber String
-  expiryDate DateTime
+  expiryDate String
   cvv        String
   cardType   String
   cardHolder String
   // Each card is linked to a user
   userId     Int
-  isDefault  Boolean  @default(false)
-  user       User     @relation(fields: [userId], references: [id])
+  isDefault  Boolean @default(false)
+  user       User    @relation(fields: [userId], references: [id])
 }

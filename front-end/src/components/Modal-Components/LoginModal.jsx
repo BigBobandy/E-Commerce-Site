@@ -2,10 +2,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
-import "../../styles/User-Styles/LoginModal.css";
-import ConfirmEmail from "./ConfirmEmail";
-import PasswordChange from "./PasswordChange";
-import { UserContext } from "./UserContext";
+import "../../styles/Modal-Styles/LoginModal.css";
+import ConfirmEmail from "../User-Components/ConfirmEmail";
+import PasswordChange from "../User-Components/PasswordChange";
+import { UserContext } from "../User-Components/UserContext";
 
 function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
   const [email, setEmail] = useState("");
@@ -117,12 +117,12 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
   };
 
   return (
-    <div className="login-modal-container">
+    <div className="modal-container">
       <div className="login-modal-content">
         <div className="login-logo-wrapper">
           <img src={logoImg} alt="Dirt Burger Logo" className="login-logo" />
           <button
-            className="login-modal-close"
+            className="modal-close"
             onClick={() => setIsLoginModalOpen(false)}
           >
             X
@@ -164,6 +164,7 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
                       />
                       <button
                         onClick={togglePasswordVisibility}
+                        tabIndex={-1}
                         type="button"
                         className="visibility-toggle-button"
                       >

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import "../../styles/User-Styles/ShippingInfoModal.css";
+import "../../styles/Modal-Styles/ShippingInfoModal.css";
+import { UserContext } from "../User-Components/UserContext";
 import CreateAddressModal from "./CreateAddressModal";
-import { UserContext } from "./UserContext";
 
 function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
   const [isCreateAddressModalOpen, setIsCreateAddressModalOpen] =
@@ -171,7 +171,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
   }
 
   return (
-    <div className="shipping-info-modal-container">
+    <div className="modal-container">
       <div className="shipping-info-modal-content">
         {isCreateAddressModalOpen && (
           <div className="animation">
@@ -184,7 +184,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
         <div className="shipping-modal-header">
           <h2>Your Addresses</h2>
           <button
-            className="billing-info-modal-close"
+            className="modal-close"
             onClick={() => setIsShippingInfoModalOpen(false)}
           >
             X

@@ -7,9 +7,10 @@ const UserContext = createContext();
 // Creating a provider component for the UserContext.
 // This component will provide the user's data and addresses to all components inside of it.
 const UserProvider = ({ children }) => {
-  // Define state variables for user and addresses.
+  // Define state variables for user, addresses, and card info
   const [user, setUser] = useState(null);
   const [addresses, setAddresses] = useState([]);
+  const [cardInfo, setCardInfo] = useState([]);
 
   // Defining a function that logs the user in.
   // This function accepts an object with the user's data and token and stores it in state and local storage.
@@ -27,6 +28,8 @@ const UserProvider = ({ children }) => {
     setUser(null);
     // Remove addresses from state
     setAddresses([]);
+    // Remove card info from state
+    setCardInfo([]);
     // Clear token from local storage
     localStorage.removeItem("token");
   };
@@ -39,6 +42,7 @@ const UserProvider = ({ children }) => {
 
       if (token) {
         try {
+          //// VALIDATING USER'S JWT ////
           // Send fetch request to validate token
           const response = await fetch(
             "http://localhost:3000/api/login/validate-token",
@@ -60,6 +64,7 @@ const UserProvider = ({ children }) => {
           const data = await response.json();
           setUser(data.user);
 
+          //// GETTING THE USER'S ADDRESS INFORMATION ////
           // Fetch existing addresses for the user
           const addressResponse = await fetch(
             "http://localhost:3000/api/shipping-info/get-shipping-info",
@@ -80,6 +85,29 @@ const UserProvider = ({ children }) => {
           // If address response is ok, extract addresses and update addresses state
           const addressData = await addressResponse.json();
           setAddresses(addressData);
+
+          //// GETTING THE USER'S CARD INFORMATION ////
+          // Fetch existing cardInfo for the user
+          const cardResponse = await fetch(
+            "http://localhost:3000/api/billing-info/get-card-info",
+
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          // Throw an error if card response is not ok
+          if (!cardResponse.ok) {
+            throw new Error(`HTTP error! status: ${cardResponse.status}`);
+          }
+
+          // If the card response is ok, extract card info and update state
+          const cardData = await cardResponse.json();
+          setCardInfo(cardData);
         } catch (error) {
           // Log any errors to console
           console.error(error);
@@ -94,7 +122,16 @@ const UserProvider = ({ children }) => {
   // Provider component provides user and addresses state, login and logout functions to children
   return (
     <UserContext.Provider
-      value={{ user, setUser, login, logout, addresses, setAddresses }}
+      value={{
+        user,
+        setUser,
+        login,
+        logout,
+        addresses,
+        setAddresses,
+        cardInfo,
+        setCardInfo,
+      }}
     >
       {children}
     </UserContext.Provider>

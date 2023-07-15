@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { COUNTRIES } from "../../helpers/COUNTRIES";
 import { US_STATES } from "../../helpers/US-States";
-import "../../styles/User-Styles/CreateAddressModal.css";
+import "../../styles/Modal-Styles/CreateAddressModal.css";
 
 function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
   const [message, setMessage] = useState("");
@@ -38,7 +38,7 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
       return;
     }
 
-    // Regex pattern for ZIP code validation (US format)
+    // Check the zip code is in a valid format
     const zipPattern = /^\d{5}(-\d{4})?$/;
     if (!zipPattern.test(zip)) {
       setMessage("Please provide a valid ZIP code.");
@@ -70,12 +70,12 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
 
       // If response isn't okay throw an error and display it
       if (!response.ok) {
-        const errorData = await response.json(); // This will parse the body of the response to JSON
+        const errorData = await response.json();
 
         throw new Error(errorData.error); // Access the error property of the parsed response
       }
 
-      // if the request was successful, switch back to 'view' mode and add the new address to the addresses array
+      // if the request was successful, add the new address to the addresses array
       const data = await response.json();
       setMessage("Address added successfully!");
       setAddresses((prevAddresses) => [...prevAddresses, data]);
@@ -85,23 +85,26 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
         setIsCreateAddressModalOpen(false);
       }, 1000);
     } catch (err) {
-      console.error("Error adding address:", err);
+      console.error("Error adding address: ", err);
       setMessage(err.message);
     }
   }
 
   return (
-    <div className="create-address-modal-container">
+    <div className="modal-container">
       <div className="create-address-modal-content">
         <div className="create-address-modal-header">
           <h2>Add a new address</h2>
 
           <button
-            className="billing-info-modal-close"
+            className="modal-close"
             onClick={() => setIsCreateAddressModalOpen(false)}
           >
             X
           </button>
+        </div>
+        <div className="message-wrapper">
+          {message && <p className="submit-message message">{message}</p>}
         </div>
         <form onSubmit={handleAddAddress} className="add-address-form">
           <div className="field">
@@ -227,9 +230,6 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
               </div>
             </>
           )}
-          <div className="message-wrapper">
-            {message && <p className="submit-message message">{message}</p>}
-          </div>
           <div className="disclaimer-container">
             <h4 className="disclaimer">
               Disclaimer: This site is a portfolio demonstration and does not

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import "../../styles/User-Styles/EditProfileModal.css";
+import "../../styles/Modal-Styles/EditProfileModal.css";
 import "../../styles/User-Styles/PasswordChange.css";
-import PasswordChange from "./PasswordChange";
-import { UserContext } from "./UserContext";
+import PasswordChange from "../User-Components/PasswordChange";
+import { UserContext } from "../User-Components/UserContext";
 
 function EditProfileModal({ setIsEditModalOpen }) {
   const { user, setUser } = useContext(UserContext);
@@ -108,11 +108,11 @@ function EditProfileModal({ setIsEditModalOpen }) {
   }
 
   return (
-    <div className="edit-modal-container">
+    <div className="modal-container">
       <div className="edit-modal-content">
         <h1>Edit your profile:</h1>
         <button
-          className="edit-modal-close"
+          className="modal-close"
           onClick={() => setIsEditModalOpen(false)}
         >
           X
@@ -123,7 +123,7 @@ function EditProfileModal({ setIsEditModalOpen }) {
           </div>
         ) : (
           <>
-            <div className="edit-detail-wrapper">
+            <form className="edit-detail-wrapper" onSubmit={handleSubmit}>
               <div className="edit-user-detail">
                 <h4> First Name: </h4>
                 <input
@@ -148,11 +148,12 @@ function EditProfileModal({ setIsEditModalOpen }) {
                   Reset password
                 </a>
               </div>
-            </div>
-            {message && <p className="edit-profile-message">{message}</p>}
-            <button className="submit-changes-button" onClick={handleSubmit}>
-              Submit Changes
-            </button>
+
+              <div className="message-wrapper">
+                {message && <p className="edit-profile-message">{message}</p>}
+              </div>
+              <button className="submit-changes-button">Submit Changes</button>
+            </form>
           </>
         )}
       </div>

@@ -4,13 +4,14 @@ import "./App.css";
 import Footer from "./components/Home-Components/Footer";
 import Header from "./components/Home-Components/Header";
 import HomePage from "./components/Home-Components/HomePage";
+import LoginModal from "./components/Modal-Components/LoginModal";
+import SignUpModal from "./components/Modal-Components/SignUpModal";
 import Checkout from "./components/Page-Components/Checkout";
 import Menu from "./components/Page-Components/Menu";
 import PageMetadata from "./components/Page-Components/PageMetaData";
 import UserProfile from "./components/Page-Components/UserProfile";
-import LoginModal from "./components/User-Components/LoginModal";
-import SignUpModal from "./components/User-Components/SignUpModal";
 import { UserProvider } from "./components/User-Components/UserContext";
+import "./styles/Modal-Styles/Modal-Global.css";
 
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
