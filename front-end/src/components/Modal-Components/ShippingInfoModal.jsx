@@ -67,6 +67,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
         if (response.status === 429) {
           const responseData = await response.json();
           setMessage(responseData.error);
+          return;
         }
 
         throw new Error("Error setting the default address");
@@ -83,9 +84,9 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
       const updatedAddresses = addresses.map((address) =>
         // For each address, check if its id matches the addressId that was passed in the function
         address.id === addressId
-          ? // If it does, this is the default address mark isDefault as true
+          ? // If it does, this is the default new address so mark isDefault as true
             { ...address, isDefault: true }
-          : // If it doesn't, this isn't the default address but mark isDefault as false
+          : // If it doesn't, this isn't the default address so mark isDefault as false
             { ...address, isDefault: false }
       );
       // updatedAddresses is now a new list where only the new default address is marked as isDefault
