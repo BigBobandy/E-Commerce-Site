@@ -11,30 +11,6 @@ function Checkout({ cart = [], clearCart }) {
     cvv: "",
   });
 
-  // This function will be called when the form is submitted
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-
-    // send the data to server
-    console.log(formData);
-
-    // Clear the form
-    setFormData({
-      name: "",
-      email: "",
-      address: "",
-      cardNumber: "",
-      expirationDate: "",
-      cvv: "",
-    });
-
-    // Clear the cart
-    clearCart();
-
-    // Show success message
-    alert("Order placed successfully!");
-  };
-
   // This function will be called whenever the form fields change
   const handleInputChange = (event) => {
     setFormData({
@@ -64,7 +40,7 @@ function Checkout({ cart = [], clearCart }) {
       ))}
 
       {/* Checkout form */}
-      <form onSubmit={handleFormSubmit}>
+      <form>
         <label>
           Name:
           <input
