@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { useCardGenerator } from "../../helpers/useCardGenerator";
+import { useCardGenerator } from "../../hooks/useCardGenerator";
 import "../../styles/Modal-Styles/CreateCardModal.css";
 
 function CreateCardModal({

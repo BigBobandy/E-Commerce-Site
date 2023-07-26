@@ -1,8 +1,75 @@
 .checkout-container {
   background-color: var(--primary-color);
   color: white;
+  padding: 10px;
+  width: 100vw;
+  background-image: linear-gradient(
+      rgba(35, 31, 32, 0.9),
+      rgba(35, 31, 32, 0.9)
+    ),
+    url("../../assets/borger-logo.png");
+  background-color: var(--primary-color);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  overflow-x: hidden;
+  height: 90vh;
+}
+
+.checkout-container-title {
+  color: var(--secondary-color);
+}
+
+.order-total {
+  margin-left: 10px;
+}
+
+.checkout-top-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-container {
   display: flex;
   justify-content: center;
-  padding: 100px;
-  height: 100vh;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+.breadcrumb-link {
+  color: var(--secondary-color);
+  margin-right: 5px;
+}
+
+.breadcrumb-link:hover {
+  color: var(--secondary-darker);
+}
+
+.checkout-content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+}
+
+.checkout-left-side-container {
+  margin-right: 2rem;
+  min-width: fit-content;
+}
+
+.order-summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 100px;
+  overflow: hidden;
+  background-color: var(--primary-lighter);
+  border: 2px solid var(--secondary-color);
+  margin-top: 0.5rem;
+  margin-right: 2%;
+  margin-bottom: 2rem;
+  padding: 0 20px 10px 20px;
+  height: fit-content;
 }
