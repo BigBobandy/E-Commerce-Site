@@ -1,0 +1,28 @@
+.recommended-items-container {
+  background-color: var(--primary-lighter);
+  border: 2px solid var(--secondary-color);
+  width: 100%;
+  padding: 0 20px 20px 0px;
+}
+
+.recommended-image {
+  border: 2px solid var(--secondary-color);
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.recommended-item-details {
+  margin-left: 5px;
+}
+
+.recommended-button {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
