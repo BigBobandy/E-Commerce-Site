@@ -1,0 +1,132 @@
+.checkout-details-parent {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-lighter);
+  border: 4px solid var(--secondary-border);
+  overflow-x: hidden;
+  width: 40%;
+  height: 40em;
+  padding-right: 0;
+}
+
+.checkout-details-container {
+  display: flex;
+  border-top: 2px solid var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  justify-content: space-between;
+  flex-direction: row;
+  height: 8em;
+}
+
+.checkout-detail-container {
+  width: 12.5em;
+}
+
+.checkout-step-counter {
+  margin-left: 5%;
+  padding-left: 20px;
+  color: var(--secondary-color);
+}
+
+.change-address-btn {
+  margin-top: 10%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+.change-address-btn:hover {
+  color: var(--secondary-darker);
+}
+
+.detail-header-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 15%;
+}
+
+.detail-selection-container {
+  border-top: 3px solid var(--secondary-color);
+  padding-bottom: 30px;
+}
+
+.card-info-details-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid gray;
+  margin-bottom: 2em;
+  margin-right: 1em;
+}
+
+.detail-choice {
+  margin-left: 2%;
+}
+
+.address-choice-item {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.card-choice-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkout-input-label-container {
+  display: flex;
+  flex-direction: row;
+  width: 45%;
+}
+
+.checkout-input-label-container label {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-choice-details {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.detail-choice-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.address-choice-details {
+  margin-bottom: 5px;
+}
+
+.address-choice-country {
+  color: lightgrey;
+}
+
+.add-detail-btn {
+  background: none;
+  border: none;
+  font-size: 100%;
+  text-decoration: underline;
+  color: var(--secondary-color);
+  cursor: pointer;
+  margin-left: 2%;
+}
+
+.add-new-address-btn:hover {
+  color: var(--secondary-darker);
+}
+
+.go-back-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
