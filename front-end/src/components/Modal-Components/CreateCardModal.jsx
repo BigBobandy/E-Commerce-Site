@@ -201,7 +201,7 @@ function CreateCardModal({
               </div>
               {isCardGenerated && (
                 <button className="submit-button" type="submit">
-                  Submit
+                  Add Card
                 </button>
               )}
             </div>

@@ -205,6 +205,9 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
           {addresses &&
             addresses.map((address) => (
               <div className="address-tile" key={address.id}>
+                <p>
+                  {address.firstName} {address.lastName}
+                </p>
                 <p>{address.address}</p>
                 <p>
                   {address.city}, {address.stateAbbrev} {address.zip}
@@ -215,12 +218,6 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
                     : address.country}
                 </p>
                 <div className="address-button-wrapper">
-                  <button
-                    className="address-button"
-                    onClick={() => deleteAddress(address.id)}
-                  >
-                    Remove
-                  </button>
                   {address.isDefault ? (
                     <small className="default-address-tag">
                       Is Default <small className="default-check">✔</small>
@@ -233,6 +230,12 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
                       Set Default
                     </button>
                   )}
+                  <button
+                    className="address-button"
+                    onClick={() => deleteAddress(address.id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}

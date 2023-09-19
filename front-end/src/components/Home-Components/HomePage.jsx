@@ -30,11 +30,11 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
               /* If user is logged in */
               <>
                 <h2 className="member-welcome-message">
-                  Welcome back, {user.firstName}
+                  Thanks for being a member {user.firstName}!
                 </h2>
                 <p>
-                  As a member, enjoy discounts at checkout and free shipping on
-                  all orders over $100.
+                  As a member, enjoy discounts at checkout, earn Dirty Dollars
+                  on every purchase, and free shipping on all orders over $100.
                 </p>
                 <h4>Thank you for being a part of our community!</h4>
               </>

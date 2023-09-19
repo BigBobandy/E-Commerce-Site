@@ -153,6 +153,10 @@ function UserProfile() {
           <p>0</p>
         </div>
         <div className="user-detail">
+          <h4> Dirty Dollars </h4>
+          <p>$0</p>
+        </div>
+        <div className="user-detail">
           <h4> Member Since: </h4>
           <p>
             {user
