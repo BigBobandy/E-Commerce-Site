@@ -110,8 +110,17 @@ async function setDefaultAddress(req, res) {
 // Handles adding a new address for the user
 async function addAddress(req, res) {
   // Extract the address details from the request body
-  const { address, city, state, stateAbbrev, zip, country, countryAbbrev } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    address,
+    city,
+    state,
+    stateAbbrev,
+    zip,
+    country,
+    countryAbbrev,
+  } = req.body;
 
   try {
     // Get the JWT from the Authorization header
@@ -146,6 +155,8 @@ async function addAddress(req, res) {
     // Add the new address, and if it's the user's first address, set it as the default
     const newAddress = await prisma.shippingInfo.create({
       data: {
+        firstName,
+        lastName,
         address,
         city,
         state,

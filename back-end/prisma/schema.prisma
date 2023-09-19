@@ -91,6 +91,8 @@ model OrderItem {
 // Meaning each address is associated with a specific user
 model ShippingInfo {
   id            Int     @id @default(autoincrement())
+  firstName     String
+  lastName      String
   address       String
   city          String
   state         String

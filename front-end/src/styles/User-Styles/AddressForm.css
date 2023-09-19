@@ -1,0 +1,53 @@
+.add-address-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.add-address-form .field {
+  margin-bottom: 15px;
+}
+
+.name-input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.country-select {
+  background-color: var(--primary-lighter);
+  color: white;
+  padding: 10px 0px 10px 0px;
+  width: 95%;
+  margin: 15px 0px 15px 10px;
+  border-radius: 10px;
+  border: 2px solid var(--background-color);
+}
+
+.us-input-group {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
+}
+
+.city-input {
+  height: 31px;
+  padding: 3px 7px;
+  line-height: normal;
+}
+
+.state-select {
+  background-color: var(--primary-lighter);
+  color: white;
+  padding: 12px 0px 12px 0px;
+  margin: 8px 0px 8px 0px;
+  border-radius: 10px;
+  border: 2px solid var(--background-color);
+}
+
+option {
+  font-size: 1rem;
+}
+
+.zip-input {
+  width: 50%;
+}
