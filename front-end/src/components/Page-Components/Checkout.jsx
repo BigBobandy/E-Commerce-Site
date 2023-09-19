@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../../styles/Page-Styles/Checkout.css";
-import Billing from "../Checkout-Components/Billing";
+import CheckoutDetails from "../Checkout-Components/CheckoutDetails";
 import ItemRecommend from "../Checkout-Components/ItemRecommend";
-import OrderReview from "../Checkout-Components/OrderReview";
-import Shipping from "../Checkout-Components/Shipping";
+import OrderSummary from "../Checkout-Components/OrderSummary";
 import ShoppingCart from "../Checkout-Components/ShoppingCart";
+import { UserContext } from "../User-Components/UserContext";
 
 function Checkout({
   cart = [],
@@ -14,18 +14,30 @@ function Checkout({
   totalCost,
   totalItems,
 }) {
+  const { user } = useContext(UserContext);
   const [currentStage, setCurrentStage] = useState("Shopping Cart");
+  const [shippingCost, setShippingCost] = useState(0);
+  const [cardSelection, setCardSelection] = useState(null);
+  const [addressSelection, setAddressSelection] = useState(null);
+  const [shippingMethod, setShippingMethod] = useState(null);
 
+  // Object containing key-value pairs for each stage of the checkout process
   const stages = {
     CART: "Shopping Cart",
-    SHIPPING: "Shipping",
-    BILLING: "Billing",
-    REVIEW: "Order Review",
+    SHIPPING_AND_BILLING: "Shipping & Billing",
   };
 
+  // Define a function `getBreadcrumbs` that takes in the `currentStage` as a parameter.
   const getBreadcrumbs = (currentStage) => {
+    // Convert the object `stages` to an array `stagesArray`.
+    // This makes it easier to find the index of a certain stage, which is not straightforward with objects.
     const stagesArray = Object.values(stages);
+
+    // Find the index of the `currentStage` in the `stagesArray`.
     const currentIndex = stagesArray.indexOf(currentStage);
+
+    // Use the `slice` method to create a new array that includes all the stages from the start of the checkout process
+    // up to and including the `currentStage`.
     return stagesArray.slice(0, currentIndex + 1);
   };
 
@@ -34,26 +46,10 @@ function Checkout({
   const getNextStage = (currentStage) => {
     // A switch statement is used to handle different cases for the value of `currentStage`.
     switch (currentStage) {
-      // If the current stage is "Shopping Cart", the next stage is "Shipping".
       case stages.CART:
-        return stages.SHIPPING;
-
-      // If the current stage is "Shipping", the next stage is "Billing".
-      case stages.SHIPPING:
-        return stages.BILLING;
-
-      // If the current stage is "Billing", the next stage is "Order Review".
-      case stages.BILLING:
-        return stages.REVIEW;
-
-      // If the current stage is "Order Review", there is no next stage,
-      // so we return "Submit Order". You can change this string to suit your application.
-      case stages.REVIEW:
-        return "Submit Order"; // you can change this to anything you want
-
-      // If the `currentStage` doesn't match any of the predefined stages
-      // (for instance, if there's a bug in the code elsewhere), we return "Shopping Cart"
-      // as the default value. This way, the user will be taken back to the first step of the process.
+        return stages.SHIPPING_AND_BILLING;
+      case stages.SHIPPING_AND_BILLING:
+        return "Place Order";
       default:
         return "Shopping Cart";
     }
@@ -62,30 +58,10 @@ function Checkout({
   const goToNextStage = () => {
     switch (currentStage) {
       case stages.CART:
-        setCurrentStage(stages.SHIPPING);
+        setCurrentStage(stages.SHIPPING_AND_BILLING);
         break;
-      case stages.SHIPPING:
-        setCurrentStage(stages.BILLING);
-        break;
-      case stages.BILLING:
-        setCurrentStage(stages.REVIEW);
-        break;
-      default:
-        break;
-    }
-  };
-
-  // handle back stage
-  const goToPreviousStage = () => {
-    switch (currentStage) {
-      case stages.SHIPPING:
-        setCurrentStage(stages.CART);
-        break;
-      case stages.BILLING:
-        setCurrentStage(stages.SHIPPING);
-        break;
-      case stages.REVIEW:
-        setCurrentStage(stages.BILLING);
+      case stages.SHIPPING_AND_BILLING:
+        setCurrentStage("Place Order");
         break;
       default:
         break;
@@ -123,39 +99,34 @@ function Checkout({
             menuItems={menuItems}
           />
         )}
-        <div className="checkout-summary"></div>
-        {currentStage === stages.SHIPPING && (
-          <Shipping
+        {currentStage === stages.SHIPPING_AND_BILLING && (
+          <CheckoutDetails
             goToNextStage={goToNextStage}
-            goToPreviousStage={goToPreviousStage}
-          />
-        )}
-        {currentStage === stages.BILLING && (
-          <Billing
-            goToNextStage={goToNextStage}
-            goToPreviousStage={goToPreviousStage}
-          />
-        )}
-        {currentStage === stages.REVIEW && (
-          <OrderReview
-            goToNextStage={goToNextStage}
-            goToPreviousStage={goToPreviousStage}
+            getNextStage={getNextStage}
+            totalCost={totalCost}
+            cardSelection={cardSelection}
+            setCardSelection={setCardSelection}
+            addressSelection={addressSelection}
+            setAddressSelection={setAddressSelection}
+            shippingMethod={shippingMethod}
+            setShippingMethod={setShippingMethod}
+            setShippingCost={setShippingCost}
+            user={user}
           />
         )}
         <div className="checkout-left-side-container">
-          <div className="order-summary-container">
-            <div className="message-wrapper">
-              <h3 className="checkout-container-title">
-                Subtotal ({totalItems} items):
-              </h3>
-              <h3 className="order-total">${totalCost.toFixed(2)}</h3>
-            </div>
-            <div className="message-wrapper">
-              <button onClick={goToNextStage} className="checkout-button">
-                Proceed to {getNextStage(currentStage)}
-              </button>
-            </div>
-          </div>
+          <OrderSummary
+            totalCost={totalCost}
+            shippingCost={shippingCost}
+            totalItems={totalItems}
+            goToNextStage={goToNextStage}
+            getNextStage={getNextStage}
+            currentStage={currentStage}
+            shippingMethod={shippingMethod}
+            cardSelection={cardSelection}
+            addressSelection={addressSelection}
+            user={user}
+          />
           {currentStage === stages.CART && (
             <>
               <ItemRecommend
@@ -166,6 +137,7 @@ function Checkout({
               />
             </>
           )}
+          {currentStage === stages.SHIPPING_AND_BILLING && <></>}
         </div>
       </div>
     </div>
