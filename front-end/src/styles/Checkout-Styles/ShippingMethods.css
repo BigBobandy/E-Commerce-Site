@@ -1,0 +1,30 @@
+.shipping-method-option {
+  margin-bottom: 15px;
+}
+
+.shipping-methods-details-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border-top: 2px solid var(--secondary-color);
+}
+
+.shipping-methods-header {
+  display: flex;
+  flex-direction: row;
+  width: 22em;
+  justify-content: space-between;
+}
+
+.radio-options-container {
+  margin-left: 1em;
+}
+
+.shipping-methods-message {
+  display: flex;
+  width: 60%;
+  margin-right: 5em;
+  color: var(--secondary-color);
+  word-wrap: break-word;
+  margin-bottom: 2em;
+}
