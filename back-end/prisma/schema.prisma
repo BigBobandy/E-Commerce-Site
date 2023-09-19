@@ -61,15 +61,22 @@ model MenuItem {
 // and one-to-many relation with the OrderItem model
 // Meaning one order can contain multiple items
 model Order {
-  id         Int         @id @default(autoincrement())
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
   // Each order is linked to a user who placed the order
-  userId     Int?
-  user       User?       @relation(fields: [userId], references: [id])
+  userId         Int?
+  user           User?         @relation(fields: [userId], references: [id])
   // Each order can contain multiple order items
-  orderItems OrderItem[]
-  status     String
+  orderItems     OrderItem[]
+  status         String
+  shippingInfoId Int?
+  shippingInfo   ShippingInfo? @relation(fields: [shippingInfoId], references: [id])
+  cardInfoId     Int?
+  cardInfo       CardInfo?     @relation(fields: [cardInfoId], references: [id])
+  totalPrice     Float?
+  shippingMethod String?
+  shippingCost   Float?
 }
 
 // The OrderItem model represents individual items in an order
@@ -104,6 +111,7 @@ model ShippingInfo {
   userId        Int
   isDefault     Boolean @default(false)
   user          User    @relation(fields: [userId], references: [id])
+  Order         Order[]
 }
 
 // The CardInfo model stores payment card information
@@ -120,4 +128,5 @@ model CardInfo {
   userId     Int
   isDefault  Boolean @default(false)
   user       User    @relation(fields: [userId], references: [id])
+  Order      Order[]
 }
