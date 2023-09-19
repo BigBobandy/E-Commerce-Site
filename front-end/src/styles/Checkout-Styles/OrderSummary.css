@@ -1,0 +1,34 @@
+.order-summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 100px;
+  overflow: hidden;
+  background-color: var(--primary-lighter);
+  border: 2px solid var(--secondary-color);
+  margin-top: 0.5rem;
+  margin-right: 2%;
+  margin-bottom: 2rem;
+  padding: 0 20px 10px 20px;
+  height: fit-content;
+}
+
+.order-summary-total-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-total {
+  margin-left: 10px;
+}
+
+.order-total-detail {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-title {
+  color: var(--secondary-color);
+}
