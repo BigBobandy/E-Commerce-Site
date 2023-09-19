@@ -5,6 +5,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
+import { maskCardNumber } from "../../helpers/cardHelper";
 import "../../styles/Modal-Styles/BillingInfoModal.css";
 import { UserContext } from "../User-Components/UserContext";
 import CreateCardModal from "./CreateCardModal";
@@ -36,28 +37,6 @@ function BillingInfoModal({ setIsBillingInfoModalOpen }) {
       }
     };
   }, [message]); // Run this effect whenever the `message` state changes
-
-  // Function to mask the card number except for the last four digits and formats it by placing a space every 4 chars
-  function maskCardNumber(cardNumber) {
-    // Remove spaces from the card number
-    const noSpaceCardNumber = cardNumber.replace(/ /g, "");
-
-    // Get the last four digits
-    const lastFourDigits = noSpaceCardNumber.slice(-4);
-
-    // Create the mask
-    const mask = "*".repeat(noSpaceCardNumber.length - 4);
-
-    // Combine mask with last four digits
-    const maskedCardNumber = mask + lastFourDigits;
-
-    // Insert spaces every four characters
-    const formattedCardNumber = maskedCardNumber
-      .replace(/(.{4})/g, "$1 ")
-      .trim();
-
-    return formattedCardNumber;
-  }
 
   // Function to handle setting a user's card as default
   async function setDefault(cardId) {
@@ -261,12 +240,6 @@ function BillingInfoModal({ setIsBillingInfoModalOpen }) {
                   )}
                 </div>
                 <div className="card-button-wrapper">
-                  <button
-                    className="card-button"
-                    onClick={() => deleteCard(card.id)}
-                  >
-                    Remove
-                  </button>
                   {card.isDefault ? (
                     <small className="default-card-tag">
                       Is Default <small className="default-check">✔</small>
@@ -279,6 +252,12 @@ function BillingInfoModal({ setIsBillingInfoModalOpen }) {
                       Set Default
                     </button>
                   )}
+                  <button
+                    className="card-button"
+                    onClick={() => deleteCard(card.id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}
