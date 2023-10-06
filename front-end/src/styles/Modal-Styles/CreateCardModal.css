@@ -127,6 +127,17 @@
   width: 100%;
 }
 
+.disclaimer-container-cardInfo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border: 2px solid var(--secondary-color);
+  padding: 5px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
 .disclaimer {
   color: var(--secondary-color);
   font-weight: bold;

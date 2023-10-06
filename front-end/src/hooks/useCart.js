@@ -108,6 +108,7 @@ export function useCart() {
   // Return the values and functions as an object
   return {
     cart,
+    setCart,
     addToCart,
     removeFromCart,
     clearCart,

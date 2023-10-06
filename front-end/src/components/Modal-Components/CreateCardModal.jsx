@@ -174,7 +174,7 @@ function CreateCardModal({
 
             <div className="button-wrapper card-submit-wrapper">
               <div className="disclaimer-wrapper">
-                <div className="disclaimer-container">
+                <div className="disclaimer-container-cardInfo">
                   <small className="disclaimer">
                     Disclaimer: This site is a portfolio demonstration. It does
                     not process real transactions, and it does not store any

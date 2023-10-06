@@ -35,13 +35,14 @@
 }
 
 .disclaimer-container {
-  display: flex; /* Use flexbox for layout */
-  align-items: center; /* Vertically center the checkbox and the text */
-  justify-content: flex-start; /* Align the checkbox and the text to the left */
-  gap: 10px; /* Add some space between the checkbox and the text */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
   border: 2px solid var(--secondary-color);
   padding: 5px;
   padding-bottom: 10px;
+  width: 50%;
   text-align: center;
 }
 
