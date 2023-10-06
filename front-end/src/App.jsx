@@ -19,8 +19,15 @@ import "./styles/Modal-Styles/Modal-Global.css";
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { cart, addToCart, removeFromCart, clearCart, totalCost, totalItems } =
-    useCart();
+  const {
+    cart,
+    setCart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    totalCost,
+    totalItems,
+  } = useCart();
   const { handleResendEmail } = useEmailResend();
   const menuItems = useMenuItems();
 
@@ -72,6 +79,7 @@ function App() {
               <Checkout
                 menuItems={menuItems}
                 cart={cart}
+                setCart={setCart}
                 clearCart={clearCart}
                 removeFromCart={removeFromCart}
                 addToCart={addToCart}
