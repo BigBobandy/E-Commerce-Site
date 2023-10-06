@@ -3,6 +3,61 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const prisma = new PrismaClient();
 
+// Function to generate a date-based and sequential order number
+async function generateOrderNumber() {
+  // Get the current date in YYYYMMDD format
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}${String(
+    currentDate.getMonth() + 1
+  ).padStart(2, "0")}${String(currentDate.getDate()).padStart(2, "0")}`;
+
+  // Fetch the last order number for today from the database (you'll need to implement this)
+  // This could be a query that gets the highest order number with the same date prefix
+  const lastOrderNumber = await getLastOrderNumberForToday(formattedDate);
+
+  // Extract the sequential part of the last order number and increment it by 1
+  // If there are no orders for today, start with 001
+  let nextSequentialNumber;
+  if (lastOrderNumber) {
+    const lastSequentialNumber = parseInt(lastOrderNumber.split("-")[2], 10);
+    nextSequentialNumber = String(lastSequentialNumber + 1).padStart(3, "0");
+  } else {
+    nextSequentialNumber = "001";
+  }
+
+  // Combine the date and the new sequential number to form the new order number
+  const newOrderNumber = `ORD-${formattedDate}-${nextSequentialNumber}`;
+
+  return newOrderNumber;
+}
+
+// Function to fetch the last order number for today from the database
+async function getLastOrderNumberForToday(formattedDate) {
+  try {
+    // Query the database to find the last order for today based on the formattedDate prefix
+    // Use the 'startsWith' filter to match the order numbers that start with the date prefix
+    // Also sort the orders in descending order based on the orderNumber and take only the first result
+    const lastOrder = await prisma.order.findFirst({
+      where: {
+        orderNumber: {
+          startsWith: `ORD-${formattedDate}`,
+        },
+      },
+      orderBy: {
+        orderNumber: "desc",
+      },
+      select: {
+        orderNumber: true,
+      },
+    });
+
+    // If an order is found, return its order number; otherwise, return null
+    return lastOrder ? lastOrder.orderNumber : null;
+  } catch (error) {
+    console.error("Error fetching the last order number for today:", error);
+    return null;
+  }
+}
 // Function to send order confirmation email
 async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
   // Create a test account using Ethereal
@@ -33,6 +88,7 @@ async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
       .join("")}
   </ul>
   <h2>Order Summary:</h2>
+  <p><strong>Order Number:</strong> ${orderDetails.orderNumber}</p>
   <p><strong>Total Price:</strong> $${orderDetails.totalPrice.toFixed(2)}</p>
   <p><strong>Shipping Method:</strong> ${orderDetails.shippingMethod}</p>
   <p><strong>Shipping Cost:</strong> $${orderDetails.shippingCost.toFixed(
@@ -94,6 +150,9 @@ async function submitOrder(req, res) {
       return res.status(400).json({ error: "Invalid input" });
     }
 
+    // Generate a unique order number
+    const orderNumber = await generateOrderNumber();
+
     // Create a new Order in the database
     const newOrder = await prisma.order.create({
       data: {
@@ -110,6 +169,7 @@ async function submitOrder(req, res) {
             quantity: item.quantity,
           })),
         },
+        orderNumber,
       },
       include: { orderItems: true },
     });
