@@ -2,12 +2,14 @@ import { useContext, useState } from "react";
 import "../../styles/Page-Styles/Checkout.css";
 import CheckoutDetails from "../Checkout-Components/CheckoutDetails";
 import ItemRecommend from "../Checkout-Components/ItemRecommend";
+import OrderConfirmation from "../Checkout-Components/OrderConfirmation";
 import OrderSummary from "../Checkout-Components/OrderSummary";
 import ShoppingCart from "../Checkout-Components/ShoppingCart";
 import { UserContext } from "../User-Components/UserContext";
 
 function Checkout({
   cart = [],
+  setCart,
   addToCart,
   removeFromCart,
   menuItems,
@@ -20,6 +22,8 @@ function Checkout({
   const [cardSelection, setCardSelection] = useState(null);
   const [addressSelection, setAddressSelection] = useState(null);
   const [shippingMethod, setShippingMethod] = useState(null);
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  const [orderDetailsState, setOrderDetailsState] = useState({});
 
   // Object containing key-value pairs for each stage of the checkout process
   const stages = {
@@ -73,72 +77,86 @@ function Checkout({
       <div className="message-wrapper">
         <h1>Checkout </h1>
       </div>
-      <div className="breadcrumb-container">
-        {getBreadcrumbs(currentStage).map((stage, index) => (
-          <span key={index}>
-            {index > 0 && " > "}
-            <a
-              href="#"
-              className="breadcrumb-link"
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentStage(stage);
-              }}
-            >
-              {stage}
-            </a>
-          </span>
-        ))}
-      </div>
+      {!isOrderPlaced && (
+        <div className="breadcrumb-container">
+          {getBreadcrumbs(currentStage).map((stage, index) => (
+            <span key={index}>
+              {index > 0 && " > "}
+              <a
+                href="#"
+                className="breadcrumb-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentStage(stage);
+                }}
+              >
+                {stage}
+              </a>
+            </span>
+          ))}
+        </div>
+      )}
       <div className="checkout-content-container">
         {currentStage === stages.CART && (
           <ShoppingCart
             cart={cart}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
-            menuItems={menuItems}
           />
         )}
         {currentStage === stages.SHIPPING_AND_BILLING && (
-          <CheckoutDetails
-            goToNextStage={goToNextStage}
-            getNextStage={getNextStage}
-            totalCost={totalCost}
-            cardSelection={cardSelection}
-            setCardSelection={setCardSelection}
-            addressSelection={addressSelection}
-            setAddressSelection={setAddressSelection}
-            shippingMethod={shippingMethod}
-            setShippingMethod={setShippingMethod}
-            setShippingCost={setShippingCost}
-            user={user}
-          />
-        )}
-        <div className="checkout-left-side-container">
-          <OrderSummary
-            totalCost={totalCost}
-            shippingCost={shippingCost}
-            totalItems={totalItems}
-            goToNextStage={goToNextStage}
-            getNextStage={getNextStage}
-            currentStage={currentStage}
-            shippingMethod={shippingMethod}
-            cardSelection={cardSelection}
-            addressSelection={addressSelection}
-            user={user}
-          />
-          {currentStage === stages.CART && (
-            <>
-              <ItemRecommend
-                cart={cart}
-                addToCart={addToCart}
-                menuItems={menuItems}
-                currentStage={currentStage}
+          <>
+            {!isOrderPlaced ? (
+              <CheckoutDetails
+                goToNextStage={goToNextStage}
+                getNextStage={getNextStage}
+                totalCost={totalCost}
+                cardSelection={cardSelection}
+                setCardSelection={setCardSelection}
+                addressSelection={addressSelection}
+                setAddressSelection={setAddressSelection}
+                shippingMethod={shippingMethod}
+                setShippingMethod={setShippingMethod}
+                setShippingCost={setShippingCost}
+                user={user}
               />
-            </>
-          )}
-          {currentStage === stages.SHIPPING_AND_BILLING && <></>}
-        </div>
+            ) : (
+              <OrderConfirmation orderDetails={orderDetailsState} />
+            )}
+          </>
+        )}
+        {!isOrderPlaced && (
+          <div className="checkout-left-side-container">
+            <OrderSummary
+              totalCost={totalCost}
+              shippingCost={shippingCost}
+              totalItems={totalItems}
+              goToNextStage={goToNextStage}
+              getNextStage={getNextStage}
+              currentStage={currentStage}
+              shippingMethod={shippingMethod}
+              cardSelection={cardSelection}
+              addressSelection={addressSelection}
+              user={user}
+              cart={cart}
+              setCart={setCart}
+              isOrderPlaced={isOrderPlaced}
+              setIsOrderPlaced={setIsOrderPlaced}
+              setOrderDetailsState={setOrderDetailsState}
+            />
+
+            {currentStage === stages.CART && (
+              <>
+                <ItemRecommend
+                  cart={cart}
+                  addToCart={addToCart}
+                  menuItems={menuItems}
+                  currentStage={currentStage}
+                />
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
