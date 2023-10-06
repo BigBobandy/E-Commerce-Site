@@ -26,7 +26,7 @@ function Billing({
         setCardSelection(defaultCard);
       }
     }
-  }, [cardInfo]);
+  }, []);
 
   // Function to handle selecting a payment method or in other words a card
   const handleCardSelection = (cardIndex) => {
