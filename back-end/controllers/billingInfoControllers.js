@@ -39,28 +39,36 @@ async function createCardInfo(req, res) {
       where: { userId, isDefault: true },
     });
 
-    // Encrypt the sensitive data
-    const encryptedCardType = encrypt(cardType);
-    const encryptedCardNumber = encrypt(cardNumber);
-    const encryptedExpiryDate = encrypt(expiryDate);
-    const encryptedCvv = encrypt(cvv);
-    const encryptedCardHolder = encrypt(cardHolder);
+    // Create the encrypted card object for database storage
+    const encryptedCard = {
+      userId: userId,
+      cardType: encrypt(cardType),
+      cardNumber: encrypt(cardNumber),
+      expiryDate: encrypt(expiryDate),
+      cvv: encrypt(cvv),
+      cardHolder: encrypt(cardHolder),
+      isDefault: !defaultCardExists,
+    };
 
     // Create a new cardInfo in the database
     const newCard = await prisma.cardInfo.create({
-      data: {
-        userId: userId,
-        cardType: encryptedCardType,
-        cardNumber: encryptedCardNumber,
-        expiryDate: encryptedExpiryDate,
-        cvv: encryptedCvv,
-        cardHolder: encryptedCardHolder,
-        isDefault: !defaultCardExists, // If a default card doesn't already exist, make this card the default
-      },
+      data: encryptedCard,
     });
 
-    // And send the newly created cardInfo back in the response
-    return res.status(201).json(newCard);
+    // Create the unencrypted card object for the front-end
+    const unencryptedCard = {
+      userId: userId,
+      cardType: cardType,
+      cardNumber: cardNumber,
+      expiryDate: expiryDate,
+      cvv: cvv,
+      cardHolder: cardHolder,
+      isDefault: !defaultCardExists,
+      id: newCard.id, // get the id of the new card that was created and pass it
+    };
+
+    // And send the unencrypted card object back in the response
+    return res.status(201).json(unencryptedCard);
   } catch (error) {
     console.error(error);
     // If anything goes wrong, we send back an error message
