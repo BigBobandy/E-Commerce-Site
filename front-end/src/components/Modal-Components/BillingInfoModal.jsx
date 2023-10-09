@@ -10,8 +10,8 @@ import "../../styles/Modal-Styles/BillingInfoModal.css";
 import { UserContext } from "../User-Components/UserContext";
 import CreateCardModal from "./CreateCardModal";
 
-function BillingInfoModal({ setIsBillingInfoModalOpen }) {
-  const { user, cardInfo, setCardInfo } = useContext(UserContext);
+function BillingInfoModal({ setIsBillingInfoModalOpen, user }) {
+  const { cardInfo, setCardInfo } = useContext(UserContext);
   const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
   const [message, setMessage] = useState("");
 
