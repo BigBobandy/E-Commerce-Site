@@ -1,4 +1,9 @@
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAddressBook,
+  faBagShopping,
+  faCreditCard,
+  faPenToSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,15 +11,18 @@ import logoImg from "../../assets/borger-logo.png";
 import "../../styles/Page-Styles/UserProfile.css";
 import BillingInfoModal from "../Modal-Components/BillingInfoModal";
 import EditProfileModal from "../Modal-Components/EditProfileModal";
+import OrderInfoModal from "../Modal-Components/OrderInfoModal";
 import ShippingInfoModal from "../Modal-Components/ShippingInfoModal";
 import { UserContext } from "../User-Components/UserContext";
 
 function UserProfile() {
   const { user, logout } = useContext(UserContext); // get the user and logout function from the context
+  const { orderInfo, setOrderInfo } = useContext(UserContext); // get the user's order info from context
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const [isBillingInfoModalOpen, setIsBillingInfoModalOpen] = useState(false);
   const [isShippingInfoModalOpen, setIsShippingInfoModalOpen] = useState(false);
+  const [isOrderInfoModalOpen, setIsOrderInfoModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -86,6 +94,7 @@ function UserProfile() {
         <div className="animation">
           <BillingInfoModal
             setIsBillingInfoModalOpen={setIsBillingInfoModalOpen}
+            user={user}
           />
         </div>
       )}
@@ -93,6 +102,15 @@ function UserProfile() {
         <div className="animation">
           <ShippingInfoModal
             setIsShippingInfoModalOpen={setIsShippingInfoModalOpen}
+          />
+        </div>
+      )}
+      {isOrderInfoModalOpen && (
+        <div className="animation">
+          <OrderInfoModal
+            setIsOrderInfoModalOpen={setIsOrderInfoModalOpen}
+            orderInfo={orderInfo}
+            setOrderInfo={setOrderInfo}
           />
         </div>
       )}
@@ -150,11 +168,7 @@ function UserProfile() {
         </div>
         <div className="user-detail">
           <h4> Orders Placed </h4>
-          <p>0</p>
-        </div>
-        <div className="user-detail">
-          <h4> Dirty Dollars </h4>
-          <p>$0</p>
+          <p>{Array.isArray(orderInfo) ? orderInfo.length : "Loading..."}</p>
         </div>
         <div className="user-detail">
           <h4> Member Since: </h4>
@@ -178,7 +192,11 @@ function UserProfile() {
               className="info-modal-button"
               onClick={() => setIsShippingInfoModalOpen(true)}
             >
-              Your Addresses
+              Addresses
+              <FontAwesomeIcon
+                icon={faAddressBook}
+                className="edit-profile-icon"
+              />
             </button>
           </label>
         </div>
@@ -191,6 +209,10 @@ function UserProfile() {
               onClick={() => setIsBillingInfoModalOpen(true)}
             >
               Billing Info
+              <FontAwesomeIcon
+                icon={faCreditCard}
+                className="edit-profile-icon"
+              />
             </button>
           </label>
         </div>
@@ -205,6 +227,22 @@ function UserProfile() {
               Profile Info
               <FontAwesomeIcon
                 icon={faPenToSquare}
+                className="edit-profile-icon"
+              />
+            </button>
+          </label>
+        </div>
+        <div className="info-button-container">
+          <label htmlFor="order-info" className="info-label">
+            Order Information
+            <button
+              id="order-info"
+              className="info-modal-button"
+              onClick={() => setIsOrderInfoModalOpen(true)}
+            >
+              Orders{" "}
+              <FontAwesomeIcon
+                icon={faBagShopping}
                 className="edit-profile-icon"
               />
             </button>
