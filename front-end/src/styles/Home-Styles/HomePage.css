@@ -19,6 +19,7 @@
   color: white;
   padding: 80px 40px 80px 40px;
   min-height: fit-content;
+  height: 60vh;
   border-bottom: 5px solid var(--secondary-color);
 }
 
