@@ -175,8 +175,32 @@ async function submitOrder(req, res) {
         orderNumber,
         estDeliveryDate: deliveryDate,
       },
-      include: { orderItems: true },
+      include: {
+        orderItems: {
+          include: {
+            menuItem: true,
+          },
+        },
+        shippingInfo: true,
+        cardInfo: true,
+      },
     });
+
+    // Decrypt the sensitive card information
+    const decryptedCardInfo = {
+      ...newOrder.cardInfo,
+      cardType: decrypt(newOrder.cardInfo.cardType),
+      cardNumber: decrypt(newOrder.cardInfo.cardNumber),
+      expiryDate: decrypt(newOrder.cardInfo.expiryDate),
+      cvv: decrypt(newOrder.cardInfo.cvv),
+      cardHolder: decrypt(newOrder.cardInfo.cardHolder),
+    };
+
+    // Replace the encrypted cardInfo with the decrypted one
+    const decryptedNewOrder = {
+      ...newOrder,
+      cardInfo: decryptedCardInfo,
+    };
 
     // Fetch the user details for sending the email
     const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -184,8 +208,8 @@ async function submitOrder(req, res) {
     // Send order confirmation email
     await sendOrderConfirmationEmail(user, newOrder, orderItems);
 
-    // Respond with the newly created Order
-    res.status(201).json(newOrder);
+    // Respond with the newly created and decrypted Order
+    res.status(201).json(decryptedNewOrder);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "There was a problem submitting the order" });
