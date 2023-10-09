@@ -15,6 +15,7 @@ import "../../styles/Modal-Styles/CreateCardModal.css";
 
 function CreateCardModal({
   setIsCreateCardModalOpen,
+  cardInfo,
   setCardInfo,
   userFirstName,
   userLastName,
@@ -74,8 +75,15 @@ function CreateCardModal({
       // If the request was successful, add the new card to the card array
       const data = await response.json();
       setMessage("Card added successfully!");
-      setCardInfo((prevCardInfo) => [...prevCardInfo, newCard]);
-      setNewCard({});
+      setCardInfo((prevCardInfo) => [...prevCardInfo, data]);
+      // Set newCard back to it's initial state
+      setNewCard({
+        cardType: null,
+        cardNumber: "XXXX XXXX XXXX XXXX",
+        expiryDate: "MM/YY",
+        cvv: "XXX",
+        cardHolder: `${userFirstName} ${userLastName}`,
+      });
 
       setTimeout(() => {
         setIsCreateCardModalOpen(false);

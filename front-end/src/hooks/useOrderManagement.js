@@ -10,7 +10,7 @@ export function useOrderManagement() {
     if (token) {
       try {
         const orderResponse = await fetch(
-          "http://localhost:3000/api/orders/get",
+          "http://localhost:3000/api/orders/get-order-info",
           {
             method: "GET",
             headers: {

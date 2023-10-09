@@ -70,6 +70,7 @@ function OrderSummary({
     // Clear any previous messages
     setMessage("");
 
+    // INPUT VALIDATION
     // Validate if a shipping address is selected
     if (!addressSelection || !addressSelection.id) {
       setMessage("Please select a shipping address.");
@@ -126,14 +127,17 @@ function OrderSummary({
 
     try {
       // Send POST request to submit the order
-      const response = await fetch("http://localhost:3000/api/orders/submit", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderDetailsForPost),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/orders/submit-order",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderDetailsForPost),
+        }
+      );
 
       // Handle unsuccessful responses
       if (!response.ok) {
@@ -150,11 +154,19 @@ function OrderSummary({
         orderNumber: data.orderNumber,
       }));
 
-      // Reset loading state and set order as placed
+      // Inform user order was placed successfully
       setMessage("Order Placed Successfully!");
+
+      // Reset loading state
       setIsLoading(false);
+
+      // Set isOrderPlaced to true to trigger ui change
       setIsOrderPlaced(true);
-      setOrderInfo((prevOrderInfo) => [...prevOrderInfo, orderDetailsForPost]); // update the orderInfo in context
+
+      // Update orderInfo in context with the new order
+      setOrderInfo((prevOrderInfo) => [...prevOrderInfo, data]);
+
+      // Set the cart back to it's default state
       setCart([]);
     } catch (error) {
       // Handle errors during the fetch
