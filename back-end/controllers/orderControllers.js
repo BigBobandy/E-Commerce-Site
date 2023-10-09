@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { decrypt } = require("../utils/encryptionHelper");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const prisma = new PrismaClient();
@@ -94,6 +95,7 @@ async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
   <p><strong>Shipping Cost:</strong> $${orderDetails.shippingCost.toFixed(
     2
   )}</p>
+  <p><strong>Est. Delivery Date:</strong> ${orderDetails.estDeliveryDate}
   <p>Thank you for shopping with us. We hope you enjoy your purchase!</p>
 `;
   // Send the email
@@ -139,6 +141,7 @@ async function submitOrder(req, res) {
       totalPrice,
       shippingMethod,
       shippingCost,
+      deliveryDate,
     } = req.body;
     if (
       !orderItems ||
@@ -170,6 +173,7 @@ async function submitOrder(req, res) {
           })),
         },
         orderNumber,
+        estDeliveryDate: deliveryDate,
       },
       include: { orderItems: true },
     });
@@ -188,4 +192,80 @@ async function submitOrder(req, res) {
   }
 }
 
-module.exports = { submitOrder };
+// Handles Getting orders from database
+async function getOrderInfo(req, res) {
+  try {
+    // Get the JWT from the Authorization header
+    const token = req.header("Authorization").replace("Bearer ", "");
+
+    // Declare a variable to hold the decoded token
+    let decoded;
+
+    try {
+      // Try to verify and decode the JWT using the secret
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      // If jwt.verify() throws an error, catch it and log the error
+      console.log(err);
+
+      // Return a 401 status code (Unauthorized) and a relevant error message
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+    // Get the user ID from the decoded token
+    const userId = decoded.id;
+
+    // Fetch order info for this user along with associated data
+    const orderInfo = await prisma.order.findMany({
+      where: { userId: userId },
+      include: {
+        orderItems: {
+          include: {
+            menuItem: true, // Include details of each menu item in orderItems
+          },
+        },
+        shippingInfo: true, // Include shippingInfo
+        cardInfo: true, // Include cardInfo
+      },
+    });
+
+    // Decrypt the sensitive card information
+    const decryptedOrderInfo = orderInfo.map((order) => {
+      // Check if cardInfo exists for the current order
+      if (order.cardInfo) {
+        // If cardInfo exists, then decrypt each field
+        return {
+          ...order,
+          cardInfo: {
+            ...order.cardInfo,
+            cardType: order.cardInfo.cardType
+              ? decrypt(order.cardInfo.cardType)
+              : null,
+            cardNumber: order.cardInfo.cardNumber
+              ? decrypt(order.cardInfo.cardNumber)
+              : null,
+            expiryDate: order.cardInfo.expiryDate
+              ? decrypt(order.cardInfo.expiryDate)
+              : null,
+            cvv: order.cardInfo.cvv ? decrypt(order.cardInfo.cvv) : null,
+            cardHolder: order.cardInfo.cardHolder
+              ? decrypt(order.cardInfo.cardHolder)
+              : null,
+          },
+        };
+      }
+      // If cardInfo is null, return the order as is
+      return order;
+    });
+
+    // Return decrypted order information
+    res.json(decryptedOrderInfo);
+  } catch (error) {
+    console.error("Error details:", error.message);
+    console.error("Stack trace:", error.stack);
+    res
+      .status(500)
+      .send("Error occurred while fetching user's order information.");
+  }
+}
+
+module.exports = { submitOrder, getOrderInfo };
