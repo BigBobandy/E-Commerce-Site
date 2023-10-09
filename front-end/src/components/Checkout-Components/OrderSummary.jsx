@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../styles/Checkout-Styles/OrderSummary.css";
+import { UserContext } from "../User-Components/UserContext";
 
 function OrderSummary({
   totalCost,
@@ -19,9 +20,9 @@ function OrderSummary({
 }) {
   const [taxAmount, setTaxAmount] = useState(0);
   const [orderTotal, setOrderTotal] = useState(0);
-  const [deliveryDate, setDeliveryDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const { setOrderInfo } = useContext(UserContext);
 
   // Calculate the tax amount based on the total cost
   const calculateTaxAmount = (totalCost) => {
@@ -64,7 +65,7 @@ function OrderSummary({
     setOrderTotal(totalCost + shippingCost + calculateTaxAmount(totalCost));
   }, [totalCost, shippingCost]);
 
-  // Handles sending the request to create an order
+  // Handles sending the POST request to create an order
   async function handleSubmitOrder() {
     // Clear any previous messages
     setMessage("");
@@ -142,7 +143,6 @@ function OrderSummary({
 
       // Handle successful response
       const data = await response.json();
-      console.log("Order submitted successfully:", data);
 
       // Update the orderDetailsState with the order number from the response
       setOrderDetailsState((prevOrderDetails) => ({
@@ -154,9 +154,8 @@ function OrderSummary({
       setMessage("Order Placed Successfully!");
       setIsLoading(false);
       setIsOrderPlaced(true);
+      setOrderInfo((prevOrderInfo) => [...prevOrderInfo, orderDetailsForPost]); // update the orderInfo in context
       setCart([]);
-
-      // Redirect to a confirmation page or perform other actions
     } catch (error) {
       // Handle errors during the fetch
       console.error("Failed to submit order:", error);
