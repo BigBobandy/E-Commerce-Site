@@ -5,8 +5,8 @@ const {
   getOrderInfo,
 } = require("../controllers/orderControllers");
 
-router.post("/submit", submitOrder);
+router.post("/submit-order", submitOrder);
 
-router.get("/get", getOrderInfo);
+router.get("/get-order-info", getOrderInfo);
 
 module.exports = router;
