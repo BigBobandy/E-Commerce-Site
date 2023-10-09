@@ -10,9 +10,9 @@
     ),
     url("../../assets/borger-logo.png");
   background-color: var(--primary-color);
-  background-position: right bottom;
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: 80%;
+  background-size: 90%;
   color: var(--secondary-color);
   padding: 5rem;
   margin-top: 2rem;
