@@ -1,0 +1,103 @@
+.order-info-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-image: linear-gradient(
+      rgba(35, 31, 32, 0.9),
+      rgba(35, 31, 32, 0.9)
+    ),
+    url("../../assets/borger-logo.png");
+  background-color: var(--primary-color);
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  color: white;
+  border: 3px solid var(--secondary-color);
+  border-radius: 20px;
+  min-width: fit-content;
+  width: 50%;
+  height: 80%;
+  overflow: scroll;
+  min-height: fit-content;
+  box-sizing: border-box;
+  margin-top: 55px;
+}
+
+.order-info-top-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  border-top: 3px solid var(--secondary-color);
+}
+
+.orderCard,
+.expanded {
+  transition: all 0.5s ease;
+  margin-top: 1em;
+}
+
+.orderCard {
+  background-color: var(--primary-lighter);
+  border: 2px solid var(--background-color);
+  padding: 16px;
+}
+
+.order-info-btn {
+  background-color: var(--secondary-color);
+  padding: 5px 10px;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 10%;
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
+}
+
+.order-info-btn:hover {
+  background-color: var(--secondary-darker);
+}
+
+.expanded {
+  grid-column: 1 / -1;
+  height: auto;
+  border: 2px solid var(--secondary-color);
+  background-color: var(--primary-color);
+  box-shadow: 5px 5px 5px var(--secondary-darker);
+}
+
+.expandedDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top: 2px solid var(--background-color);
+  margin-top: 1em;
+}
+
+.order-info-detail {
+  border-right: 2px solid var(--background-color);
+  padding-right: 2em;
+  padding-left: 1em;
+}
+
+.order-info-detail h4 {
+  color: var(--secondary-color);
+}
+
+.order-info-logo {
+  width: 70%;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 10%;
+}
+
+.no-order-info-logo {
+  width: 40%;
+  width: 40%;
+  margin-top: 5%;
+}
