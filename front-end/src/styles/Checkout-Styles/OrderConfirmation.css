@@ -14,17 +14,17 @@
   color: white;
 }
 
-.order-header a {
+.order-contact-link {
   color: var(--secondary-color);
 }
 
-.order-header a:hover {
+.order-contact-link:hover {
   color: var(--secondary-darker);
 }
 
 .order-page-logo {
   height: 7em;
-  width: 9em;
+  width: 8em;
   margin-top: 0.5em;
 }
 

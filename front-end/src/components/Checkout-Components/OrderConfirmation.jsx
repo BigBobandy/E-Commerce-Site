@@ -4,9 +4,6 @@ import { getLastFourDigits } from "../../helpers/cardHelper";
 import "../../styles/Checkout-Styles/OrderConfirmation.css";
 
 function OrderConfirmation({ orderDetails }) {
-  console.log("OrderConfirmation:", orderDetails);
-  console.log("Order num", orderDetails.orderNumber);
-
   // Function to capitalize the first letter of a word
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -30,7 +27,10 @@ function OrderConfirmation({ orderDetails }) {
           <p>You can also view your orders from your profile.</p>
           <p>
             If you have any questions or concerns, please visit our{" "}
-            <a href="/contact-us">Contact Us</a> page.
+            <a href="/contact-us" className="order-contact-link ">
+              Contact Us
+            </a>{" "}
+            page.
           </p>
         </div>
         <div className="order-details">
@@ -38,10 +38,6 @@ function OrderConfirmation({ orderDetails }) {
             <div className="order-confirmation-detail">
               <h4>Order Number: </h4>
               <p>{orderDetails.orderNumber}</p>
-            </div>
-            <div className="order-confirmation-detail">
-              <h4>Order total:</h4>
-              <p>${orderDetails.totalPrice.toFixed(2)}</p>
             </div>
             <div className="order-confirmation-detail order-items">
               <h4>Items Ordered:</h4>
@@ -55,6 +51,10 @@ function OrderConfirmation({ orderDetails }) {
             </div>
           </div>
           <div className="div-group-right">
+            <div className="order-confirmation-detail">
+              <h4>Order total:</h4>
+              <p>${orderDetails.totalPrice.toFixed(2)}</p>
+            </div>
             <div className="order-confirmation-detail">
               <h4>Shipping Address:</h4>
               <p>
@@ -81,7 +81,7 @@ function OrderConfirmation({ orderDetails }) {
               </p>
             </div>
             <div className="order-confirmation-detail">
-              <h3>Expected Delivery: </h3>
+              <h4>Expected Delivery: </h4>
               <p>{orderDetails.deliveryDate}</p>
             </div>
           </div>
