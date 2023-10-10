@@ -193,7 +193,7 @@ function BillingInfoModal({ setIsBillingInfoModalOpen, user }) {
             className="modal-close"
             onClick={() => setIsBillingInfoModalOpen(false)}
           >
-            X
+            Close X
           </button>
         </div>
         <div className="message-wrapper">

@@ -47,7 +47,7 @@ function OrderInfoModal({ orderInfo, setOrderInfo, setIsOrderInfoModalOpen }) {
             className="modal-close"
             onClick={() => setIsOrderInfoModalOpen(false)}
           >
-            X
+            Close X
           </button>
         </div>
         <div className="order-info-container">

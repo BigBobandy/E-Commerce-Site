@@ -103,7 +103,7 @@ function CreateCardModal({
             className="modal-close"
             onClick={() => setIsCreateCardModalOpen(false)}
           >
-            X
+            Close X
           </button>
         </div>
         <div className="message-wrapper">

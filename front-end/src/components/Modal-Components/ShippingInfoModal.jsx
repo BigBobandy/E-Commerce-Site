@@ -188,7 +188,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
             className="modal-close"
             onClick={() => setIsShippingInfoModalOpen(false)}
           >
-            X
+            Close X
           </button>
         </div>
         <div className="message-wrapper">

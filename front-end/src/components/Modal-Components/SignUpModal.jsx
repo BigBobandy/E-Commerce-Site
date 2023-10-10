@@ -124,7 +124,7 @@ function SignUpModal({
           className="modal-close"
           onClick={() => setIsSignupModalOpen(false)}
         >
-          X
+          Close X
         </button>
         {step === 1 && (
           <form onSubmit={handleSignUp} className="signup-form">

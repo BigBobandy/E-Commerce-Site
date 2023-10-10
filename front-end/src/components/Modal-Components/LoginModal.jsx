@@ -125,7 +125,7 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
             className="modal-close"
             onClick={() => setIsLoginModalOpen(false)}
           >
-            X
+            Close X
           </button>
         </div>
         {showResendEmail === false && (

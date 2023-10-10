@@ -115,7 +115,7 @@ function EditProfileModal({ setIsEditModalOpen }) {
           className="modal-close"
           onClick={() => setIsEditModalOpen(false)}
         >
-          X
+          Close X
         </button>
         {isPasswordChangeShown ? (
           <div className="animation">

@@ -98,7 +98,7 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
             className="modal-close"
             onClick={() => setIsCreateAddressModalOpen(false)}
           >
-            X
+            Close X
           </button>
           <div className="message-wrapper">
             {message && <p className="submit-message message">{message}</p>}
