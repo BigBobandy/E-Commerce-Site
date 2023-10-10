@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+const AWS = require("../utils/aws-config");
+const ses = new AWS.SES();
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -26,36 +27,42 @@ function formatCode(code) {
 
 // Function containing confirmation email sending logic
 async function sendConfirmationEmail(user, emailConfirmationCode) {
-  // Generating an account with ethereal (mock mail server)
-  let testAccount = await nodemailer.createTestAccount();
+  // HTML content for the confirmation email
+  const emailContent = `
+  <h1>Thanks for signing up, ${user.firstName}!</h1>
+  <p>Please confirm your email address by entering the following code on the confirmation page:</p> 
+  <h2><b>${emailConfirmationCode}</b></h2>
+  <p>You can confirm your email by clicking the link below:</p>
+  
+`;
 
-  // setup object that will actually send the emails
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // this is true for port 465, and false for others
-    auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+  const params = {
+    Destination: {
+      ToAddresses: [user.email], // Recipient
     },
-  });
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: emailContent, // HTML content
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Confirm your email", // Email subject
+      },
+    },
+    Source: "dirtyburgerdev@gmail.com", // Sender email address
+  };
 
-  // Send the confirmation email
-  const info = await transporter.sendMail({
-    from: "no-reply@example.com",
-    to: user.email, // email from user object
-    subject: "Confirm your email",
-    html: `
-      <h1>Thanks for signing up, ${user.firstName}!</h1>
-      <p>Please confirm your email address by entering the following code on the confirmation page:</p> 
-      <h2><b>${emailConfirmationCode}</b></h2>
-      <p>You can confirm your email by clicking the link below:</p>
-      
-    `,
-  });
-
-  console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  try {
+    // Attempy to send the email
+    const result = await ses.sendEmail(params).promise();
+    console.log("Email sent:", result);
+  } catch (error) {
+    // Log errors
+    console.error("Error sending email:", error);
+  }
 }
 
 // Handles POST requests to the /signup path
@@ -122,11 +129,10 @@ async function signup(req, res) {
   }
 }
 
-// Function to re-send the email confirmation code email if the user didn't receive the first one for some reason
-// Or if their email confirmation code is expired
+// Function to re-send the email confirmation code if the user didn't receive the first one or if it's expired
 async function resendConfirmationEmail(req, res) {
   try {
-    const { email } = req.body; // get email from request body
+    const { email } = req.body; // Get email from request body
 
     // Verify that an account with the email exists
     const user = await prisma.user.findUnique({
@@ -141,14 +147,16 @@ async function resendConfirmationEmail(req, res) {
     }
 
     // Check if an email confirmation code already exists for the user or if it's older than 10 minutes
-    // If either of these are true then generate a new code for the user and store it
     const codeAge = Math.floor(
       (new Date() - new Date(user.emailConfirmationCodeCreatedAt)) / (1000 * 60)
     );
+
+    // If either condition is true, generate a new code for the user and store it
     if (!user.emailConfirmationCode || codeAge > 10) {
       console.log(
         "Old confirmation code found: Generating a new one for the user"
       );
+
       // Generate a new email confirmation code
       let emailConfirmationCode = crypto
         .randomBytes(5)
@@ -158,7 +166,7 @@ async function resendConfirmationEmail(req, res) {
       // Format the code
       emailConfirmationCode = formatCode(emailConfirmationCode);
 
-      // Update user in the database with new confirmation code and the current time
+      // Update user in the database with the new confirmation code and the current time
       await prisma.user.update({
         where: { email },
         data: {
@@ -168,17 +176,16 @@ async function resendConfirmationEmail(req, res) {
       });
     }
 
-    // Send new confirmation email
+    // Use the existing sendConfirmationEmail function to send the new confirmation email
     await sendConfirmationEmail(user, user.emailConfirmationCode);
 
     // Return success response
     res.status(200).json({ message: "Email confirmation code resent." });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while resending confirmation code." });
+    res.status(500).json({
+      error: "An error occurred while resending the confirmation code.",
+    });
   }
 }
-
 module.exports = { signup, resendConfirmationEmail };

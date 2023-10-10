@@ -1,9 +1,64 @@
 const { PrismaClient } = require("@prisma/client");
 const { decrypt } = require("../utils/encryptionHelper");
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
+const AWS = require("../utils/aws-config");
 const prisma = new PrismaClient();
+const ses = new AWS.SES();
 
+// Function to send order confirmation email
+async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
+  // HTML content for the email
+  const emailContent = `
+    <h1>Hello ${user.firstName}, Your Order is Confirmed!</h1>
+    <p>We're excited to let you know that your order has been confirmed and is now being processed. Here are the details:</p>
+    <ul>
+      ${orderItems
+        .map(
+          (item) =>
+            `<li><strong>${item.name}</strong> - Quantity: ${item.quantity}</li>`
+        )
+        .join("")}
+    </ul>
+    <h2>Order Summary:</h2>
+    <p><strong>Order Number:</strong> ${orderDetails.orderNumber}</p>
+    <p><strong>Total Price:</strong> $${orderDetails.totalPrice.toFixed(2)}</p>
+    <p><strong>Shipping Method:</strong> ${orderDetails.shippingMethod}</p>
+    <p><strong>Shipping Cost:</strong> $${orderDetails.shippingCost.toFixed(
+      2
+    )}</p>
+    <p><strong>Est. Delivery Date:</strong> ${orderDetails.estDeliveryDate}</p>
+    <p>Thank you for shopping with us. We hope you enjoy your purchase!</p>
+  `;
+
+  // Parameters for the SES sendEmail method
+  const params = {
+    Destination: {
+      ToAddresses: [user.email], // Recipient email address
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: emailContent, // HTML content
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Order Confirmation", // Email subject
+      },
+    },
+    Source: "dirtyburgerdev@gmail.com", // Sender email address
+  };
+
+  try {
+    // Attempt to send the email
+    const result = await ses.sendEmail(params).promise();
+    console.log("Email sent:", result);
+  } catch (error) {
+    // Log any errors
+    console.error("Error sending email:", error);
+  }
+}
 // Function to generate a date-based and sequential order number
 async function generateOrderNumber() {
   // Get the current date in YYYYMMDD format
@@ -58,56 +113,6 @@ async function getLastOrderNumberForToday(formattedDate) {
     console.error("Error fetching the last order number for today:", error);
     return null;
   }
-}
-// Function to send order confirmation email
-async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
-  // Create a test account using Ethereal
-  let testAccount = await nodemailer.createTestAccount();
-
-  // Create a transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  });
-  console.log(orderItems);
-
-  // Prepare the email content, including the order details
-  const emailContent = `
-  <h1>Hello ${user.firstName}, Your Order is Confirmed!</h1>
-  <p>We're excited to let you know that your order has been confirmed and is now being processed. Here are the details:</p>
-  <ul>
-    ${orderItems // Access the orderItems array here
-      .map(
-        (item) =>
-          `<li><strong>${item.name}</strong> - Quantity: ${item.quantity}</li>`
-      )
-      .join("")}
-  </ul>
-  <h2>Order Summary:</h2>
-  <p><strong>Order Number:</strong> ${orderDetails.orderNumber}</p>
-  <p><strong>Total Price:</strong> $${orderDetails.totalPrice.toFixed(2)}</p>
-  <p><strong>Shipping Method:</strong> ${orderDetails.shippingMethod}</p>
-  <p><strong>Shipping Cost:</strong> $${orderDetails.shippingCost.toFixed(
-    2
-  )}</p>
-  <p><strong>Est. Delivery Date:</strong> ${orderDetails.estDeliveryDate}
-  <p>Thank you for shopping with us. We hope you enjoy your purchase!</p>
-`;
-  // Send the email
-  const info = await transporter.sendMail({
-    from: "no-reply@example.com",
-    to: user.email,
-    subject: "Order Confirmation",
-    html: emailContent,
-  });
-
-  console.log("Order confirmation email sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
 // Handles Order submission

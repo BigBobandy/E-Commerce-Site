@@ -23,7 +23,6 @@ const orderRoutes = require("./routes/orderRoutes");
 // Use routes
 app.use("/api/signup", signupRoutes);
 app.use("/api/confirm", confirmRoutes);
-app.use("/api/confirm/:codeParam", confirmRoutes);
 app.use("/api/menu-items", menuRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/user", userRoutes);

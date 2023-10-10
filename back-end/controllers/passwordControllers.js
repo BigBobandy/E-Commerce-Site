@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+const AWS = require("../utils/aws-config");
+const ses = new AWS.SES();
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -26,36 +27,40 @@ function formatCode(code) {
 
 // Function to send a reset password email to the user
 async function sendResetPasswordEmail(user, resetPasswordCode) {
-  // Create a test account using ethereal
-  let testAccount = await nodemailer.createTestAccount();
+  // HTML content for the email
+  const emailContent = `<h1>Reset Password Request</h1>
+  <p>You have requested to reset your password. Here is your reset code:</p>
+  <h2><b>${resetPasswordCode}</b></h2>
+  <p>If you did not request this password reset, please ignore this email.</p>`;
 
-  // Set up the email transport using the test account
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
+  // Parameters for the SES sendEmail method
+  const params = {
+    Destination: {
+      ToAddresses: [user.email], // Recipient email address
     },
-  });
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: emailContent, // HTML content
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Password reset request", // Email subject
+      },
+    },
+    Source: "dirtyburgerdev@gmail.com", // Sender email address
+  };
 
-  // Construct the email and send it to the user
-  const info = await transporter.sendMail({
-    from: "no-reply@example.com",
-    to: user.email,
-    subject: "Reset your password",
-    html: `
-      <h1>Reset Password Request</h1>
-      <p>You have requested to reset your password. Here is your reset code:</p>
-      <h2><b>${resetPasswordCode}</b></h2>
-      <p>If you did not request this password reset, please ignore this email.</p>
-    `,
-  });
-
-  // Log the result of the email send
-  console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  try {
+    // Attempt to send the email
+    const result = await ses.sendEmail(params).promise();
+    console.log("Email sent:", result);
+  } catch (error) {
+    // Log any errors
+    console.error("Error sending email:", error);
+  }
 }
 
 // Handles the password reset email functionality.
