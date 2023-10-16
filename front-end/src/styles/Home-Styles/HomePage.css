@@ -138,54 +138,78 @@
 .benefits {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 40px;
   border-top: 5px solid var(--secondary-color);
-  background: repeating-linear-gradient(
-    45deg,
-    var(--primary-color),
-    var(--secondary-color) 10px
-  );
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    ),
+    url("/landscape-burger.jpg") no-repeat center center/cover;
+  background-position: center;
+  height: 100%;
+  padding-bottom: 5rem;
   color: white;
 }
 
 .benefits h2 {
   text-align: center;
   font-size: 2rem;
-  background-color: var(--primary-color);
+  background-color: rgba(35, 31, 32, 0.85);
   padding: 20px;
   color: var(--secondary-color);
   border: 3px solid var(--secondary-color);
   border-radius: 10px;
 }
 
-.benefits a {
-  color: var(--secondary-color);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.benefits a:hover {
-  color: var(--secondary-darker);
-}
-
 .benefits-text {
   display: flex;
   justify-content: space-between;
   width: 75%;
-  background-color: var(--primary-color);
+  background-color: rgba(35, 31, 32, 0.85);
   padding: 50px 40px 50px 40px;
-
   border: 3px solid var(--secondary-color);
   border-radius: 10px;
 }
 
 .benefit {
-  width: 15%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 18%;
+
   font-size: 1.2rem;
 }
 
+.benefit p {
+  text-align: center;
+  margin: 10px 0;
+  padding: 0;
+  word-spacing: 2px;
+  border-radius: 5px;
+}
+
+.benefit button {
+  background-color: var(--secondary-color);
+  font-family: inherit;
+  font-weight: bold;
+  font-size: large;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.benefit button:hover {
+  background-color: var(--secondary-darker);
+}
+
 .benefit h3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: underline;
   color: var(--secondary-color);
 }
 

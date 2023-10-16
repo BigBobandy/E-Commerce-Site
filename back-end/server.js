@@ -19,6 +19,7 @@ const passwordRoutes = require("./routes/passwordRoutes");
 const shippingInfoRoutes = require("./routes/shippingInfoRoutes");
 const billingInfoRoutes = require("./routes/billingInfoRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const contactUsRoutes = require("./routes/contactUsRoutes");
 
 // Use routes
 app.use("/api/signup", signupRoutes);
@@ -30,6 +31,7 @@ app.use("/api/password", passwordRoutes);
 app.use("/api/shipping-info", shippingInfoRoutes);
 app.use("/api/billing-info", billingInfoRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/contact", contactUsRoutes);
 
 // Set the port that the server will listen on
 const PORT = process.env.PORT || 3000;

@@ -1,16 +1,22 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
 import "../../styles/Home-Styles/HomePage.css";
+import ContactUsModal from "../Modal-Components/ContactUsModal";
 import { UserContext } from "../User-Components/UserContext";
 import employeeImg from "/employee-otm.jpg";
 
 function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
   const { user } = useContext(UserContext); // get the user from the context
+  const [isContactUsModalOpen, setIsContactUsModalOpen] = useState(false);
   let navigate = useNavigate();
 
   return (
     <div className="home-container">
+      {isContactUsModalOpen && (
+        <ContactUsModal setIsContactUsModalOpen={setIsContactUsModalOpen} />
+      )}
+
       <section className="hero-container">
         <div className="hero-content">
           <h1 className="title-text">Welcome to Dirty Burger!</h1>
@@ -125,22 +131,11 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
         <h2>What Dirty Burger Can Do For You</h2>
         <div className="benefits-text">
           <div className="benefit">
-            <h3>Free Shipping & Handling</h3>
-            <p>We offer free shipping & handling for all orders over $100 </p>
-            {!user && (
-              <>
-                <small className="disclaimer-text">
-                  Disclaimer: For members only.{" "}
-                </small>
-
-                <small>
-                  {" "}
-                  <a onClick={() => setIsSignupModalOpen(true)}>
-                    Become a member
-                  </a>{" "}
-                </small>
-              </>
-            )}
+            <h3>Free Shipping</h3>
+            <p>
+              We offer our members free shipping & handling on all orders over
+              $100
+            </p>
           </div>
           <div className="benefit">
             <h3>24/7 Service</h3>
@@ -155,6 +150,18 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
               Our menu offers a wide range of unique options you can't find
               anywhere else. With service that is unmatched in the industry.
             </p>
+          </div>
+          <div className="benefit" id="contactUs">
+            <h3>Contact Us</h3>
+            <p>
+              Got questions or need assistance? Our team is here to help you
+              out.
+            </p>
+            <div className="message-wrapper">
+              <button onClick={() => setIsContactUsModalOpen(true)}>
+                Reach Out
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -54,11 +54,11 @@ function OrderInfoModal({ orderInfo, setOrderInfo, setIsOrderInfoModalOpen }) {
           <div className="order-info-top-container">
             <h3>Order Information</h3>
             <p>
-              Questions or concerns? Visit our{" "}
-              <a href="/contact-us" className="order-contact-link">
+              Questions or concerns? Please{" "}
+              <a href="/#contactUs" className="order-contact-link">
                 Contact Us
-              </a>{" "}
-              page.{" "}
+              </a>
+              .
             </p>
           </div>
 
