@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/user-styles/ConfirmEmail.css";
+import "../../styles/User-Styles/ConfirmEmail.css";
 import { UserContext } from "./UserContext";
 
 function ConfirmEmail({
