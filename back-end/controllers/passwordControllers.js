@@ -50,7 +50,7 @@ async function sendResetPasswordEmail(user, resetPasswordCode) {
         Data: "Password reset request", // Email subject
       },
     },
-    Source: "dirtyburgerdev@gmail.com", // Sender email address
+    Source: "Dirty Burger <dirtyburgerdev@gmail.com>", // Sender email address
   };
 
   try {

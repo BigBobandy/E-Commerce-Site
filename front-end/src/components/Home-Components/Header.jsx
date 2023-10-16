@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
 import "../../styles/Home-Styles/Header.css";
+import GuestModal from "../Modal-Components/GuestModal";
 import { UserContext } from "../User-Components/UserContext";
 
 function Header({
@@ -15,6 +16,7 @@ function Header({
 }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { user } = useContext(UserContext); // get the user from the context
+  const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
 
   // Function that calculates how many items are in the cart
   const totalItems = cart.reduce((total, item) => {
@@ -41,6 +43,9 @@ function Header({
 
   return (
     <header>
+      {isGuestModalOpen && (
+        <GuestModal setIsGuestModalOpen={setIsGuestModalOpen} />
+      )}
       <div className="logo-container">
         <img src={logo} alt="Dirty burger logo" className="logo-image" />
       </div>
@@ -101,13 +106,25 @@ function Header({
             <div className="cart-bottom">
               <h3>Subtotal: ${totalCost.toFixed(2)}</h3>
               {totalItems > 0 ? (
-                <Link
-                  to="/checkout"
-                  className="checkout-button"
-                  onClick={handleCartClick}
-                >
-                  CONTINUE TO CHECKOUT
-                </Link>
+                user ? (
+                  <Link
+                    to="/checkout"
+                    className="checkout-button"
+                    onClick={handleCartClick}
+                  >
+                    CONTINUE TO CHECKOUT
+                  </Link>
+                ) : (
+                  <button
+                    className="checkout-button"
+                    onClick={() => {
+                      setIsGuestModalOpen(true);
+                      setIsCartOpen(false);
+                    }}
+                  >
+                    CONTINUE TO CHECKOUT
+                  </button>
+                )
               ) : (
                 <Link
                   to="/menu"

@@ -52,7 +52,7 @@ async function sendConfirmationEmail(user, emailConfirmationCode) {
         Data: "Confirm your email", // Email subject
       },
     },
-    Source: "dirtyburgerdev@gmail.com", // Sender email address
+    Source: "Dirty Burger <dirtyburgerdev@gmail.com>", // Sender email address
   };
 
   try {
@@ -81,7 +81,7 @@ async function signup(req, res) {
     // Check if email is taken
     const userExists = await prisma.user.findUnique({ where: { email } });
     if (userExists) {
-      return res.status(400).json({ error: "Email already in use bud." });
+      return res.status(400).json({ error: "Email already in use." });
     }
 
     // If the email is not taken, hash the password the user gave
@@ -129,6 +129,46 @@ async function signup(req, res) {
   }
 }
 
+// Handles POST requests to the /createGuest path
+async function createGuest(req, res) {
+  try {
+    // Extract name and email from request body
+    const { firstName, lastName, email } = req.body;
+
+    console.log("/createGuest Req body: ", req.body);
+
+    // Check if email exists and is a string
+    if (typeof email !== "string" || email.length === 0) {
+      return res.status(400).json({ error: "Invalid email." });
+    }
+
+    // Check if email is already in use
+    const userExists = await prisma.user.findUnique({ where: { email } });
+    if (userExists) {
+      return res.status(400).json({ error: "Email already in use." });
+    }
+
+    // Generate a random 9-digit code for the user's profile url
+    let userUrlString = crypto.randomBytes(5).toString("hex").substring(0, 9);
+
+    // Use prisma to store new guest's information
+    const newGuest = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        isGuest: true,
+        userUrlString,
+      },
+    });
+
+    // send the new user, which is a gues, back in the response
+    res.status(201).json({ user: newGuest });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred.");
+  }
+}
 // Function to re-send the email confirmation code if the user didn't receive the first one or if it's expired
 async function resendConfirmationEmail(req, res) {
   try {
@@ -188,4 +228,4 @@ async function resendConfirmationEmail(req, res) {
     });
   }
 }
-module.exports = { signup, resendConfirmationEmail };
+module.exports = { signup, resendConfirmationEmail, createGuest };

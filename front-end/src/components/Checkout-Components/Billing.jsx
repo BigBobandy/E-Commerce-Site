@@ -26,7 +26,7 @@ function Billing({
         setCardSelection(defaultCard);
       }
     }
-  }, []);
+  }, [cardInfo]);
 
   // Function to handle selecting a payment method or in other words a card
   const handleCardSelection = (cardIndex) => {
@@ -119,9 +119,24 @@ function Billing({
           )}
         </>
       ) : (
-        <button onClick={() => setIsCreateCardModalOpen(true)}>
-          Add New Card
-        </button>
+        <>
+          <div className="checkout-details-container ">
+            <div>
+              <h2 className="checkout-step-counter">2</h2>
+            </div>
+            <div>
+              <h3>Payment Method</h3>
+            </div>
+            <div className="checkout-detail-container checkout-details-add-button-container">
+              <button
+                onClick={() => setIsCreateCardModalOpen(true)}
+                className="checkout-details-add-button"
+              >
+                Add New Card
+              </button>
+            </div>
+          </div>
+        </>
       )}
       {isCreateCardModalOpen && (
         <div className="animation">

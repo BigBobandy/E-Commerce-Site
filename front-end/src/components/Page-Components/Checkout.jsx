@@ -16,7 +16,7 @@ function Checkout({
   totalCost,
   totalItems,
 }) {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [currentStage, setCurrentStage] = useState("Shopping Cart");
   const [shippingCost, setShippingCost] = useState(0);
   const [cardSelection, setCardSelection] = useState(null);
@@ -119,6 +119,7 @@ function Checkout({
                 setShippingMethod={setShippingMethod}
                 setShippingCost={setShippingCost}
                 user={user}
+                setUser={setUser}
               />
             ) : (
               <OrderConfirmation orderDetails={orderDetailsState} />

@@ -15,7 +15,7 @@
   border-bottom: 2px solid var(--secondary-color);
   justify-content: space-between;
   flex-direction: row;
-  height: 8em;
+  height: 9em;
 }
 
 .checkout-detail-container {
@@ -129,4 +129,26 @@
   justify-content: center;
   align-items: center;
   margin: 0;
+}
+
+.checkout-details-add-button-container {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1em;
+}
+
+.checkout-details-add-button {
+  min-width: 12em;
+  background-color: var(--secondary-color);
+  font-family: inherit;
+  font-weight: bold;
+  padding: 10px 5px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.checkout-details-add-button:hover {
+  background-color: var(--secondary-darker);
 }

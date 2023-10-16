@@ -1,0 +1,39 @@
+.guest-modal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-image: linear-gradient(
+      rgba(35, 31, 32, 0.9),
+      rgba(35, 31, 32, 0.9)
+    ),
+    url("../../assets/borger-logo.png");
+  background-color: var(--primary-color);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 65%;
+  color: white;
+  border: 6px solid var(--secondary-color);
+  border-radius: 10px;
+  width: 60%;
+  min-height: fit-content;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-top: 55px;
+}
+
+.guest-modal-content {
+  padding: 1.5rem;
+  text-align: center;
+  line-height: 1.6;
+  width: 70%;
+}
+
+.guest-modal-content p {
+  text-align: center;
+  margin: 10px 0;
+  padding: 0;
+  word-spacing: 2px;
+  border-radius: 5px;
+}

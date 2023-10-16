@@ -54,85 +54,81 @@ function ShippingMethods({
   };
 
   return (
-    <div className="shipping-methods-details-container">
-      <div className="shipping-methods-header">
-        <div>
-          <h2 className="checkout-step-counter">3</h2>
-        </div>
-        <div>
-          <h3>Select Shipping Method</h3>
-        </div>
-      </div>
-      <div className="radio-options-container">
-        {user && totalCost < 100 && (
-          <div className="message-wrapper">
-            <p className="shipping-methods-message">
-              You're so close to qualifying for free shipping! Our members enjoy
-              free shipping on all orders of $100 or more.
-            </p>
+    <div>
+      <div className="shipping-methods-details-container">
+        <div className="shipping-methods-header">
+          <div>
+            <h2 className="checkout-step-counter">3</h2>
           </div>
-        )}
-        {user && totalCost >= 100 && (
-          <div className="shipping-method-option">
-            <div className="message-wrapper">
+          <div>
+            <h3>Select Shipping Method</h3>
+          </div>
+        </div>
+        <div className="radio-options-container">
+          <div className="message-wrapper">
+            {user && totalCost < 100 && (
+              <p className="shipping-methods-message">
+                You're so close to qualifying for free shipping! Our members
+                enjoy free shipping on all orders of $100 or more.
+              </p>
+            )}
+            {user && totalCost >= 100 && (
               <p className="shipping-methods-message">
                 Your order is $100 or more you qualify for free shipping!
               </p>
-            </div>
-            <div>
+            )}
+          </div>
+          <div className="shipping-method-options-wrapper">
+            {user && totalCost >= 100 && (
+              <div className="shipping-method-option">
+                <input
+                  type="radio"
+                  id="free"
+                  name="shipping"
+                  value="free"
+                  className="styled-radio-button"
+                  checked={shippingMethod === "free"}
+                  onChange={handleShippingMethodChange}
+                />
+                <label htmlFor="free">Member Shipping (7-10 days) - FREE</label>
+              </div>
+            )}
+            <div className="shipping-method-option">
               <input
                 type="radio"
-                id="free"
+                id="standard"
                 name="shipping"
-                value="free"
+                value="standard"
                 className="styled-radio-button"
-                checked={shippingMethod === "free"}
+                checked={shippingMethod === "standard"}
                 onChange={handleShippingMethodChange}
               />
-              <label htmlFor="free">Member Shipping (7-10 days) - FREE</label>
+              <label htmlFor="standard">Standard (5-7 days) - $15.99</label>
             </div>
-          </div>
-        )}
-        <div className="shipping-method-option">
-          <div>
-            <input
-              type="radio"
-              id="standard"
-              name="shipping"
-              value="standard"
-              className="styled-radio-button"
-              checked={shippingMethod === "standard"}
-              onChange={handleShippingMethodChange}
-            />
-            <label htmlFor="standard">Standard (5-7 days) - $15.99</label>
-          </div>
-        </div>
-        <div className="shipping-method-option">
-          <div>
-            <input
-              type="radio"
-              id="express"
-              name="shipping"
-              value="express"
-              className="styled-radio-button"
-              checked={shippingMethod === "express"}
-              onChange={handleShippingMethodChange}
-            />
-            <label htmlFor="express">Express (2-3 days) - $22.99</label>
-          </div>
-        </div>
-        <div className="shipping-method-option">
-          <div>
-            <input
-              type="radio"
-              id="overnight"
-              name="shipping"
-              value="overnight"
-              className="styled-radio-button"
-              checked={shippingMethod === "overnight"}
-              onChange={handleShippingMethodChange}
-            />
-            <label htmlFor="overnight">Overnight (1 day) - $34.99</label>
+            <div className="shipping-method-option">
+              <input
+                type="radio"
+                id="express"
+                name="shipping"
+                value="express"
+                className="styled-radio-button"
+                checked={shippingMethod === "express"}
+                onChange={handleShippingMethodChange}
+              />
+              <label htmlFor="express">Express (2-3 days) - $22.99</label>
+            </div>
+            <div className="shipping-method-option">
+              <input
+                type="radio"
+                id="overnight"
+                name="shipping"
+                value="overnight"
+                className="styled-radio-button"
+                checked={shippingMethod === "overnight"}
+                onChange={handleShippingMethodChange}
+              />
+              <label htmlFor="overnight">Overnight (1 day) - $34.99</label>
+            </div>
           </div>
         </div>
       </div>

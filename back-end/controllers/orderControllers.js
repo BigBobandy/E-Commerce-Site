@@ -47,7 +47,7 @@ async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
         Data: "Order Confirmation", // Email subject
       },
     },
-    Source: "dirtyburgerdev@gmail.com", // Sender email address
+    Source: "Dirty Burger <dirtyburgerdev@gmail.com>", // Sender email address
   };
 
   try {

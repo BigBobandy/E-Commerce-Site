@@ -137,9 +137,24 @@ function Shipping({
           )}
         </>
       ) : (
-        <button onClick={() => setIsCreateAddressModalOpen(true)}>
-          Add New Address
-        </button>
+        <>
+          <div className="checkout-details-container ">
+            <div>
+              <h2 className="checkout-step-counter">1</h2>
+            </div>
+            <div>
+              <h3>Shipping Address</h3>
+            </div>
+            <div className="checkout-detail-container checkout-details-add-button-container">
+              <button
+                onClick={() => setIsCreateAddressModalOpen(true)}
+                className="checkout-details-add-button"
+              >
+                Add New Address
+              </button>
+            </div>
+          </div>
+        </>
       )}
       {isCreateAddressModalOpen && (
         <div className="animation">
