@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { COUNTRIES } from "../../helpers/COUNTRIES";
-import { US_STATES } from "../../helpers/US-States";
+import { US_STATES } from "../../helpers/US-STATES";
 import "../../styles/User-Styles/AddressForm.css";
 
 function AddressForm({ newAddress, setNewAddress }) {
