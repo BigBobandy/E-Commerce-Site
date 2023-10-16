@@ -1,9 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const { decrypt } = require("../utils/encryptionHelper");
 const jwt = require("jsonwebtoken");
-const AWS = require("../utils/aws-config");
+const { SendEmailCommand } = require("@aws-sdk/client-ses");
+const sesClient = require("../utils/aws-config");
 const prisma = new PrismaClient();
-const ses = new AWS.SES();
 
 // Function to send order confirmation email
 async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
@@ -52,7 +52,8 @@ async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
 
   try {
     // Attempt to send the email
-    const result = await ses.sendEmail(params).promise();
+    const command = new SendEmailCommand(params);
+    const result = await sesClient.send(command);
     console.log("Email sent:", result);
   } catch (error) {
     // Log any errors

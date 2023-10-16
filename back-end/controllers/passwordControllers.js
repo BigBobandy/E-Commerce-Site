@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const AWS = require("../utils/aws-config");
-const ses = new AWS.SES();
+const { SendEmailCommand } = require("@aws-sdk/client-ses");
+const { sesClient } = require("../utils/aws-config");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -55,7 +55,8 @@ async function sendResetPasswordEmail(user, resetPasswordCode) {
 
   try {
     // Attempt to send the email
-    const result = await ses.sendEmail(params).promise();
+    const command = new SendEmailCommand(params);
+    const result = await sesClient.send(command);
     console.log("Email sent:", result);
   } catch (error) {
     // Log any errors

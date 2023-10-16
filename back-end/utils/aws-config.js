@@ -1,10 +1,9 @@
-require("dotenv").config();
-const AWS = require("aws-sdk");
+const { SESClient } = require("@aws-sdk/client-s3");
+const { fromEnv } = require("@aws-sdk/credential-provider-env");
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const sesClient = new SESClient({
   region: process.env.AWS_REGION,
+  credentials: fromEnv(),
 });
 
-module.exports = AWS;
+module.exports = { sesClient };

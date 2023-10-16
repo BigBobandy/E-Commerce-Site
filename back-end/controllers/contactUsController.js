@@ -1,5 +1,5 @@
-const AWS = require("../utils/aws-config");
-const ses = new AWS.SES();
+const { SendEmailCommand } = require("@aws-sdk/client-ses");
+const sesClient = require("../utils/aws-config");
 
 // Handles sending 'contact us' emails
 async function sendContactEmail(req, res) {
@@ -37,9 +37,9 @@ async function sendContactEmail(req, res) {
 
   try {
     // Attempt to send the email
-    const result = await ses.sendEmail(params).promise();
+    const command = new SendEmailCommand(params);
+    const result = await sesClient.send(command);
     console.log("Email sent:", result);
-    res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     // Log any errors
     console.error("Error sending email:", error);
