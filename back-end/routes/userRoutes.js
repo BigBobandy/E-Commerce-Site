@@ -1,5 +1,5 @@
 const express = require("express");
-const limit = require("../utils/rateLimit");
+const { limit } = require("../utils/rateLimit");
 const router = express.Router();
 const {
   getUserByUrlString,

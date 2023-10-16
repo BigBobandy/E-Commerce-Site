@@ -28,3 +28,7 @@
   word-wrap: break-word;
   margin-bottom: 2em;
 }
+
+.shipping-method-options-wrapper {
+  padding-left: 14%;
+}

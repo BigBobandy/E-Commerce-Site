@@ -51,13 +51,20 @@ function SignUpModal({
       }
 
       // Check if email and confirm email fields are not empty
-      if (!email || !confirmEmail) {
+      if (!email.trim() || !confirmEmail.trim()) {
         setMessage("Please enter and confirm your email address.");
         return;
       }
 
-      // Check if the entered passwords match
-      if (email !== confirmEmail) {
+      // Check if the email field is in the correct format and isn't empty
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        setMessage("Please enter a valid email.");
+        return;
+      }
+
+      // Check if the entered emails match
+      if (!email.trim() !== confirmEmail.trim()) {
         setMessage("Email addresses do not match.");
         return;
       }
