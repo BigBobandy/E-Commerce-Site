@@ -1,5 +1,5 @@
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const sesClient = require("../utils/aws-config");
+const { sesClient } = require("../utils/aws-config");
 
 // Handles sending 'contact us' emails
 async function sendContactEmail(req, res) {

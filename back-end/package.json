@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.428.0",
+    "@aws-sdk/client-s3": "^3.429.0",
+    "@aws-sdk/client-ses": "^3.429.0",
     "@prisma/client": "^4.16.1",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",

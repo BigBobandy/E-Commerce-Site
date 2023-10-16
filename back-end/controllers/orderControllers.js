@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const { decrypt } = require("../utils/encryptionHelper");
 const jwt = require("jsonwebtoken");
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const sesClient = require("../utils/aws-config");
+const { sesClient } = require("../utils/aws-config");
 const prisma = new PrismaClient();
 
 // Function to send order confirmation email
