@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../helpers/config";
 
 export function useCardManagement() {
   const [cardInfo, setCardInfo] = useState(null);
@@ -9,7 +10,7 @@ export function useCardManagement() {
     if (token) {
       try {
         const cardResponse = await fetch(
-          "http://localhost:3000/api/billing-info/get-card-info",
+          `${apiUrl}/api/billing-info/get-card-info`,
           {
             method: "GET",
             headers: {

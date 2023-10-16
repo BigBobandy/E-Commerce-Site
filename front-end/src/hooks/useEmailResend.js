@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { apiUrl } from "../helpers/config";
 
 export function useEmailResend() {
   // Function to handle re-sending the confirmation email if the user hasn't confirmed it after a certain time
@@ -6,7 +6,7 @@ export function useEmailResend() {
     try {
       // Send the email the user entered earlier to the server
       const response = await fetch(
-        "http://localhost:3000/api/signup/resend-confirmation-email",
+        `${apiUrl}/api/signup/resend-confirmation-email`,
         {
           method: "POST", // Type of request
           headers: {

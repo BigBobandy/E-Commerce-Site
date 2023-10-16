@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Page-Styles/UserProfile.css";
 import BillingInfoModal from "../Modal-Components/BillingInfoModal";
 import EditProfileModal from "../Modal-Components/EditProfileModal";
@@ -47,16 +48,13 @@ function UserProfile() {
 
       if (token) {
         try {
-          const response = await fetch(
-            "http://localhost:3000/api/login/validate-token",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const response = await fetch(`${apiUrl}/api/login/validate-token`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { maskCardNumber } from "../../helpers/cardHelper";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Modal-Styles/BillingInfoModal.css";
 import { UserContext } from "../User-Components/UserContext";
 import CreateCardModal from "./CreateCardModal";
@@ -54,17 +55,14 @@ function BillingInfoModal({ setIsBillingInfoModalOpen, user }) {
       // get the JWT from local storage
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        "http://localhost:3000/api/billing-info/default-card",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ cardId }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/billing-info/default-card`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ cardId }),
+      });
 
       // If response isn't ok
       if (!response.ok) {
@@ -129,7 +127,7 @@ function BillingInfoModal({ setIsBillingInfoModalOpen, user }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3000/api/billing-info/delete-card/${cardId}`,
+        `${apiUrl}/api/billing-info/delete-card/${cardId}`,
         {
           method: "DELETE",
           headers: {

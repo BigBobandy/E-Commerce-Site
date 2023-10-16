@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { COUNTRIES } from "../../helpers/COUNTRIES";
 import { US_STATES } from "../../helpers/US-STATES";
 import "../../styles/User-Styles/AddressForm.css";

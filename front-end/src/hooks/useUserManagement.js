@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../helpers/config";
 
 export function useUserManagement() {
   const [user, setUser] = useState(null);
@@ -9,16 +10,13 @@ export function useUserManagement() {
   const validateToken = async (token) => {
     if (token) {
       try {
-        const response = await fetch(
-          "http://localhost:3000/api/login/validate-token",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${apiUrl}/api/login/validate-token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

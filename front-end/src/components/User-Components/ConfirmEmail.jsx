@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/User-Styles/ConfirmEmail.css";
 import { UserContext } from "./UserContext";
 
@@ -62,7 +63,7 @@ function ConfirmEmail({
 
       setLoading(true); // Start loading
 
-      const response = await fetch("http://localhost:3000/api/confirm", {
+      const response = await fetch(`${apiUrl}/api/confirm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

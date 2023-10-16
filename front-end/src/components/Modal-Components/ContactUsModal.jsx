@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Modal-Styles/ContactUsModal.css";
 
 function ContactUsModal({ setIsContactUsModalOpen }) {
@@ -89,7 +90,7 @@ function ContactUsModal({ setIsContactUsModalOpen }) {
 
     // Try to send the request
     try {
-      response = await fetch("http://localhost:3000/api/contact/send-contact", {
+      response = await fetch(`${apiUrl}/api/contact/send-contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

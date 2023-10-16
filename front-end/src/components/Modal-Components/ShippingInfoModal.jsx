@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Modal-Styles/ShippingInfoModal.css";
 import { UserContext } from "../User-Components/UserContext";
 import CreateAddressModal from "./CreateAddressModal";
@@ -49,7 +50,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:3000/api/shipping-info/default-address",
+        `${apiUrl}/api/shipping-info/default-address`,
         {
           method: "PATCH",
           headers: {
@@ -123,7 +124,7 @@ function ShippingInfoModal({ setIsShippingInfoModalOpen }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3000/api/shipping-info/delete-address/${addressId}`,
+        `${apiUrl}/api/shipping-info/delete-address/${addressId}`,
         {
           method: "DELETE",
           headers: {

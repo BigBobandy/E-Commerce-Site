@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiUrl } from "../helpers/config";
 
 export function useMenuItems() {
   const [menuItems, setMenuItems] = useState({
@@ -13,7 +14,7 @@ export function useMenuItems() {
     // Function to fetch menu items from the server
     async function fetchMenuItems() {
       try {
-        const response = await fetch("http://localhost:3000/api/menu-items");
+        const response = await fetch(`${apiUrl}/api/menu-items`);
 
         // Check if the response is successful
         if (!response.ok) {

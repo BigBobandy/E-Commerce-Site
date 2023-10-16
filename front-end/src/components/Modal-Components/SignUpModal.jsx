@@ -1,6 +1,7 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import validatePassword from "../../helpers/validatePassword";
 import "../../styles/Modal-Styles/SignUpModal.css";
 import ConfirmEmail from "../User-Components/ConfirmEmail";
@@ -90,7 +91,7 @@ function SignUpModal({
 
       setLoading(true); // Start loading
 
-      const response = await fetch("http://localhost:3000/api/signup", {
+      const response = await fetch(`${apiUrl}/api/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

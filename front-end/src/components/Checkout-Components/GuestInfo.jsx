@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Checkout-Styles/GuestInfo.css";
 
 function GuestInfo({ guestInfo, setGuestInfo, setIsGuest, setUser }) {
@@ -61,16 +62,13 @@ function GuestInfo({ guestInfo, setGuestInfo, setIsGuest, setUser }) {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/signup/createGuest",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(guestInfo),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/signup/createGuest`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(guestInfo),
+      });
 
       if (response.ok) {
         const data = await response.json();

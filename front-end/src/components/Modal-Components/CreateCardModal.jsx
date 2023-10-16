@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import { useCardGenerator } from "../../hooks/useCardGenerator";
 import "../../styles/Modal-Styles/CreateCardModal.css";
 
@@ -50,20 +51,17 @@ function CreateCardModal({
 
     try {
       // make the POST request to add the card
-      const response = await fetch(
-        "http://localhost:3000/api/billing-info/create-card",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...newCard,
-            cvv: newCard.cvv.toString(),
-          }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/billing-info/create-card`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...newCard,
+          cvv: newCard.cvv.toString(),
+        }),
+      });
 
       // If response isn't okay throw an error and display it
       if (!response.ok) {

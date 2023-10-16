@@ -1,6 +1,7 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Modal-Styles/CreateAddressModal.css";
 import AddressForm from "../User-Components/AddressForm";
 
@@ -55,17 +56,14 @@ function CreateAddressModal({ setIsCreateAddressModalOpen, setAddresses }) {
 
     try {
       // make the POST request to add the address
-      const response = await fetch(
-        "http://localhost:3000/api/shipping-info/add-address",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newAddress),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/shipping-info/add-address`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newAddress),
+      });
 
       // If response isn't okay throw an error and display it
       if (!response.ok) {

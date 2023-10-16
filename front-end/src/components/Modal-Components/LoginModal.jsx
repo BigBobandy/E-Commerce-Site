@@ -2,6 +2,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import logoImg from "../../assets/borger-logo.png";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Modal-Styles/LoginModal.css";
 import ConfirmEmail from "../User-Components/ConfirmEmail";
 import PasswordChange from "../User-Components/PasswordChange";
@@ -54,7 +55,7 @@ function LoginModal({ setIsLoginModalOpen, handleResendEmail }) {
       setLoading(true);
 
       // Passing the email and password the user submitted in the body of the request
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch(`${apiUrl}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

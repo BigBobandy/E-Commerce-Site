@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Checkout-Styles/OrderSummary.css";
 import { UserContext } from "../User-Components/UserContext";
 
@@ -127,17 +128,14 @@ function OrderSummary({
 
     try {
       // Send POST request to submit the order
-      const response = await fetch(
-        "http://localhost:3000/api/orders/submit-order",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderDetailsForPost),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/orders/submit-order`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderDetailsForPost),
+      });
 
       // Handle unsuccessful responses
       if (!response.ok) {

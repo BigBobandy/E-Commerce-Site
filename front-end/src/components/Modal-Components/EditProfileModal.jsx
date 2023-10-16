@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import "../../styles/Modal-Styles/EditProfileModal.css";
 import "../../styles/User-Styles/PasswordChange.css";
 import PasswordChange from "../User-Components/PasswordChange";
@@ -59,7 +60,7 @@ function EditProfileModal({ setIsEditModalOpen }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3000/api/user/${user.userUrlString}/change-name`,
+        `${apiUrl}/api/user/${user.userUrlString}/change-name`,
         {
           method: "PUT",
           headers: {

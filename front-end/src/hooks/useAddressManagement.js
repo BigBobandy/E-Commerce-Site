@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../helpers/config";
 
 export function useAddressManagement() {
   const [addresses, setAddresses] = useState([]);
@@ -10,7 +11,7 @@ export function useAddressManagement() {
   const fetchAddresses = async (token) => {
     try {
       const addressResponse = await fetch(
-        "http://localhost:3000/api/shipping-info/get-shipping-info",
+        `${apiUrl}/api/shipping-info/get-shipping-info`,
         {
           method: "GET",
           headers: {

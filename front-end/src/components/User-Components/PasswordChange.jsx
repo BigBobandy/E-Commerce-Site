@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../../helpers/config";
 import validatePassword from "../../helpers/validatePassword";
 import "../../styles/User-Styles/PasswordChange.css";
 import PasswordInput from "../Modal-Components/PasswordInput";
@@ -30,16 +31,13 @@ function PasswordChange({ setPasswordChangeShown }) {
       setLoading(true); // Start loading
 
       // Send the email the user entered to server
-      const response = await fetch(
-        "http://localhost:3000/api/password/reset-password",
-        {
-          method: "POST", // Type of request
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/password/reset-password`, {
+        method: "POST", // Type of request
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
       // Check if the server's response is ok (status in the range 200-299)
       if (response.ok) {
@@ -80,7 +78,7 @@ function PasswordChange({ setPasswordChangeShown }) {
 
       // Send the email the user entered earlier to the server
       const response = await fetch(
-        "http://localhost:3000/api/password/resend-reset-password-email",
+        `${apiUrl}/api/password/resend-reset-password-email`,
         {
           method: "POST", // Type of request
           headers: {
@@ -128,16 +126,13 @@ function PasswordChange({ setPasswordChangeShown }) {
 
       setLoading(true); // Start loading
 
-      const response = await fetch(
-        "http://localhost:3000/api/password/verify-reset-code",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, code }), // Send both email and code for verification
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/password/verify-reset-code`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, code }), // Send both email and code for verification
+      });
 
       if (response.ok) {
         setMessage("Reset code confirmed successfully.");
@@ -182,16 +177,13 @@ function PasswordChange({ setPasswordChangeShown }) {
 
       setLoading(true); // Start loading
 
-      const response = await fetch(
-        "http://localhost:3000/api/password/update-password",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }), // Send both email and new password to the server
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/password/update-password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }), // Send both email and new password to the server
+      });
 
       if (response.ok) {
         // Set success message

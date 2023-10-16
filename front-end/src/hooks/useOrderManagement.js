@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../helpers/config";
 
 export function useOrderManagement() {
   const [orderInfo, setOrderInfo] = useState(null);
@@ -10,7 +11,7 @@ export function useOrderManagement() {
     if (token) {
       try {
         const orderResponse = await fetch(
-          "http://localhost:3000/api/orders/get-order-info",
+          `${apiUrl}/api/orders/get-order-info`,
           {
             method: "GET",
             headers: {
