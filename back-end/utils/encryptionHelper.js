@@ -1,6 +1,8 @@
 const crypto = require("crypto");
 require("dotenv").config({ path: "../.env" });
 
+console.log("ENCRYPTION_KEY:", process.env.ENCRYPTION_KEY);
+
 // Extract the encryption key from the environment variables; it needs to be 256 bits
 if (!process.env.ENCRYPTION_KEY) {
   throw new Error("ENCRYPTION_KEY is not set");

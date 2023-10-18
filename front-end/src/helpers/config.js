@@ -15,5 +15,5 @@
 
 export const apiUrl =
   process.env.NODE_ENV === "production"
-    ? "http://3.92.161.108:3000"
+    ? "https://dirtyburgerproject.com:3000"
     : "http://localhost:3000";
