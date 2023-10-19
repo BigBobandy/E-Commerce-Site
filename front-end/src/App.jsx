@@ -15,6 +15,7 @@ import { useCart } from "./hooks/useCart";
 import { useEmailResend } from "./hooks/useEmailResend";
 import { useMenuItems } from "./hooks/useMenuItems";
 import "./styles/Modal-Styles/Modal-Global.css";
+import "./styles/Page-Styles/MediaQueries.css";
 
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);

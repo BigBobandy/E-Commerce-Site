@@ -7,12 +7,12 @@ header {
   text-align: center;
   padding: 1em;
   padding-bottom: 25px;
-  position: fixed;
+  position: static;
   left: 0;
   top: 0;
   width: 100%;
   z-index: 9999;
-  height: 25px;
+  height: auto;
   color: white;
   border-bottom: 5px solid var(--secondary-color);
 }
