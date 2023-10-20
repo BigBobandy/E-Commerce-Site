@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../../assets/borger-logo.png";
 import "../../styles/Home-Styles/HomePage.css";
+import "../../styles/Page-Styles/MediaQueries.css";
 import ContactUsModal from "../Modal-Components/ContactUsModal";
 import { UserContext } from "../User-Components/UserContext";
 import employeeImg from "/employee-otm.jpg";
@@ -19,8 +20,8 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
 
       <section className="hero-container">
         <div className="hero-content">
-          <h1 className="title-text">Welcome to Dirty Burger!</h1>
           <div className="hero-text">
+            <h1 className="title-text">Welcome to Dirty Burger!</h1>
             <p>
               Have you ever wanted a burger but you were too lazy to go to your
               local fast food joint? Have you ever wished you had ordered a
@@ -71,9 +72,7 @@ function HomePage({ setIsLoginModalOpen, setIsSignupModalOpen }) {
               </>
             )}
           </div>
-        </div>
-        <div className="hero-right-side">
-          <div className="img-wrapper">
+          <div className="hero-image-wrapper ">
             <img src={logoImg} alt="Dirty Burger Logo" className="logo-img" />
           </div>
         </div>

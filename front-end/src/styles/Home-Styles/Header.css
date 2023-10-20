@@ -1,28 +1,23 @@
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   flex-direction: row;
   background-color: var(--primary-color);
   text-align: center;
   padding: 1em;
   padding-bottom: 25px;
-  position: static;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   z-index: 9999;
-  height: auto;
+  height: 2em;
   color: white;
   border-bottom: 5px solid var(--secondary-color);
 }
 
 .logo-container {
-  background-color: var(--primary-color);
-  padding: 5px;
-  border-bottom: 5px solid var(--secondary-color);
-  border-right: 5px solid var(--secondary-color);
-  border-bottom-right-radius: 30%;
   position: fixed;
   z-index: 1;
   top: 10;
@@ -30,13 +25,12 @@ header {
   display: flex;
   justify-content: flex-start;
   padding: 10px;
-  margin-top: 1.5rem;
 }
 
 .logo-image {
   z-index: 9999;
-  width: 80px;
-  height: fit-content;
+  width: 4em;
+  padding-top: 0.5em;
 }
 
 h1 {

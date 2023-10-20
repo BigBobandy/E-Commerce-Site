@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/borger-logo.png";
 import "../../styles/Home-Styles/Header.css";
+import "../../styles/Page-Styles/MediaQueries.css";
 import GuestModal from "../Modal-Components/GuestModal";
 import { UserContext } from "../User-Components/UserContext";
 
@@ -66,7 +67,6 @@ function Header({
       {user && (
         /* If user is logged in */
         <div className="user-info">
-          <p>Welcome, {user.firstName}</p>
           <Link to={`/profile/${user.userUrlString}`}>
             <FontAwesomeIcon className="user-profile-link" icon={faUser} />
           </Link>

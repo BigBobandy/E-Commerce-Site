@@ -29,7 +29,6 @@
 }
 
 .hero-content {
-  max-width: 40%;
   padding: 2rem;
   background: linear-gradient(
     rgba(0, 0, 0, 0.55),
@@ -37,11 +36,20 @@
     rgba(0, 0, 0, 0.25)
   );
   border-radius: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .hero-text {
+  width: 50%;
   font-size: 1.2rem;
   margin-bottom: 20px;
+}
+
+.hero-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .member-welcome-message {
@@ -125,7 +133,7 @@
 }
 
 .logo-img {
-  width: 100%;
+  width: 20em;
   height: auto;
 }
 
