@@ -65,7 +65,7 @@ function SignUpModal({
       }
 
       // Check if the entered emails match
-      if (!email.trim() !== confirmEmail.trim()) {
+      if (email.trim() !== confirmEmail.trim()) {
         setMessage("Email addresses do not match.");
         return;
       }
