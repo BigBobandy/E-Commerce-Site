@@ -1,8 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
 const { decrypt } = require("../utils/encryptionHelper");
 const jwt = require("jsonwebtoken");
-const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const { sesClient } = require("../utils/aws-config");
+const { PrismaClient } = require("@prisma/client");
+const { client: mailgunClient } = require("../utils/mailgunConfig");
 const prisma = new PrismaClient();
 
 // Function to send order confirmation email
@@ -30,36 +29,25 @@ async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
     <p>Thank you for shopping with us. We hope you enjoy your purchase!</p>
   `;
 
-  // Parameters for the SES sendEmail method
-  const params = {
-    Destination: {
-      ToAddresses: [user.email], // Recipient email address
-    },
-    Message: {
-      Body: {
-        Html: {
-          Charset: "UTF-8",
-          Data: emailContent, // HTML content
-        },
-      },
-      Subject: {
-        Charset: "UTF-8",
-        Data: "Order Confirmation", // Email subject
-      },
-    },
-    Source: "Dirty Burger <dirtyburgerdev@gmail.com>", // Sender email address
+  const messageData = {
+    from: "Dirty Burger <dirtyburgerdev@gmail.com>",
+    to: user.email,
+    subject: "Order Confirmation",
+    text: "Thank you for shopping with Dirty Burger!",
+    html: emailContent,
   };
 
   try {
-    // Attempt to send the email
-    const command = new SendEmailCommand(params);
-    const result = await sesClient.send(command);
+    const result = await mailgunClient.messages.create(
+      process.env.MAILGUN_DOMAIN,
+      messageData
+    );
     console.log("Email sent:", result);
   } catch (error) {
-    // Log any errors
     console.error("Error sending email:", error);
   }
 }
+
 // Function to generate a date-based and sequential order number
 async function generateOrderNumber() {
   // Get the current date in YYYYMMDD format

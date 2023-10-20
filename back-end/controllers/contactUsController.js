@@ -1,5 +1,4 @@
-const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const { sesClient } = require("../utils/aws-config");
+const { client: mailgunClient } = require("../utils/mailgunConfig");
 
 // Handles sending 'contact us' emails
 async function sendContactEmail(req, res) {
@@ -35,15 +34,22 @@ async function sendContactEmail(req, res) {
     Source: "dirtyburgerdev@gmail.com", // Email sender
   };
 
+  const messageData = {
+    from: "Dirty Burger <dirtyburgerdev@gmail.com>",
+    to: "dirtyburgerdev@gmail.com",
+    subject: "New Contact Us Submission",
+    text: `Submitted by: ${email}`,
+    html: emailContent,
+  };
+
   try {
-    // Attempt to send the email
-    const command = new SendEmailCommand(params);
-    const result = await sesClient.send(command);
+    const result = await mailgunClient.messages.create(
+      process.env.MAILGUN_DOMAIN,
+      messageData
+    );
     console.log("Email sent:", result);
   } catch (error) {
-    // Log any errors
     console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send email." });
   }
 }
 

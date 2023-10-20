@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const { sesClient } = require("../utils/aws-config");
 const { PrismaClient } = require("@prisma/client");
-
+const { client: mailgunClient } = require("../utils/mailgunConfig");
 const prisma = new PrismaClient();
 
 // Function to format the code into a more readable format
@@ -33,33 +31,21 @@ async function sendResetPasswordEmail(user, resetPasswordCode) {
   <h2><b>${resetPasswordCode}</b></h2>
   <p>If you did not request this password reset, please ignore this email.</p>`;
 
-  // Parameters for the SES sendEmail method
-  const params = {
-    Destination: {
-      ToAddresses: [user.email], // Recipient email address
-    },
-    Message: {
-      Body: {
-        Html: {
-          Charset: "UTF-8",
-          Data: emailContent, // HTML content
-        },
-      },
-      Subject: {
-        Charset: "UTF-8",
-        Data: "Password reset request", // Email subject
-      },
-    },
-    Source: "Dirty Burger <dirtyburgerdev@gmail.com>", // Sender email address
+  const messageData = {
+    from: "Dirty Burger <dirtyburgerdev@gmail.com>",
+    to: user.email,
+    subject: "Password Reset Request",
+    text: "Enter the code below to reset password",
+    html: emailContent,
   };
 
   try {
-    // Attempt to send the email
-    const command = new SendEmailCommand(params);
-    const result = await sesClient.send(command);
+    const result = await mailgunClient.messages.create(
+      process.env.MAILGUN_DOMAIN,
+      messageData
+    );
     console.log("Email sent:", result);
   } catch (error) {
-    // Log any errors
     console.error("Error sending email:", error);
   }
 }

@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const { sesClient } = require("../utils/aws-config");
 const { PrismaClient } = require("@prisma/client");
-
+const { client: mailgunClient } = require("../utils/mailgunConfig");
 const prisma = new PrismaClient();
 
 // Function for formatting the email confirmation code that is called after the code is generated
@@ -30,38 +28,25 @@ async function sendConfirmationEmail(user, emailConfirmationCode) {
   // HTML content for the confirmation email
   const emailContent = `
   <h1>Thanks for signing up, ${user.firstName}!</h1>
-  <p>Please confirm your email address by entering the following code on the confirmation page:</p> 
-  <h2><b>${emailConfirmationCode}</b></h2>
+  <p>Please confirm your email address by entering the following code on the confirmation page:</p>
+  <h2><b>${formatCode(emailConfirmationCode)}</b></h2>
   <p>You can confirm your email by clicking the link below:</p>
-  
 `;
-
-  const params = {
-    Destination: {
-      ToAddresses: [user.email], // Recipient
-    },
-    Message: {
-      Body: {
-        Html: {
-          Charset: "UTF-8",
-          Data: emailContent, // HTML content
-        },
-      },
-      Subject: {
-        Charset: "UTF-8",
-        Data: "Confirm your email", // Email subject
-      },
-    },
-    Source: "Dirty Burger <dirtyburgerdev@gmail.com>", // Sender email address
+  const messageData = {
+    from: "Dirty Burger <dirtyburgerdev@gmail.com>",
+    to: user.email,
+    subject: "Confirm your email",
+    text: "Please confirm your email",
+    html: emailContent,
   };
 
   try {
-    // Attempt to send the email
-    const command = new SendEmailCommand(params);
-    const result = await sesClient.send(command);
+    const result = await mailgunClient.messages.create(
+      process.env.MAILGUN_DOMAIN,
+      messageData
+    );
     console.log("Email sent:", result);
   } catch (error) {
-    // Log errors
     console.error("Error sending email:", error);
   }
 }
