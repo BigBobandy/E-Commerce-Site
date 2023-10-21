@@ -89,7 +89,8 @@
 
 .about-us-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 2em;
   align-items: center;
   padding: 40px;
   background: linear-gradient(
