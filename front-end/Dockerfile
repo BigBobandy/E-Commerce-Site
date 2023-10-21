@@ -2,11 +2,11 @@ FROM node:18
 
 WORKDIR /app
 
-COPY ./front-end/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
-COPY ./front-end/* ./
+COPY . .
 
 EXPOSE 8080
 
