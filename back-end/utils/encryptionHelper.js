@@ -1,13 +1,11 @@
 const crypto = require("crypto");
 require("dotenv").config({ path: "../.env" });
 
-console.log("ENCRYPTION_KEY:", process.env.ENCRYPTION_KEY);
-
 // Extract the encryption key from the environment variables; it needs to be 256 bits
 if (!process.env.ENCRYPTION_KEY) {
   throw new Error("ENCRYPTION_KEY is not set");
 }
-console.log("Encryption Key:", process.env.ENCRYPTION_KEY);
+
 const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY, "hex");
 
 // Define the encryption algorithm to be used; 'aes-256-cbc' is a popular and secure choice
