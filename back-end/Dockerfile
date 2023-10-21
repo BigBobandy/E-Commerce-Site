@@ -8,6 +8,6 @@ RUN npm install
 
 EXPOSE 3000
 
-RUN node build 
+RUN npm build 
 
 CMD [ "npm", "start" ]
