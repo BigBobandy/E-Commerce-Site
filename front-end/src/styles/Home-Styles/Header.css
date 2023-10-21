@@ -39,9 +39,14 @@ h1 {
   color: var(--secondary-color);
 }
 
-nav {
-  display: flex;
-  justify-content: space-around;
+.grid-nav-4,
+.grid-nav-5 {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-nav-4 {
+  grid-template-columns: repeat(4, 1fr);
   background-color: var(--secondary-color);
   padding-top: 10px;
   padding-bottom: 10px;
@@ -49,25 +54,66 @@ nav {
   margin-top: 15px;
 }
 
-.nav-bar a {
-  margin: 0 15px;
-  margin-top: 5px;
+.grid-nav-5 {
+  grid-template-columns: repeat(5, 1fr);
+  background-color: var(--secondary-color);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+.grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   color: var(--primary-color);
   font-weight: bold;
-  padding-left: 20px;
-  padding-right: 20px;
   border-right: 1px solid #000;
-  margin-right: 10px;
   cursor: pointer;
 }
 
-.nav-bar a:last-child {
-  border-right: none;
+.grid-item:hover {
+  color: var(--secondary-darker);
 }
 
-.nav-bar a:hover {
+.user-info a {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.user-info a:hover {
   color: var(--secondary-darker);
+}
+
+.user-info a svg {
+  margin-left: 5px;
+}
+
+.cart-button {
+  background-color: var(--secondary-color);
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none !important;
+  cursor: pointer;
+}
+
+.cart-button:hover {
+  color: var(--secondary-darker);
+}
+
+.cart-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-right: 2px solid var(--secondary-border);
+  margin-right: 15px;
 }
 
 .login-button-header {
@@ -93,29 +139,6 @@ nav {
 }
 
 .login-button-header:hover {
-  color: var(--secondary-darker);
-}
-
-.user-info {
-  position: fixed;
-  top: 10;
-  right: 0;
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px;
-}
-
-.user-profile-link {
-  margin-top: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 15px;
-  height: auto;
-  color: var(--secondary-color);
-  cursor: pointer;
-}
-
-.user-profile-link:hover {
   color: var(--secondary-darker);
 }
 
@@ -190,28 +213,6 @@ nav {
 
 .cart-item h3 {
   text-align: center;
-}
-
-.cart-image {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-right: 2px solid var(--secondary-border);
-  margin-right: 15px;
-}
-
-.cart-button {
-  background-color: var(--secondary-color);
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  margin: 0px 10px 0px 10px;
-  cursor: pointer;
-}
-
-.cart-button:hover {
-  color: var(--secondary-darker);
 }
 
 .close-button {

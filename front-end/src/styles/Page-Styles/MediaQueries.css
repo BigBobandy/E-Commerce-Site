@@ -48,37 +48,34 @@
 
 /* Media Query for Header */
 @media (max-width: 768px) {
-  .nav-bar {
-    padding: 0;
-    margin: 0;
-    margin-right: 2em;
+  .grid-nav-4,
+  .grid-nav-5 {
+    gap: 0;
+    padding-top: 5px; /* Reduced padding for mobile */
+    padding-bottom: 5px;
   }
 
-  .nav-bar a {
-    margin: 4px 4px;
-    padding: 2px 7px;
-    font-size: 12px;
-    text-align: center; /* To center the navigation links */
+  .grid-item {
+    font-size: 12px; /* Reduced font-size for mobile */
+    padding: 5px; /* Additional padding for better touch targets */
+  }
+
+  .nav-bar {
+    margin-right: 1em;
   }
 
   .logo-container {
     padding: 5px;
-    display: flex; /* Makes sure the logo is contained properly */
-    justify-content: center; /* Centers the logo horizontally */
-  }
-
-  .login-button-header {
-    margin-right: 1em;
-    display: block; /* To display it as a block and take full width */
-    margin: 0 auto; /* To center the button */
+    display: flex;
+    justify-content: center;
   }
 
   .cart-button {
-    font-size: 12px;
+    font-size: 12px; /* Reduced font-size for mobile */
   }
 
   .user-info a {
-    margin-bottom: 0.5em;
+    font-size: 12px; /* Reduced font-size for mobile */
   }
 }
 

@@ -50,29 +50,36 @@ function Header({
       <div className="logo-container">
         <img src={logo} alt="Dirty burger logo" className="logo-image" />
       </div>
-      <nav className="nav-bar">
-        <Link to="/">Home</Link>
-        <Link to="/menu">Menu</Link>
+      <nav className={`nav-bar ${user ? "grid-nav-4" : "grid-nav-5"}`}>
+        <Link className="grid-item" to="/">
+          Home
+        </Link>
+        <Link className="grid-item" to="/menu">
+          Menu
+        </Link>
         {!user && (
           /* If user is not logged in */
           <>
-            <a onClick={() => setIsLoginModalOpen(true)}>Sign In</a>
-            <a onClick={() => setIsSignupModalOpen(true)}>Sign Up</a>
+            <a className="grid-item" onClick={() => setIsLoginModalOpen(true)}>
+              Sign In
+            </a>
+            <a className="grid-item" onClick={() => setIsSignupModalOpen(true)}>
+              Sign Up
+            </a>
           </>
         )}
-        <button onClick={handleCartClick} className="cart-button">
-          Cart <FontAwesomeIcon icon={faShoppingCart} />({totalItems})
-        </button>
+        {user && (
+          /* If user is logged in */
+          <div className="user-info grid-item">
+            <Link to={`/profile/${user.userUrlString}`}>
+              Profile <FontAwesomeIcon icon={faUser} />
+            </Link>
+          </div>
+        )}
+        <a className="grid-item cart-button" onClick={handleCartClick}>
+          Cart <FontAwesomeIcon icon={faShoppingCart} /> ({totalItems})
+        </a>
       </nav>
-      {user && (
-        /* If user is logged in */
-        <div className="user-info">
-          <Link to={`/profile/${user.userUrlString}`}>
-            <FontAwesomeIcon className="user-profile-link" icon={faUser} />
-          </Link>
-        </div>
-      )}
-
       {isCartOpen && (
         <div
           className="cart-modal animation"
