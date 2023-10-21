@@ -1,6 +1,6 @@
 {
   "scripts" : {
-    "build": "npx prisma generate",
+    "postinstall": "npx prisma generate",
     "start": "node server.js"
   },
   "dependencies": {
