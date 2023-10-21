@@ -6,7 +6,7 @@ COPY ./front-end/package*.json ./
 
 RUN npm install
 
-COPY front-end .
+COPY ./front-end/* ./
 
 EXPOSE 8080
 
