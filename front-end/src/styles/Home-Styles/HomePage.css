@@ -1,3 +1,4 @@
+/* Basic container for the homepage */
 .home-container {
   display: flex;
   flex-direction: column;
@@ -7,9 +8,10 @@
   border: 10px solid var(--primary-color);
 }
 
+/* Styling for the main hero container */
 .hero-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   background: linear-gradient(
       to right,
       rgba(0, 0, 0, 0.6) 0%,
@@ -17,33 +19,53 @@
     ),
     url("/hero-image.jpg") no-repeat center center/cover;
   color: white;
-  padding: 80px 40px 80px 40px;
-  min-height: fit-content;
-  height: 60vh;
   border-bottom: 5px solid var(--secondary-color);
+  align-items: center;
 }
 
+/* Styling for the hero title */
 .hero-container h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 20px;
+  text-align: center;
 }
 
+/* Content wrapper inside the hero section */
 .hero-content {
+  max-width: 80%;
   padding: 2rem;
-  background: linear-gradient(
-    rgba(0, 0, 0, 0.55),
-    rgba(0, 0, 0, 0.45),
-    rgba(0, 0, 0, 0.25)
-  );
+  background: rgba(0, 0, 0, 0.65);
   border-radius: 20px;
-  display: flex;
-  justify-content: center;
+  margin-top: 2rem;
 }
 
+/* Main text content of the hero section */
 .hero-text {
-  width: 50%;
-  font-size: 1.2rem;
+  text-align: center;
+  font-size: 1.5rem;
   margin-bottom: 20px;
+}
+
+/* Styling for the primary call-to-action button */
+.hero-button {
+  border: 3px solid var(--primary-color);
+  padding: 15px 25px;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* Hover effect for the call-to-action button */
+.hero-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: scale(1.05);
 }
 
 .hero-image-wrapper {
@@ -54,27 +76,6 @@
 
 .member-welcome-message {
   color: var(--secondary-color);
-}
-
-.hero-button {
-  border: 3px solid var(--primary-color);
-  padding: 15px 20px;
-  color: var(--primary-color);
-  background-color: var(--secondary-color);
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.hero-button:hover {
-  background: var(--secondary-darker);
-}
-
-.hero-right-side {
-  padding: 70px 70px 0px;
 }
 
 .sign-in-link {

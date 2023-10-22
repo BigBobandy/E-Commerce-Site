@@ -51,13 +51,13 @@
   .grid-nav-4,
   .grid-nav-5 {
     gap: 0;
-    padding-top: 5px; /* Reduced padding for mobile */
+    padding-top: 5px;
     padding-bottom: 5px;
   }
 
   .grid-item {
-    font-size: 12px; /* Reduced font-size for mobile */
-    padding: 5px; /* Additional padding for better touch targets */
+    font-size: 12px;
+    padding: 5px;
   }
 
   .nav-bar {
@@ -71,11 +71,11 @@
   }
 
   .cart-button {
-    font-size: 12px; /* Reduced font-size for mobile */
+    font-size: 12px;
   }
 
   .user-info a {
-    font-size: 12px; /* Reduced font-size for mobile */
+    font-size: 12px;
   }
 }
 
