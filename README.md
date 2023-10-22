@@ -6,7 +6,7 @@ Dirty Burger, also known as E-Commerce-Site, is a mock full-stack web applicatio
 
 Technologies Used
 
-Frontend: React Vite
+Frontend: React
 Backend: Node.js, Express
 Database: Prisma PostgreSQL
 Email Service: Mailgun
