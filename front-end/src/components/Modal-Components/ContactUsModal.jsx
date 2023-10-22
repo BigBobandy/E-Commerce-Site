@@ -98,17 +98,26 @@ function ContactUsModal({ setIsContactUsModalOpen }) {
         body: JSON.stringify(formData),
       });
 
-      setIsLoading(false);
-      setMessage(
-        "Email sent successfully. Dirty Burger support will be in touch soon!"
-      );
+      // If the response is OK (status code in the range of 200-299)
+      if (response.ok) {
+        setIsLoading(false);
+        setMessage(
+          "Email sent successfully. Dirty Burger support will be in touch soon!"
+        );
 
-      // Close the ContactUsModal after 5 seconds
-      setTimeout(() => {
-        setIsContactUsModalOpen(false);
-      }, 5000);
+        // Close the ContactUsModal after 5 seconds
+        setTimeout(() => {
+          setIsContactUsModalOpen(false);
+        }, 5000);
+      } else {
+        // This is where you handle HTTP errors, as response.ok will be false
+        setIsLoading(false);
+        setMessage(
+          "An error occurred while sending the email. Please try again later."
+        );
+      }
 
-      // Handle any errors
+      // Handle any network or fetch errors
     } catch (error) {
       setIsLoading(false);
 
@@ -120,6 +129,9 @@ function ContactUsModal({ setIsContactUsModalOpen }) {
           "An error occurred while sending the email. Please try again later."
         );
       }
+    } finally {
+      // Logic to run whether the try or catch block runs
+      setIsLoading(false);
     }
   }
   return (

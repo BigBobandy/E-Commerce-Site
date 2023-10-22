@@ -48,8 +48,14 @@ async function sendContactEmail(req, res) {
       messageData
     );
     console.log("Email sent:", result);
+
+    // Sending success response to the front-end
+    res.status(200).json({ message: "Email sent successfully." });
   } catch (error) {
     console.error("Error sending email:", error);
+
+    // Sending error response to the front-end
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
