@@ -2,7 +2,7 @@
 
 ![Dirty Burger Logo](./front-end/src/assets/borger-logo.png)
 
-Dirty Burger, also known as E-Commerce-Site, is a mock full-stack web application designed to emulate the experience of an e-commerce platform. While the site doesn't process real orders, it serves as a showcase for various features typically found in e-commerce applications. The project is hosted on Railway and can be accessed at www.dirtyburgerproject.com.
+This project is a full-stack web application designed to emulate the experience of an e-commerce platform. While the site doesn't process real orders, it serves as a showcase for various features typically found in e-commerce applications. The project is hosted on Railway and can be accessed at www.dirtyburgerproject.com.
 
 Technologies Used
 
