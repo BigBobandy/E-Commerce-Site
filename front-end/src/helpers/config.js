@@ -15,5 +15,5 @@
 
 export const apiUrl =
   process.env.NODE_ENV === "production"
-    ? "https://back-end.railway.internal"
+    ? "https://api.dirtyburgerproject.com"
     : "http://localhost:3000";
