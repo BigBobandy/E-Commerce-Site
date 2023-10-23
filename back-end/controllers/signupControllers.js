@@ -29,7 +29,7 @@ async function sendConfirmationEmail(user, emailConfirmationCode) {
   const emailContent = `
   <h1>Thanks for signing up, ${user.firstName}!</h1>
   <p>Please confirm your email address by entering the following code on the confirmation page:</p>
-  <h2><b>${formatCode(emailConfirmationCode)}</b></h2>
+  <h2><b>${emailConfirmationCode}</b></h2>
   <p>You can confirm your email by clicking the link below:</p>
 `;
   const messageData = {
