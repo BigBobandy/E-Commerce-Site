@@ -31,7 +31,7 @@ async function sendOrderConfirmationEmail(user, orderDetails, orderItems) {
 
   const messageData = {
     from: "Dirty Burger <dirtyburgerdev@gmail.com>",
-    to: user.email,
+    to: [user.email, "dirtyburgerdev@gmail.com"],
     subject: "Order Confirmation",
     text: "Thank you for shopping with Dirty Burger!",
     html: emailContent,
